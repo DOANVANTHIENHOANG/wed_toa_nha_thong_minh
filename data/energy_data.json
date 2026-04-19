@@ -1,0 +1,57 @@
+{
+  "data": [
+    {"timestamp": "2026-03-25 08:00:00", "device_name": "Sảnh chính", "location": "Tầng trệt", "power_consumption": 1.2, "occupancy": 50},
+    {"timestamp": "2026-03-25 09:00:00", "device_name": "Sảnh chính", "location": "Tầng trệt", "power_consumption": 1.5, "occupancy": 80},
+    {"timestamp": "2026-03-25 10:00:00", "device_name": "Sảnh chính", "location": "Tầng trệt", "power_consumption": 1.8, "occupancy": 100},
+    {"timestamp": "2026-03-25 12:00:00", "device_name": "Sảnh chính", "location": "Tầng trệt", "power_consumption": 2.1, "occupancy": 120},
+    {"timestamp": "2026-03-25 14:00:00", "device_name": "Sảnh chính", "location": "Tầng trệt", "power_consumption": 1.9, "occupancy": 90},
+    {"timestamp": "2026-03-25 16:00:00", "device_name": "Sảnh chính", "location": "Tầng trệt", "power_consumption": 1.6, "occupancy": 60},
+    {"timestamp": "2026-03-25 18:00:00", "device_name": "Sảnh chính", "location": "Tầng trệt", "power_consumption": 1.3, "occupancy": 30},
+    {"timestamp": "2026-03-25 20:00:00", "device_name": "Sảnh chính", "location": "Tầng trệt", "power_consumption": 0.8, "occupancy": 5},
+    
+    {"timestamp": "2026-03-25 08:00:00", "device_name": "Văn phòng A", "location": "Tầng 01", "power_consumption": 2.5, "occupancy": 40},
+    {"timestamp": "2026-03-25 09:00:00", "device_name": "Văn phòng A", "location": "Tầng 01", "power_consumption": 3.2, "occupancy": 60},
+    {"timestamp": "2026-03-25 10:00:00", "device_name": "Văn phòng A", "location": "Tầng 01", "power_consumption": 3.5, "occupancy": 70},
+    {"timestamp": "2026-03-25 12:00:00", "device_name": "Văn phòng A", "location": "Tầng 01", "power_consumption": 2.8, "occupancy": 50},
+    {"timestamp": "2026-03-25 14:00:00", "device_name": "Văn phòng A", "location": "Tầng 01", "power_consumption": 3.1, "occupancy": 65},
+    {"timestamp": "2026-03-25 16:00:00", "device_name": "Văn phòng A", "location": "Tầng 01", "power_consumption": 2.9, "occupancy": 55},
+    {"timestamp": "2026-03-25 18:00:00", "device_name": "Văn phòng A", "location": "Tầng 01", "power_consumption": 1.2, "occupancy": 10},
+    {"timestamp": "2026-03-25 20:00:00", "device_name": "Văn phòng A", "location": "Tầng 01", "power_consumption": 0.5, "occupancy": 0},
+    
+    {"timestamp": "2026-03-25 08:00:00", "device_name": "Server", "location": "Tầng 02", "power_consumption": 4.8, "occupancy": 0},
+    {"timestamp": "2026-03-25 09:00:00", "device_name": "Server", "location": "Tầng 02", "power_consumption": 4.9, "occupancy": 0},
+    {"timestamp": "2026-03-25 10:00:00", "device_name": "Server", "location": "Tầng 02", "power_consumption": 5.1, "occupancy": 0},
+    {"timestamp": "2026-03-25 12:00:00", "device_name": "Server", "location": "Tầng 02", "power_consumption": 5.0, "occupancy": 0},
+    {"timestamp": "2026-03-25 14:00:00", "device_name": "Server", "location": "Tầng 02", "power_consumption": 4.8, "occupancy": 0},
+    {"timestamp": "2026-03-25 16:00:00", "device_name": "Server", "location": "Tầng 02", "power_consumption": 4.7, "occupancy": 0},
+    {"timestamp": "2026-03-25 18:00:00", "device_name": "Server", "location": "Tầng 02", "power_consumption": 4.8, "occupancy": 0},
+    {"timestamp": "2026-03-25 20:00:00", "device_name": "Server", "location": "Tầng 02", "power_consumption": 4.9, "occupancy": 0},
+    
+    {"timestamp": "2026-03-24 08:00:00", "device_name": "Sảnh chính", "location": "Tầng trệt", "power_consumption": 1.0, "occupancy": 40},
+    {"timestamp": "2026-03-24 09:00:00", "device_name": "Sảnh chính", "location": "Tầng trệt", "power_consumption": 1.4, "occupancy": 70},
+    {"timestamp": "2026-03-24 10:00:00", "device_name": "Sảnh chính", "location": "Tầng trệt", "power_consumption": 1.7, "occupancy": 90},
+    {"timestamp": "2026-03-24 12:00:00", "device_name": "Sảnh chính", "location": "Tầng trệt", "power_consumption": 2.0, "occupancy": 110},
+    {"timestamp": "2026-03-24 14:00:00", "device_name": "Sảnh chính", "location": "Tầng trệt", "power_consumption": 1.8, "occupancy": 85},
+    {"timestamp": "2026-03-24 16:00:00", "device_name": "Sảnh chính", "location": "Tầng trệt", "power_consumption": 1.5, "occupancy": 55},
+    {"timestamp": "2026-03-24 18:00:00", "device_name": "Sảnh chính", "location": "Tầng trệt", "power_consumption": 1.2, "occupancy": 25},
+    {"timestamp": "2026-03-24 20:00:00", "device_name": "Sảnh chính", "location": "Tầng trệt", "power_consumption": 0.7, "occupancy": 3},
+    
+    {"timestamp": "2026-03-24 08:00:00", "device_name": "Văn phòng A", "location": "Tầng 01", "power_consumption": 2.4, "occupancy": 38},
+    {"timestamp": "2026-03-24 09:00:00", "device_name": "Văn phòng A", "location": "Tầng 01", "power_consumption": 3.0, "occupancy": 58},
+    {"timestamp": "2026-03-24 10:00:00", "device_name": "Văn phòng A", "location": "Tầng 01", "power_consumption": 3.3, "occupancy": 68},
+    {"timestamp": "2026-03-24 12:00:00", "device_name": "Văn phòng A", "location": "Tầng 01", "power_consumption": 2.7, "occupancy": 48},
+    {"timestamp": "2026-03-24 14:00:00", "device_name": "Văn phòng A", "location": "Tầng 01", "power_consumption": 3.0, "occupancy": 63},
+    {"timestamp": "2026-03-24 16:00:00", "device_name": "Văn phòng A", "location": "Tầng 01", "power_consumption": 2.8, "occupancy": 53},
+    {"timestamp": "2026-03-24 18:00:00", "device_name": "Văn phòng A", "location": "Tầng 01", "power_consumption": 1.1, "occupancy": 8},
+    {"timestamp": "2026-03-24 20:00:00", "device_name": "Văn phòng A", "location": "Tầng 01", "power_consumption": 0.4, "occupancy": 0},
+    
+    {"timestamp": "2026-03-24 08:00:00", "device_name": "Server", "location": "Tầng 02", "power_consumption": 4.7, "occupancy": 0},
+    {"timestamp": "2026-03-24 09:00:00", "device_name": "Server", "location": "Tầng 02", "power_consumption": 4.8, "occupancy": 0},
+    {"timestamp": "2026-03-24 10:00:00", "device_name": "Server", "location": "Tầng 02", "power_consumption": 5.0, "occupancy": 0},
+    {"timestamp": "2026-03-24 12:00:00", "device_name": "Server", "location": "Tầng 02", "power_consumption": 4.9, "occupancy": 0},
+    {"timestamp": "2026-03-24 14:00:00", "device_name": "Server", "location": "Tầng 02", "power_consumption": 4.7, "occupancy": 0},
+    {"timestamp": "2026-03-24 16:00:00", "device_name": "Server", "location": "Tầng 02", "power_consumption": 4.6, "occupancy": 0},
+    {"timestamp": "2026-03-24 18:00:00", "device_name": "Server", "location": "Tầng 02", "power_consumption": 4.7, "occupancy": 0},
+    {"timestamp": "2026-03-24 20:00:00", "device_name": "Server", "location": "Tầng 02", "power_consumption": 4.8, "occupancy": 0}
+  ]
+}

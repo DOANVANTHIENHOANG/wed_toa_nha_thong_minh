@@ -1,0 +1,259 @@
+<svg width="1920" height="1080" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <!-- Primary Gradient Background -->
+    <linearGradient id="skyGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#000a2e;stop-opacity:1" />
+      <stop offset="30%" style="stop-color:#001e5c;stop-opacity:1" />
+      <stop offset="60%" style="stop-color:#003d99;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#004d7a;stop-opacity:1" />
+    </linearGradient>
+
+    <!-- Building Gradient -->
+    <linearGradient id="buildingGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a3a52;stop-opacity:0.8" />
+      <stop offset="100%" style="stop-color:#0d1f2d;stop-opacity:0.9" />
+    </linearGradient>
+
+    <!-- Energy Flow Gradient -->
+    <linearGradient id="energyGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#00ff88;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#00cc66;stop-opacity:0.6" />
+    </linearGradient>
+
+    <!-- Accent Light Gradient -->
+    <linearGradient id="accentLight" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#4da6ff;stop-opacity:0.4" />
+      <stop offset="100%" style="stop-color:#0066cc;stop-opacity:0.1" />
+    </linearGradient>
+
+    <!-- Glow Filter -->
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <!-- Soft Glow -->
+    <filter id="softGlow">
+      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background Sky Gradient -->
+  <rect width="1920" height="1080" fill="url(#skyGradient)"/>
+
+  <!-- Atmospheric Light Effects -->
+  <circle cx="1600" cy="200" r="300" fill="url(#accentLight)"/>
+  <circle cx="300" cy="800" r="250" fill="url(#accentLight)"/>
+
+  <!-- Top Architecture Line -->
+  <path d="M 0 600 Q 240 550 480 580 T 960 520 T 1440 550 T 1920 520 L 1920 800 L 0 800 Z" 
+        fill="#0a1420" opacity="0.4"/>
+
+  <!-- Main Building Structure - Central Tower (Left) -->
+  <g id="leftBuilding">
+    <!-- Main tower body -->
+    <polygon points="250,900 250,300 450,280 450,900" fill="url(#buildingGradient)" stroke="#00ff88" stroke-width="2" opacity="0.7"/>
+    
+    <!-- Windows grid -->
+    <g opacity="0.5">
+      <rect x="270" y="320" width="30" height="30" fill="#0066cc"/>
+      <rect x="310" y="320" width="30" height="30" fill="#0066cc"/>
+      <rect x="350" y="320" width="30" height="30" fill="#0066cc"/>
+      <rect x="390" y="320" width="30" height="30" fill="#00aa77"/>
+      
+      <rect x="270" y="370" width="30" height="30" fill="#0066cc"/>
+      <rect x="310" y="370" width="30" height="30" fill="#0066cc"/>
+      <rect x="350" y="370" width="30" height="30" fill="#0066cc"/>
+      <rect x="390" y="370" width="30" height="30" fill="#00aa77"/>
+      
+      <rect x="270" y="420" width="30" height="30" fill="#0066cc"/>
+      <rect x="310" y="420" width="30" height="30" fill="#0066cc"/>
+      <rect x="350" y="420" width="30" height="30" fill="#00aa77"/>
+      <rect x="390" y="420" width="30" height="30" fill="#0066cc"/>
+      
+      <rect x="270" y="470" width="30" height="30" fill="#0066cc"/>
+      <rect x="310" y="470" width="30" height="30" fill="#00aa77"/>
+      <rect x="350" y="470" width="30" height="30" fill="#0066cc"/>
+      <rect x="390" y="470" width="30" height="30" fill="#0066cc"/>
+      
+      <rect x="270" y="520" width="30" height="30" fill="#0066cc"/>
+      <rect x="310" y="520" width="30" height="30" fill="#0066cc"/>
+      <rect x="350" y="520" width="30" height="30" fill="#00aa77"/>
+      <rect x="390" y="520" width="30" height="30" fill="#0066cc"/>
+      
+      <rect x="270" y="570" width="30" height="30" fill="#0066cc"/>
+      <rect x="310" y="570" width="30" height="30" fill="#0066cc"/>
+      <rect x="350" y="570" width="30" height="30" fill="#0066cc"/>
+      <rect x="390" y="570" width="30" height="30" fill="#00aa77"/>
+      
+      <rect x="270" y="620" width="30" height="30" fill="#0066cc"/>
+      <rect x="310" y="620" width="30" height="30" fill="#0066cc"/>
+      <rect x="350" y="620" width="30" height="30" fill="#00aa77"/>
+      <rect x="390" y="620" width="30" height="30" fill="#0066cc"/>
+      
+      <rect x="270" y="670" width="30" height="30" fill="#0066cc"/>
+      <rect x="310" y="670" width="30" height="30" fill="#00aa77"/>
+      <rect x="350" y="670" width="30" height="30" fill="#0066cc"/>
+      <rect x="390" y="670" width="30" height="30" fill="#0066cc"/>
+      
+      <rect x="270" y="720" width="30" height="30" fill="#0066cc"/>
+      <rect x="310" y="720" width="30" height="30" fill="#0066cc"/>
+      <rect x="350" y="720" width="30" height="30" fill="#0066cc"/>
+      <rect x="390" y="720" width="30" height="30" fill="#00aa77"/>
+    </g>
+
+    <!-- Left building top accent -->
+    <polygon points="250,280 450,280 440,250 260,250" fill="#00ff88" opacity="0.6"/>
+  </g>
+
+  <!-- Main Building - Central Tower (Tall) -->
+  <g id="centerBuilding">
+    <!-- Main tall tower -->
+    <polygon points="700,900 700,150 950,120 950,900" fill="url(#buildingGradient)" stroke="#00ff88" stroke-width="2" opacity="0.8"/>
+    
+    <!-- Windows grid for central building -->
+    <g opacity="0.6">
+      <rect x="730" y="180" width="35" height="35" fill="#0066cc"/>
+      <rect x="785" y="180" width="35" height="35" fill="#0066cc"/>
+      <rect x="840" y="180" width="35" height="35" fill="#00aa77"/>
+      <rect x="895" y="180" width="35" height="35" fill="#0066cc"/>
+      
+      <!-- More windows -->
+      <rect x="730" y="240" width="35" height="35" fill="#0066cc"/>
+      <rect x="785" y="240" width="35" height="35" fill="#00aa77"/>
+      <rect x="840" y="240" width="35" height="35" fill="#0066cc"/>
+      <rect x="895" y="240" width="35" height="35" fill="#0066cc"/>
+      
+      <rect x="730" y="300" width="35" height="35" fill="#0066cc"/>
+      <rect x="785" y="300" width="35" height="35" fill="#0066cc"/>
+      <rect x="840" y="300" width="35" height="35" fill="#00aa77"/>
+      <rect x="895" y="300" width="35" height="35" fill="#0066cc"/>
+      
+      <rect x="730" y="360" width="35" height="35" fill="#0066cc"/>
+      <rect x="785" y="360" width="35" height="35" fill="#0066cc"/>
+      <rect x="840" y="360" width="35" height="35" fill="#0066cc"/>
+      <rect x="895" y="360" width="35" height="35" fill="#00aa77"/>
+      
+      <rect x="730" y="420" width="35" height="35" fill="#00aa77"/>
+      <rect x="785" y="420" width="35" height="35" fill="#0066cc"/>
+      <rect x="840" y="420" width="35" height="35" fill="#0066cc"/>
+      <rect x="895" y="420" width="35" height="35" fill="#0066cc"/>
+      
+      <rect x="730" y="480" width="35" height="35" fill="#0066cc"/>
+      <rect x="785" y="480" width="35" height="35" fill="#0066cc"/>
+      <rect x="840" y="480" width="35" height="35" fill="#00aa77"/>
+      <rect x="895" y="480" width="35" height="35" fill="#0066cc"/>
+      
+      <rect x="730" y="540" width="35" height="35" fill="#0066cc"/>
+      <rect x="785" y="540" width="35" height="35" fill="#00aa77"/>
+      <rect x="840" y="540" width="35" height="35" fill="#0066cc"/>
+      <rect x="895" y="540" width="35" height="35" fill="#0066cc"/>
+      
+      <rect x="730" y="600" width="35" height="35" fill="#0066cc"/>
+      <rect x="785" y="600" width="35" height="35" fill="#0066cc"/>
+      <rect x="840" y="600" width="35" height="35" fill="#0066cc"/>
+      <rect x="895" y="600" width="35" height="35" fill="#00aa77"/>
+      
+      <rect x="730" y="660" width="35" height="35" fill="#00aa77"/>
+      <rect x="785" y="660" width="35" height="35" fill="#0066cc"/>
+      <rect x="840" y="660" width="35" height="35" fill="#0066cc"/>
+      <rect x="895" y="660" width="35" height="35" fill="#0066cc"/>
+      
+      <rect x="730" y="720" width="35" height="35" fill="#0066cc"/>
+      <rect x="785" y="720" width="35" height="35" fill="#0066cc"/>
+      <rect x="840" y="720" width="35" height="35" fill="#00aa77"/>
+      <rect x="895" y="720" width="35" height="35" fill="#0066cc"/>
+    </g>
+
+    <!-- Center building top beacon -->
+    <circle cx="825" cy="100" r="15" fill="#00ff88" opacity="0.8" filter="url(#glow)"/>
+    <circle cx="825" cy="100" r="30" fill="#00ff88" opacity="0.3"/>
+  </g>
+
+  <!-- Right Building -->
+  <g id="rightBuilding">
+    <!-- Main tower body -->
+    <polygon points="1350,900 1350,380 1550,360 1550,900" fill="url(#buildingGradient)" stroke="#00ff88" stroke-width="2" opacity="0.7"/>
+    
+    <!-- Windows -->
+    <g opacity="0.5">
+      <rect x="1370" y="420" width="30" height="30" fill="#0066cc"/>
+      <rect x="1410" y="420" width="30" height="30" fill="#0066cc"/>
+      <rect x="1450" y="420" width="30" height="30" fill="#00aa77"/>
+      
+      <rect x="1370" y="475" width="30" height="30" fill="#0066cc"/>
+      <rect x="1410" y="475" width="30" height="30" fill="#00aa77"/>
+      <rect x="1450" y="475" width="30" height="30" fill="#0066cc"/>
+      
+      <rect x="1370" y="530" width="30" height="30" fill="#0066cc"/>
+      <rect x="1410" y="530" width="30" height="30" fill="#0066cc"/>
+      <rect x="1450" y="530" width="30" height="30" fill="#0066cc"/>
+      
+      <rect x="1370" y="585" width="30" height="30" fill="#00aa77"/>
+      <rect x="1410" y="585" width="30" height="30" fill="#0066cc"/>
+      <rect x="1450" y="585" width="30" height="30" fill="#0066cc"/>
+      
+      <rect x="1370" y="640" width="30" height="30" fill="#0066cc"/>
+      <rect x="1410" y="640" width="30" height="30" fill="#0066cc"/>
+      <rect x="1450" y="640" width="30" height="30" fill="#00aa77"/>
+      
+      <rect x="1370" y="695" width="30" height="30" fill="#0066cc"/>
+      <rect x="1410" y="695" width="30" height="30" fill="#00aa77"/>
+      <rect x="1450" y="695" width="30" height="30" fill="#0066cc"/>
+      
+      <rect x="1370" y="750" width="30" height="30" fill="#0066cc"/>
+      <rect x="1410" y="750" width="30" height="30" fill="#0066cc"/>
+      <rect x="1450" y="750" width="30" height="30" fill="#0066cc"/>
+    </g>
+
+    <!-- Right building accent -->
+    <polygon points="1350,360 1550,360 1540,330 1360,330" fill="#00ff88" opacity="0.6"/>
+  </g>
+
+  <!-- Energy Flow Lines - Vertical -->
+  <line x1="350" y1="280" x2="350" y2="900" stroke="url(#energyGradient)" stroke-width="4" opacity="0.4" stroke-linecap="round"/>
+  <line x1="825" y1="120" x2="825" y2="900" stroke="url(#energyGradient)" stroke-width="5" opacity="0.5" stroke-linecap="round" filter="url(#glow)"/>
+  <line x1="1450" y1="360" x2="1450" y2="900" stroke="url(#energyGradient)" stroke-width="4" opacity="0.4" stroke-linecap="round"/>
+
+  <!-- Energy Flow Lines - Horizontal Connections -->
+  <path d="M 350 500 Q 587 480 825 500" stroke="url(#energyGradient)" stroke-width="3" fill="none" opacity="0.3" stroke-linecap="round"/>
+  <path d="M 825 500 Q 1137 480 1450 500" stroke="url(#energyGradient)" stroke-width="3" fill="none" opacity="0.3" stroke-linecap="round"/>
+
+  <!-- Energy Nodes -->
+  <circle cx="350" cy="600" r="8" fill="#00ff88" opacity="0.8" filter="url(#softGlow)"/>
+  <circle cx="825" cy="400" r="12" fill="#00ff88" opacity="0.9" filter="url(#glow)"/>
+  <circle cx="1450" cy="650" r="8" fill="#00ff88" opacity="0.8" filter="url(#softGlow)"/>
+
+  <!-- Surrounding Light Particles -->
+  <circle cx="200" cy="300" r="3" fill="#4da6ff" opacity="0.6"/>
+  <circle cx="400" cy="200" r="2" fill="#4da6ff" opacity="0.5"/>
+  <circle cx="1700" cy="350" r="3" fill="#4da6ff" opacity="0.6"/>
+  <circle cx="1600" cy="150" r="2" fill="#4da6ff" opacity="0.5"/>
+
+  <!-- Smart Grid Connection Points -->
+  <g opacity="0.4">
+    <circle cx="550" cy="650" r="6" fill="none" stroke="#00ff88" stroke-width="2"/>
+    <circle cx="1100" cy="750" r="6" fill="none" stroke="#00ff88" stroke-width="2"/>
+  </g>
+
+  <!-- Bottom gradient fade -->
+  <defs>
+    <linearGradient id="bottomFade" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#000000;stop-opacity:0" />
+      <stop offset="100%" style="stop-color:#000000;stop-opacity:0.3" />
+    </linearGradient>
+  </defs>
+  <rect width="1920" height="1080" fill="url(#bottomFade)"/>
+
+  <!-- Branding Text - Subtle -->
+  <text x="1920" y="1050" font-family="Inter, sans-serif" font-size="14" fill="#00ff88" opacity="0.2" text-anchor="end">
+    Smart Energy V2.1 - Industrial Tech Architecture
+  </text>
+</svg>

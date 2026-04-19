@@ -1,0 +1,61 @@
+{
+    "name": "Smart Energy Dashboard",
+    "short_name": "Smart Energy",
+    "description": "Hệ thống Quản lý Năng lượng Tòa nhà Thông minh",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#0f172a",
+    "theme_color": "#ff6b35",
+    "orientation": "portrait-primary",
+    "scope": "/",
+    "lang": "vi",
+    "categories": ["utilities", "business"],
+    "author": {
+        "name": "Thiên Hoàng",
+        "email": "admin@smartenergy.vn"
+    },
+    "developer": "Thiên Hoàng",
+    "icons": [
+        {
+            "src": "/static/images/icon-192.svg",
+            "sizes": "192x192",
+            "type": "image/svg+xml",
+            "purpose": "any"
+        },
+        {
+            "src": "/static/images/icon-192.svg",
+            "sizes": "512x512",
+            "type": "image/svg+xml",
+            "purpose": "any"
+        }
+    ],
+    "screenshots": [],
+    "related_applications": [],
+    "prefer_related_applications": false,
+    "shortcuts": [
+        {
+            "name": "Dashboard",
+            "short_name": "Dashboard",
+            "description": "Xem Dashboard quản lý năng lượng",
+            "url": "/dashboard",
+            "icons": [
+                {
+                    "src": "/static/images/icon-192.svg",
+                    "sizes": "192x192"
+                }
+            ]
+        },
+        {
+            "name": "Đăng nhập",
+            "short_name": "Login",
+            "description": "Đăng nhập hệ thống",
+            "url": "/login",
+            "icons": [
+                {
+                    "src": "/static/images/icon-192.svg",
+                    "sizes": "192x192"
+                }
+            ]
+        }
+    ]
+}

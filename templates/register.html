@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#ff6b35">
+    <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
+    <link rel="apple-touch-icon" href="{{ url_for('static', filename='images/icon-192.svg') }}">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Đăng Ký | Smart Building Energy Management System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='responsive.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* ========== BACKGROUND & LAYOUT ========== */
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(
+                rgba(15, 23, 42, 0.85),
+                rgba(15, 23, 42, 0.85)
+            ), url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            padding: 20px 0;
+        }
+
+        /* ========== GLASSMORPHISM FORM ========== */
+        .register-container {
+            width: 100%;
+            /* Tăng độ rộng lên 700px để chứa 2 cột cho thoải mái */
+            max-width: 700px;
+            padding: 20px;
+        }
+
+        .form-card {
+            width: 100%;
+            padding: 40px;
+            border-radius: 20px;
+            background: rgba(22, 42, 61, 0.75);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        /* ========== FORM HEADER ========== */
+        .form-header {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .form-header .logo {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            box-shadow: 0 0 30px rgba(59, 130, 246, 0.4);
+        }
+
+        .form-header .logo i {
+            color: white;
+            font-size: 2rem;
+        }
+
+        .form-header h2 {
+            font-family: 'Lexend';
+            color: #ffffff;
+            font-size: 24px;
+            margin: 0 0 10px 0;
+            letter-spacing: 2px;
+        }
+
+        .form-header p {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 14px;
+            margin: 0;
+        }
+
+        /* ========== GRID 2 CỘT ========== */
+        .row {
+            display: flex;
+            gap: 20px;
+        }
+
+        .col {
+            flex: 1;
+        }
+
+        /* ========== INPUT FIELDS ========== */
+        .form-group {
+            margin-bottom: 18px;
+            position: relative;
+        }
+
+        .form-group .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .form-group .input-wrapper i {
+            position: absolute;
+            left: 14px;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 16px;
+            z-index: 1;
+            transition: color 0.3s ease;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 14px 14px 14px 44px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #ffffff;
+            border-radius: 10px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+            outline: none;
+        }
+
+        .form-group input::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .form-group input:focus {
+            border-color: #38bdf8;
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 0 15px rgba(56, 189, 248, 0.2);
+        }
+
+        .form-group input:focus + i,
+        .form-group .input-wrapper:focus-within i {
+            color: #38bdf8;
+        }
+
+        /* ========== ERROR DISPLAY ========== */
+        #reg-err {
+            color: #ef4444;
+            font-size: 14px;
+            margin-bottom: 15px;
+            display: none;
+            text-align: center;
+            padding: 12px;
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            border-radius: 8px;
+        }
+
+        #reg-err.show {
+            display: block;
+            animation: shake 0.4s ease;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        /* ========== SUBMIT BUTTON ========== */
+        .btn-register {
+            width: 100%;
+            padding: 16px;
+            /* Orange accent color */
+            background: linear-gradient(135deg, #ff6b35, #ea580c);
+            border: none;
+            color: white;
+            font-weight: bold;
+            font-size: 16px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-register::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255, 255, 255, 0.2),
+                transparent
+            );
+            transition: left 0.5s ease;
+        }
+
+        .btn-register:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 107, 53, 0.4);
+        }
+
+        .btn-register:hover::before {
+            left: 100%;
+        }
+
+        .btn-register:active {
+            transform: translateY(0);
+        }
+
+        .btn-register:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* ========== LOGIN LINK ========== */
+        .login-link {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.7);
+            margin-top: 25px;
+            font-size: 14px;
+        }
+
+        .login-link a {
+            color: #ff6b35;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .login-link a:hover {
+            color: #fb923c;
+            text-decoration: underline;
+        }
+
+        /* ========== FOOTER ========== */
+        .footer-text {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 12px;
+            margin-top: 25px;
+        }
+
+        .footer-text i {
+            color: #10b981;
+        }
+
+        /* ========== RESPONSIVE ========== */
+        @media (max-width: 600px) {
+            .row {
+                flex-direction: column;
+                gap: 0;
+            }
+            .form-card {
+                padding: 30px 20px;
+            }
+
+            .form-header h2 {
+                font-size: 20px;
+            }
+
+            .form-header .logo {
+                width: 60px;
+                height: 60px;
+            }
+
+            .form-header .logo i {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="register-container">
+        <div class="form-card">
+            <div class="form-header">
+                <div class="logo">
+                    <i class="fas fa-building"></i>
+                </div>
+                <h2>ĐĂNG KÝ TÀI KHOẢN</h2>
+                <p>Điền thông tin để bắt đầu quản lý năng lượng</p>
+            </div>
+
+            <form id="register-form" onsubmit="doRegister(event)" autocomplete="off">
+                
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <div class="input-wrapper">
+                                <input type="text" id="reg_fullname" class="form-control" placeholder="Họ và Tên" required>
+                                <i class="fas fa-user"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <div class="input-wrapper">
+                                <input type="text" id="reg_contact" class="form-control" placeholder="Số điện thoại hoặc Email" required>
+                                <i class="fas fa-phone-alt"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <div class="input-wrapper">
+                                <input type="text" id="reg_meter" class="form-control" placeholder="Mã Công Tơ" required>
+                                <i class="fas fa-gauge-high"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <div class="input-wrapper">
+                                <input type="text" id="reg_room" class="form-control" placeholder="Mã Toà Phòng" required>
+                                <i class="fas fa-door-open"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="input-wrapper">
+                        <input type="text" id="reg_address" class="form-control" placeholder="Địa chỉ Toà" required>
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <div class="input-wrapper">
+                                <input type="password" id="reg_password" class="form-control" placeholder="Mật khẩu" required minlength="6">
+                                <i class="fas fa-lock"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <div class="input-wrapper">
+                                <input type="password" id="reg_confirm_password" class="form-control" placeholder="Xác nhận mật khẩu" required>
+                                <i class="fas fa-lock"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="reg-err"></div>
+
+                <button type="submit" class="btn-register">
+                    <i class="fas fa-user-plus"></i> Đăng Ký Ngay
+                </button>
+            </form>
+
+            <div class="login-link">
+                Bạn đã có tài khoản? <a href="/login">Đăng nhập</a>
+            </div>
+
+            <div class="footer-text">
+                <i class="fas fa-shield-alt"></i> Hệ thống được bảo vệ bảo mật cao<br>
+                &copy; 2026 Smart Building Energy<br>
+                <span style="color: #ff6b35;">Cre: Thiên Hoàng</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function doRegister(event) {
+            event.preventDefault();
+
+            const fullname = document.getElementById('reg_fullname').value.trim();
+            const contact = document.getElementById('reg_contact').value.trim();
+            const meter_id = document.getElementById('reg_meter').value.trim();
+            const room_code = document.getElementById('reg_room').value.trim();
+            const address = document.getElementById('reg_address').value.trim();
+            const password = document.getElementById('reg_password').value;
+            const confirmPassword = document.getElementById('reg_confirm_password').value;
+            const errDiv = document.getElementById('reg-err');
+            const btn = document.querySelector('.btn-register');
+
+            // Reset error
+            errDiv.classList.remove('show');
+            errDiv.textContent = '';
+
+            // Validation
+            if (!fullname || !contact || !meter_id || !room_code || !address || !password) {
+                showError('Vui lòng điền đầy đủ thông tin!');
+                return;
+            }
+
+            if (password !== confirmPassword) {
+                showError('Mật khẩu xác nhận không khớp!');
+                return;
+            }
+
+            if (password.length < 6) {
+                showError('Mật khẩu phải có ít nhất 6 ký tự!');
+                return;
+            }
+
+            // Show loading
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Đang xử lý...';
+            btn.disabled = true;
+
+            // Determine if contact is email or phone
+            let username = fullname;
+            let email = '';
+            let phone = '';
+
+            if (contact.includes('@')) {
+                email = contact;
+            } else {
+                phone = contact;
+            }
+
+            // Send registration request
+            fetch('/register_api', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    username: username,
+                    phone: phone,
+                    email: email,
+                    meter_id: meter_id,
+                    room_code: room_code,
+                    building_address: address,
+                    password: password
+                })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    showError('✓ Đăng ký thành công! Đang chuyển hướng...', 'success');
+                    setTimeout(() => {
+                        window.location.href = data.redirect || '/login';
+                    }, 1500);
+                } else {
+                    showError(data.message || 'Đăng ký thất bại. Vui lòng thử lại!');
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+                }
+            })
+            .catch(err => {
+                console.error('Register error:', err);
+                showError('✗ Lỗi kết nối server! Vui lòng thử lại.');
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            });
+        }
+
+        function showError(message, type = 'error') {
+            const errDiv = document.getElementById('reg-err');
+            errDiv.textContent = message;
+            errDiv.classList.add('show');
+
+            if (type === 'success') {
+                errDiv.style.color = '#10b981';
+                errDiv.style.background = 'rgba(16, 185, 129, 0.15)';
+                errDiv.style.borderColor = 'rgba(16, 185, 129, 0.3)';
+            } else {
+                errDiv.style.color = '#ef4444';
+                errDiv.style.background = 'rgba(239, 68, 68, 0.15)';
+                errDiv.style.borderColor = 'rgba(239, 68, 68, 0.3)';
+            }
+        }
+    </script>
+</body>
+</html>

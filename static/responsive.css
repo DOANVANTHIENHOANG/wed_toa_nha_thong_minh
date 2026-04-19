@@ -1,0 +1,478 @@
+/**
+ * Smart Energy - Responsive Design (Mobile First)
+ * Applied to: Landing Page, Login, Register, Dashboard
+ * Breakpoints: 320px, 480px, 768px, 1024px, 1280px
+ */
+
+/* ========== BASE (Mobile First) ========== */
+html {
+    font-size: 16px;
+    scroll-behavior: smooth;
+}
+
+* {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* ========== RESPONSIVE TYPOGRAPHY ========== */
+@media (max-width: 480px) {
+    html { font-size: 14px; }
+    h1 { font-size: 1.75rem !important; }
+    h2 { font-size: 1.5rem !important; }
+    h3 { font-size: 1.25rem !important; }
+    p { font-size: 0.875rem; }
+}
+
+@media (max-width: 320px) {
+    html { font-size: 13px; }
+    h1 { font-size: 1.5rem !important; }
+    h2 { font-size: 1.25rem !important; }
+}
+
+/* ========== LOGIN & REGISTER FORMS ========== */
+@media (max-width: 768px) {
+    /* Login Container */
+    .login-container {
+        grid-template-columns: 1fr !important;
+        gap: 0 !important;
+        width: 95% !important;
+        max-width: none !important;
+    }
+
+    /* Hide hero section on mobile */
+    .hero-section {
+        display: none !important;
+    }
+
+    /* Form card */
+    .form-card {
+        padding: 1.5rem !important;
+        border-radius: 1rem !important;
+    }
+
+    .form-header h2 {
+        font-size: 1.25rem !important;
+    }
+
+    /* Input fields */
+    .form-group input {
+        padding: 0.875rem 0.875rem 0.875rem 2.5rem !important;
+        font-size: 0.9rem !important;
+    }
+
+    /* Buttons */
+    .btn-primary, .btn-register {
+        padding: 0.875rem !important;
+        font-size: 0.9rem !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .form-card {
+        padding: 1.25rem !important;
+    }
+
+    .form-header .logo {
+        width: 3.5rem !important;
+        height: 3.5rem !important;
+    }
+
+    .form-header .logo i {
+        font-size: 1.5rem !important;
+    }
+}
+
+/* ========== REGISTER PAGE ========== */
+@media (max-width: 768px) {
+    .register-container {
+        width: 95% !important;
+        max-width: none !important;
+        padding: 0.75rem !important;
+    }
+
+    .form-card {
+        padding: 1.5rem 1rem !important;
+    }
+}
+
+/* ========== LANDING PAGE ========== */
+@media (max-width: 768px) {
+    /* Hero Section */
+    .hero {
+        padding: 3rem 1rem !important;
+        min-height: auto !important;
+    }
+
+    .hero h1 {
+        font-size: 2rem !important;
+        line-height: 1.2 !important;
+    }
+
+    .hero p {
+        font-size: 1rem !important;
+    }
+
+    /* Features Grid */
+    .features-grid {
+        grid-template-columns: 1fr !important;
+        gap: 1rem !important;
+    }
+
+    .feature-card {
+        padding: 1.25rem !important;
+    }
+
+    /* Stats */
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 1rem !important;
+    }
+
+    .stat-card {
+        padding: 1rem !important;
+    }
+
+    /* CTA Section */
+    .cta-buttons {
+        flex-direction: column !important;
+        gap: 0.75rem !important;
+    }
+
+    .cta-buttons .btn {
+        width: 100% !important;
+        text-align: center !important;
+    }
+}
+
+/* ========== DASHBOARD - SIDEBAR & LAYOUT ========== */
+@media (max-width: 1024px) {
+    :root {
+        --sidebar-width: 240px;
+    }
+}
+
+@media (max-width: 768px) {
+    body {
+        flex-direction: column !important;
+        overflow-x: hidden;
+    }
+
+    /* Hide sidebar by default on mobile */
+    .sidebar {
+        position: fixed !important;
+        top: 0 !important;
+        left: -100% !important;
+        width: 280px !important;
+        height: 100vh !important;
+        z-index: 9999 !important;
+        transition: left 0.3s ease !important;
+    }
+
+    .sidebar.active {
+        left: 0 !important;
+    }
+
+    /* Hamburger Menu Button */
+    .hamburger-btn {
+        display: flex !important;
+        position: fixed !important;
+        top: 1rem !important;
+        left: 1rem !important;
+        z-index: 9998 !important;
+        width: 2.5rem !important;
+        height: 2.5rem !important;
+        background: var(--primary) !important;
+        border: none !important;
+        border-radius: 0.5rem !important;
+        cursor: pointer !important;
+        align-items: center !important;
+        justify-content: center !important;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3) !important;
+    }
+
+    .hamburger-btn i {
+        color: white !important;
+        font-size: 1.25rem !important;
+    }
+
+    /* Main content - add padding for hamburger */
+    .main-content {
+        margin-left: 0 !important;
+        padding-top: 4rem !important;
+        padding: 4rem 0.75rem 0.75rem 0.75rem !important;
+        width: 100% !important;
+    }
+
+    /* Overlay when sidebar is open */
+    .sidebar-overlay {
+        display: none !important;
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+        background: rgba(0, 0, 0, 0.5) !important;
+        z-index: 9997 !important;
+    }
+
+    .sidebar-overlay.active {
+        display: block !important;
+    }
+
+    /* Header */
+    .header {
+        padding: 0.75rem !important;
+        flex-wrap: wrap !important;
+        gap: 0.5rem !important;
+    }
+
+    .header-title {
+        font-size: 1.1rem !important;
+        margin-left: 3rem !important;
+    }
+}
+
+/* ========== DASHBOARD - CARDS & GRID ========== */
+@media (max-width: 768px) {
+    /* Stats Cards - Stack vertically */
+    .stats-grid,
+    .cards-grid {
+        grid-template-columns: 1fr !important;
+        gap: 0.75rem !important;
+    }
+
+    .stat-card {
+        padding: 1rem !important;
+    }
+
+    .stat-card .stat-value {
+        font-size: 1.5rem !important;
+    }
+
+    .stat-card .stat-label {
+        font-size: 0.75rem !important;
+    }
+
+    /* Chart container */
+    .chart-container {
+        padding: 1rem !important;
+        overflow: hidden;
+    }
+
+    canvas {
+        max-width: 100% !important;
+        height: auto !important;
+    }
+}
+
+/* ========== DASHBOARD - DEVICES TABLE ========== */
+@media (max-width: 768px) {
+    /* Table container with horizontal scroll */
+    .table-container,
+    .devices-table-container,
+    #devices-table-container {
+        overflow-x: auto !important;
+        -webkit-overflow-scrolling: touch;
+        margin: 0 -0.75rem;
+        padding: 0 0.75rem;
+    }
+
+    /* Table styling */
+    .devices-table,
+    #devices-tbody {
+        min-width: 600px !important;
+    }
+
+    .devices-table th,
+    .devices-table td {
+        padding: 0.625rem 0.5rem !important;
+        font-size: 0.8rem !important;
+        white-space: nowrap !important;
+    }
+
+    /* Filter buttons */
+    .filters-container {
+        flex-wrap: wrap !important;
+        gap: 0.5rem !important;
+        padding: 0.75rem !important;
+    }
+
+    .filter-btn {
+        padding: 0.5rem 0.75rem !important;
+        font-size: 0.75rem !important;
+    }
+
+    /* Status badges */
+    .status-badge {
+        padding: 0.25rem 0.5rem !important;
+        font-size: 0.7rem !important;
+    }
+}
+
+/* ========== MODALS ========== */
+@media (max-width: 768px) {
+    /* Modal base */
+    .modal {
+        padding: 0 !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }
+
+    /* Modal content */
+    .modal-content,
+    .modal > div:not(.modal-header) {
+        width: 90% !important;
+        max-width: 90% !important;
+        max-height: 90vh !important;
+        margin: 0.5rem !important;
+        padding: 1.25rem !important;
+        border-radius: 1rem !important;
+        overflow-y: auto !important;
+    }
+
+    /* Critical Alert Modal */
+    #critical-alert-modal-,
+    [id*="critical-alert-modal"] {
+        padding: 0.5rem !important;
+    }
+
+    #critical-alert-modal- > div,
+    [id*="critical-alert-modal"] > div {
+        width: 95% !important;
+        max-width: 95% !important;
+        padding: 1.25rem !important;
+    }
+
+    /* Modal buttons - make them easy to tap */
+    .modal-content button,
+    .modal button,
+    .modal a.button {
+        min-height: 44px !important;
+        padding: 0.75rem 1rem !important;
+        font-size: 0.9rem !important;
+    }
+
+    /* Gemini button in modal */
+    .modal button:last-child {
+        margin-top: 0.5rem !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .modal-content,
+    .modal > div:not(.modal-header) {
+        width: 95% !important;
+        padding: 1rem !important;
+    }
+
+    .modal h2 {
+        font-size: 1.1rem !important;
+    }
+}
+
+/* ========== NOTIFICATIONS & TOASTS ========== */
+@media (max-width: 768px) {
+    .notification,
+    .toast {
+        right: 0.5rem !important;
+        left: 0.5rem !important;
+        width: auto !important;
+        max-width: none !important;
+        font-size: 0.85rem !important;
+        padding: 0.75rem 1rem !important;
+    }
+}
+
+/* ========== TABS ========== */
+@media (max-width: 768px) {
+    .tabs {
+        flex-wrap: nowrap !important;
+        overflow-x: auto !important;
+        -webkit-overflow-scrolling: touch;
+        padding: 0 0.5rem !important;
+    }
+
+    .tab {
+        padding: 0.625rem 1rem !important;
+        font-size: 0.8rem !important;
+        white-space: nowrap !important;
+    }
+
+    .tab-content {
+        padding: 1rem 0.5rem !important;
+    }
+}
+
+/* ========== DEVICE CONTROL BUTTONS ========== */
+@media (max-width: 768px) {
+    .btn-toggle,
+    .btn-action {
+        padding: 0.5rem 0.75rem !important;
+        font-size: 0.7rem !important;
+        min-width: 60px !important;
+    }
+}
+
+/* ========== FOOTER ========== */
+@media (max-width: 768px) {
+    .footer {
+        padding: 1.5rem 1rem !important;
+        text-align: center !important;
+    }
+
+    .footer-text {
+        font-size: 0.75rem !important;
+    }
+}
+
+/* ========== SCROLLBAR STYLING ========== */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(56, 189, 248, 0.3);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(56, 189, 248, 0.5);
+}
+
+/* ========== UTILITY CLASSES ========== */
+@media (max-width: 768px) {
+    .hide-mobile { display: none !important; }
+    .show-mobile { display: block !important; }
+    .text-center-mobile { text-align: center !important; }
+    .w-100-mobile { width: 100% !important; }
+    .mb-1-mobile { margin-bottom: 0.5rem !important; }
+    .mb-2-mobile { margin-bottom: 1rem !important; }
+    .p-1-mobile { padding: 0.5rem !important; }
+    .p-2-mobile { padding: 1rem !important; }
+}
+
+@media (min-width: 769px) {
+    .show-mobile { display: none !important; }
+    .hide-mobile { display: block !important; }
+}
+
+/* ========== DARK MODE IMPROVEMENTS ========== */
+@media (prefers-color-scheme: dark) {
+    /* Already dark by default, but enhance */
+}
+
+/* ========== HIGH RESOLUTION SCREENS ========== */
+@media (min-width: 1440px) {
+    html { font-size: 18px; }
+}
+
+@media (min-width: 1920px) {
+    html { font-size: 20px; }
+}

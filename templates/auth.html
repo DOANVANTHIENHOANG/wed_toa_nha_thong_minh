@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng Ký Tài Khoản | Smart Energy</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&family=Lexend:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            /* Ảnh nền toà nhà ban đêm + Lớp phủ tối màu */
+            background: linear-gradient(rgba(11, 28, 44, 0.85), rgba(11, 28, 44, 0.85)), 
+                        url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070') no-repeat center center fixed;
+            background-size: cover;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            padding: 20px 0; /* Thêm padding để trên mobile không bị dính viền */
+        }
+
+        .auth-container {
+            width: 100%;
+            max-width: 650px; /* Nới rộng một chút để chứa 2 cột thoải mái */
+            padding: 20px;
+        }
+
+        /* Hiệu ứng Kính mờ (Glassmorphism) */
+        .glass-card {
+            background: rgba(20, 35, 55, 0.6);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header i {
+            font-size: 36px;
+            background: linear-gradient(135deg, #3b82f6, #06b6d4);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .header h2 {
+            font-family: 'Lexend', sans-serif;
+            font-size: 26px;
+            letter-spacing: 1px;
+        }
+
+        .header p {
+            color: #94a3b8;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        /* Chia 2 cột cho các ô nhập liệu */
+        .row {
+            display: flex;
+            gap: 20px;
+        }
+
+        .col {
+            flex: 1;
+        }
+
+        .input-group {
+            margin-bottom: 18px;
+            position: relative;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 12px;
+            color: #94a3b8;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 500;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .input-wrapper i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #64748b;
+            transition: 0.3s ease;
+        }
+
+        .input-wrapper input {
+            width: 100%;
+            padding: 12px 14px 12px 45px;
+            background: rgba(0, 0, 0, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            color: #fff;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        .input-wrapper input::placeholder {
+            color: #475569;
+        }
+
+        .input-wrapper input:focus {
+            border-color: #3b82f6;
+            background: rgba(0, 0, 0, 0.4);
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.2);
+        }
+
+        .input-wrapper input:focus + i,
+        .input-wrapper:focus-within i {
+            color: #3b82f6;
+        }
+
+        /* Nút đăng ký xịn xò */
+        .btn-submit {
+            width: 100%;
+            padding: 14px;
+            margin-top: 15px;
+            background: linear-gradient(135deg, #ff6b35, #ea580c);
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3);
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 25px rgba(59, 130, 246, 0.5);
+        }
+
+        .btn-submit:active {
+            transform: translateY(0);
+        }
+
+        .footer-links {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #94a3b8;
+        }
+
+        .footer-links a {
+            color: #3b82f6;
+            text-decoration: none;
+            font-weight: 500;
+            transition: 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: #60a5fa;
+            text-decoration: underline;
+        }
+
+        @media (max-width: 600px) {
+            .row {
+                flex-direction: column;
+                gap: 0;
+            }
+            .glass-card {
+                padding: 30px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="auth-container">
+        <div class="glass-card">
+            
+            <div class="header">
+                <i class="fas fa-building"></i>
+                <h2>Đăng ký Tài khoản</h2>
+                <p>Điền thông tin để bắt đầu quản lý năng lượng</p>
+            </div>
+
+            <form action="/register" method="POST">
+                
+                <div class="row">
+                    <div class="col">
+                        <div class="input-group">
+                            <label>Họ và Tên</label>
+                            <div class="input-wrapper">
+                                <input type="text" name="fullname" id="reg_fullname" placeholder="Nhập họ tên" required>
+                                <i class="fas fa-user"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="input-group">
+                            <label>SĐT hoặc Email</label>
+                            <div class="input-wrapper">
+                                <input type="text" name="contact" id="reg_contact" placeholder="SĐT hoặc Email" required>
+                                <i class="fas fa-phone-alt"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <div class="input-group">
+                            <label>Mã Công Tơ</label>
+                            <div class="input-wrapper">
+                                <input type="text" name="meter_id" id="reg_meter" placeholder="VD: MT-001" required>
+                                <i class="fas fa-tachometer-alt"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="input-group">
+                            <label>Mã Tòa Phòng</label>
+                            <div class="input-wrapper">
+                                <input type="text" name="room_code" id="reg_room" placeholder="VD: P101" required>
+                                <i class="fas fa-door-open"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label>Địa chỉ Tòa</label>
+                    <div class="input-wrapper">
+                        <input type="text" name="address" id="reg_address" placeholder="Nhập địa chỉ tòa nhà" required>
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <div class="input-group">
+                            <label>Mật khẩu</label>
+                            <div class="input-wrapper">
+                                <input type="password" name="password" id="reg_password" placeholder="••••••••" required>
+                                <i class="fas fa-lock"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="input-group">
+                            <label>Xác nhận mật khẩu</label>
+                            <div class="input-wrapper">
+                                <input type="password" name="confirm_password" id="reg_confirm_password" placeholder="••••••••" required>
+                                <i class="fas fa-lock"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-submit">
+                    <i class="fas fa-user-plus" style="margin-right: 8px;"></i> Đăng ký ngay
+                </button>
+
+            </form>
+
+            <div class="footer-links">
+                Bạn đã có tài khoản? <a href="/login">Đăng nhập</a>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+</html>

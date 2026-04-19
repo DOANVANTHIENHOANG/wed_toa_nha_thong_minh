@@ -1,0 +1,467 @@
+/* ===== SMART ENERGY V2.1 - MODERN TECH COLOR SYSTEM ===== */
+/* Color Palette: Deep Navy + Electric Cyan */
+
+:root {
+    /* Primary Colors */
+    --primary: #0066cc;              /* Ocean Blue */
+    --primary-light: #38bdf8;        /* Electric Cyan - Main accent for buttons, icons */
+    --primary-dark: #004499;         /* Darker ocean blue */
+    --primary-dark-deep: #0f172a;    /* Deep Navy - Navbar (scrolled), Footer background */
+    
+    /* Secondary Colors */
+    --secondary: #00aa77;            /* Green - Energy/environmental */
+    --accent: #ff6b35;               /* Orange - Energy source */
+    --accent-light: #ffa947;         /* Golden Light */
+    
+    /* Status Colors */
+    --success: #10b981;              /* Success green */
+    --warning: #f59e0b;              /* Warning orange */
+    --danger: #ef4444;               /* Danger red */
+    
+    /* Text Colors */
+    --text-dark: #1a2332;            /* Dark text on light backgrounds */
+    --text-light: #e2e8f0;           /* Silver white on dark backgrounds */
+    --text-muted: #6b7280;           /* Muted gray text */
+    
+    /* Background Colors */
+    --bg-white: #ffffff;
+    --bg-light: #f5f7fa;
+    --dark-bg: #0f172a;              /* Deep navy background */
+    --card-bg: rgba(15, 23, 42, 0.6);/* Semi-transparent card background */
+    
+    /* Border Colors */
+    --border-light: #e5e7eb;
+    --border-cyan: #38bdf8;          /* Cyan border for modern tech look */
+    
+    /* Shadow & Glow Effects */
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
+    --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.12);
+    --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.15);
+    --shadow-glow: 0 0 20px rgba(56, 189, 248, 0.3);    /* Cyan glow */
+    --shadow-glow-strong: 0 0 30px rgba(56, 189, 248, 0.5);  /* Strong glow */
+}
+
+/* ===== NAVBAR STYLING ===== */
+.navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background: rgba(15, 23, 42, 0);         /* Transparent initially */
+    backdrop-filter: blur(10px);             /* Glassmorphism effect */
+    border-bottom: 1px solid rgba(56, 189, 248, 0.3);  /* Subtle cyan border */
+    z-index: 1000;
+    padding: 16px 40px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    transition: all 0.4s ease;
+}
+
+.navbar.scrolled {
+    background: rgba(15, 23, 42, 0.95);      /* Opaque deep navy */
+    backdrop-filter: blur(15px);             /* Stronger blur effect */
+    border-bottom: 1px solid rgba(56, 189, 248, 0.5);  /* More visible cyan */
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 24px;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--primary-light), var(--primary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: -0.5px;
+    transition: all 0.3s ease;
+}
+
+.brand:hover {
+    text-shadow: 0 0 10px rgba(56, 189, 248, 0.4);
+}
+
+.brand i {
+    font-size: 28px;
+    background: linear-gradient(135deg, var(--primary-light), var(--primary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.nav-link {
+    color: rgba(226, 232, 240, 0.7);         /* Always silver-white for contrast */
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 15px;
+    position: relative;
+}
+
+.navbar.scrolled .nav-link {
+    color: rgba(226, 232, 240, 0.85);        /* Brighter on scroll */
+}
+
+.nav-link:hover {
+    color: var(--primary-light);              /* Cyan glow on hover */
+    text-shadow: 0 0 8px rgba(56, 189, 248, 0.5);
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--primary-light), var(--primary));
+    transition: width 0.3s ease;
+    box-shadow: 0 0 10px rgba(56, 189, 248, 0.4);
+}
+
+.nav-link:hover::after {
+    width: 100%;
+    box-shadow: 0 0 15px rgba(56, 189, 248, 0.6);
+}
+
+/* ===== BUTTON STYLING - GRADIENT + GLOW ===== */
+.btn-login {
+    padding: 10px 24px;
+    border-radius: 12px;
+    background: transparent;
+    border: 2px solid var(--primary-light);  /* Cyan border */
+    color: white;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.btn-login:hover {
+    background: rgba(56, 189, 248, 0.1);
+    border-color: var(--primary-light);
+    box-shadow: 0 0 15px rgba(56, 189, 248, 0.4), 
+                0 0 30px rgba(56, 189, 248, 0.2);  /* Glow effect */
+    transform: translateY(-2px);
+}
+
+.btn-login:active {
+    transform: translateY(0);
+}
+
+.btn-register {
+    padding: 10px 24px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, var(--primary-light), var(--primary));  /* Cyan → Blue gradient */
+    color: white;
+    border: none;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 15px rgba(56, 189, 248, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-register::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0) 70%);
+    opacity: 0;
+    transform: translate(0, 0);
+    transition: opacity 0.3s ease;
+}
+
+.btn-register:hover {
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));  /* Darker gradient */
+    box-shadow: 0 0 20px rgba(56, 189, 248, 0.5), 
+                0 8px 25px rgba(56, 189, 248, 0.4);  /* Strong glow */
+    transform: translateY(-2px);
+}
+
+.btn-register:active {
+    transform: translateY(0);
+}
+
+.btn-cta {
+    padding: 14px 40px;
+    background: linear-gradient(135deg, var(--primary), var(--primary-light));  /* Blue → Cyan */
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 8px 24px rgba(56, 189, 248, 0.4);
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-cta::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.15);
+    transition: left 0.3s ease;
+}
+
+.btn-cta:hover::before {
+    left: 100%;
+}
+
+.btn-cta:hover {
+    background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+    transform: translateY(-4px);
+    box-shadow: 0 0 25px rgba(56, 189, 248, 0.6), 
+                0 12px 35px rgba(56, 189, 248, 0.4);  /* Enhanced glow */
+}
+
+.btn-cta:active {
+    transform: translateY(-2px);
+}
+
+.btn-secondary {
+    padding: 14px 40px;
+    background: rgba(255, 255, 255, 0.15);
+    color: #ffffff;
+    border: 2px solid rgba(56, 189, 248, 0.4);  /* Cyan border */
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+.btn-secondary:hover {
+    background: rgba(56, 189, 248, 0.2);         /* Cyan tint */
+    border-color: rgba(56, 189, 248, 0.6);
+    transform: translateY(-4px);
+    box-shadow: 0 0 20px rgba(56, 189, 248, 0.3), 
+                0 12px 32px rgba(0, 0, 0, 0.3);  /* Glow effect */
+    color: var(--text-light);
+}
+
+/* ===== CARD STYLING ===== */
+.stat-card {
+    background: linear-gradient(135deg, rgba(15, 23, 42, 0.6), rgba(56, 189, 248, 0.1));
+    border: 1px solid rgba(56, 189, 248, 0.3);
+    border-radius: 16px;
+    padding: 25px;
+    text-align: center;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    background: linear-gradient(135deg, rgba(56, 189, 248, 0.2), rgba(56, 189, 248, 0.15));
+    border-color: var(--primary-light);
+    box-shadow: 0 0 20px rgba(56, 189, 248, 0.3), 
+                0 8px 25px rgba(56, 189, 248, 0.2);  /* Glow shadow */
+}
+
+.stat-value {
+    font-size: 32px;
+    font-weight: 800;
+    color: var(--primary-light);                    /* Cyan for main value */
+    margin-bottom: 5px;
+    text-shadow: 0 0 10px rgba(56, 189, 248, 0.3);  /* Subtle glow text */
+}
+
+.chart-card {
+    background: linear-gradient(135deg, rgba(15, 23, 42, 0.6), rgba(56, 189, 248, 0.05));
+    border: 1px solid rgba(56, 189, 248, 0.3);
+    border-radius: 16px;
+    padding: 30px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.device-table th {
+    background: rgba(56, 189, 248, 0.1);
+    color: var(--primary-light);
+    border-bottom: 2px solid rgba(56, 189, 248, 0.3);
+}
+
+/* ===== FOOTER STYLING ===== */
+.footer {
+    background: linear-gradient(135deg, var(--primary-dark-deep) 0%, #1a2a42 100%);
+    border-top: 2px solid var(--primary-light);    /* Cyan top border */
+    box-shadow: 0 -8px 32px rgba(56, 189, 248, 0.15);
+}
+
+.footer-section h3 {
+    color: var(--primary-light);                   /* Cyan headings */
+}
+
+.footer-section a {
+    color: var(--primary-light);
+    transition: all 0.3s ease;
+}
+
+.footer-section a:hover {
+    color: var(--accent-light);
+    text-shadow: 0 0 10px rgba(56, 189, 248, 0.5);
+}
+
+/* ===== HERO SECTION OVERLAY ===== */
+.hero::after {
+    background: linear-gradient(135deg, 
+        rgba(0, 30, 80, 0.35) 0%,      /* 35% opacity for clarity */
+        rgba(0, 60, 130, 0.3) 50%, 
+        rgba(0, 85, 170, 0.25) 100%);
+    backdrop-filter: blur(2px);        /* Slight blur for depth */
+}
+
+.hero h1 {
+    color: #ffffff;
+    text-shadow: 0 2px 20px rgba(0, 0, 0, 0.4);
+    background: linear-gradient(135deg, #ffffff 0%, var(--primary-light) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.hero-subtitle {
+    color: var(--primary-light);                   /* Cyan subtitle */
+    text-shadow: 0 1px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* ===== TEXT CONTRAST ON DARK BACKGROUNDS ===== */
+.dark-bg-text {
+    color: var(--text-light);   /* Always silver-white */
+}
+
+.navbar .nav-link {
+    color: inherit;             /* Takes from nav-link color (silver) */
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+@media (max-width: 768px) {
+    /* Navbar mobile */
+    .navbar {
+        padding: 12px 20px;
+    }
+
+    /* Buttons mobile */
+    .btn-login, .btn-register {
+        padding: 8px 16px;
+        font-size: 12px;
+    }
+
+    .btn-cta, .btn-secondary {
+        padding: 12px 24px;
+        font-size: 14px;
+    }
+
+    /* Footer mobile */
+    .footer-content {
+        grid-template-columns: 1fr;
+    }
+
+    /* Stat cards mobile */
+    .stat-card {
+        padding: 20px 15px;
+    }
+}
+
+/* ===== ANIMATIONS ===== */
+@keyframes glow-pulse {
+    0%, 100% {
+        box-shadow: 0 0 20px rgba(56, 189, 248, 0.3);
+    }
+    50% {
+        box-shadow: 0 0 30px rgba(56, 189, 248, 0.5);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Apply glow animation to active elements */
+.btn-register:hover,
+.btn-cta:hover,
+.stat-card:hover {
+    animation: glow-pulse 2s ease-in-out infinite;
+}
+
+/* ===== ACCESSIBILITY ===== */
+@media (prefers-reduced-motion: reduce) {
+    /* ===== ANALYTICS UPGRADE (ADD BY HOANG) ===== */
+
+.stat-comparison {
+    margin-top: 8px;
+    font-size: 13px;
+    display: flex;
+    gap: 6px;
+    align-items: center;
+}
+
+.trend.up {
+    color: #fb923c; /* cam = tăng (xấu) */
+    font-weight: 700;
+}
+
+.trend.down {
+    color: #22c55e; /* xanh = giảm (tốt) */
+    font-weight: 700;
+}
+
+.label {
+    color: #94a3b8;
+}
+
+/* Insight box đẹp hơn */
+.insight-box {
+    margin-top: 15px;
+    padding: 15px 20px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, rgba(15, 23, 42, 0.6), rgba(56, 189, 248, 0.08));
+    border: 1px solid rgba(56, 189, 248, 0.2);
+}
+.chart-card h3 {
+    font-size: 16px;
+    margin-bottom: 10px;
+    color: var(--primary-light);
+}
+
+.chart-card h2 {
+    font-size: 28px;
+    font-weight: 800;
+}
+/* Forecast text nổi hơn */
+#forecast-text {
+    color: var(--primary-light);
+    font-weight: 600;
+}
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}

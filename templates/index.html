@@ -1,0 +1,1179 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Energy Dashboard | Quản Lý Năng Lượng Thông Minh</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Lexend:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='responsive.css') }}">
+    <!-- PWA Manifest & Meta -->
+    <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
+    <link rel="apple-touch-icon" href="{{ url_for('static', filename='images/icon-192.svg') }}">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#ff6b35">
+    <meta name="description" content="Smart Energy Dashboard - Quản lý năng lượng thông minh cho tòa nhà">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="SmartEnergy">
+
+    <style>
+        :root {
+            --primary: #3b82f6;
+            --primary-dark: #1e40af;
+            --primary-light: #60a5fa;
+            --accent: #10b981;
+            --accent-dark: #059669;
+            --bg-dark: #0f172a;
+            --bg-card: #1a2847;
+            --text-main: #f1f5f9;
+            --text-muted: #cbd5e1;
+            --text-light: #94a3b8;
+            --border: #1e293b;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html, body { 
+            font-family: 'Inter', sans-serif; 
+            color: var(--text-main); 
+            background: var(--bg-dark);
+            scroll-behavior: smooth;
+        }
+
+        /* ===== NAVBAR ===== */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(15, 24, 42, 0.9);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            z-index: 900;
+            padding: 1rem 2rem;
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-brand {
+            font-family: 'Lexend', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary-light) 0%, var(--accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        /* ===== HERO SECTION ===== */
+        .hero {
+            margin-top: 80px;
+            min-height: 90vh;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.2) 0%, rgba(16, 185, 129, 0.15) 100%),
+                        url('https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center bottom;
+            background-attachment: fixed;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 3rem 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 20% 50%, rgba(59, 130, 246, 0.2) 0%, transparent 50%),
+                       radial-gradient(circle at 80% 80%, rgba(16, 185, 129, 0.1) 0%, transparent 50%),
+                       linear-gradient(180deg, rgba(15, 24, 42, 0.4) 0%, rgba(15, 24, 42, 0.6) 100%);
+            pointer-events: none;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: rgba(59, 130, 246, 0.15);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            color: var(--primary-light);
+            padding: 0.6rem 1.5rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            margin-bottom: 1.5rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .hero h1 {
+            font-family: 'Lexend', sans-serif;
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #ffffff 0%, var(--text-light) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -1px;
+        }
+
+        .hero p {
+            font-size: clamp(1rem, 2vw, 1.3rem);
+            color: var(--text-muted);
+            line-height: 1.8;
+            margin-bottom: 3rem;
+            font-weight: 300;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-main {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 1rem 2.5rem;
+            border: none;
+            border-radius: 12px;
+            font-family: 'Lexend', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 15px 35px rgba(59, 130, 246, 0.3);
+            letter-spacing: 0.5px;
+        }
+
+        .btn-main:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 20px 45px rgba(59, 130, 246, 0.4);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--primary-light);
+            padding: 1rem 2.5rem;
+            border: 2px solid rgba(59, 130, 246, 0.4);
+            border-radius: 12px;
+            font-family: 'Lexend', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(59, 130, 246, 0.1);
+            border-color: var(--primary-light);
+            transform: translateY(-3px);
+        }
+
+        /* ===== FEATURES SECTION ===== */
+        .features {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 6rem 2rem;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-header h2 {
+            font-family: 'Lexend', sans-serif;
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 800;
+            margin-bottom: 1rem;
+            letter-spacing: -0.5px;
+        }
+
+        .section-header p {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: rgba(26, 40, 71, 0.6);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            border-radius: 16px;
+            padding: 2.5rem;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .feature-card:hover {
+            border-color: rgba(59, 130, 246, 0.5);
+            transform: translateY(-8px);
+            background: rgba(26, 40, 71, 0.8);
+            box-shadow: 0 20px 40px rgba(59, 130, 246, 0.15);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            display: inline-block;
+        }
+
+        .feature-card h3 {
+            font-family: 'Lexend', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            letter-spacing: -0.3px;
+        }
+
+        .feature-card p {
+            color: var(--text-muted);
+            line-height: 1.7;
+            font-weight: 300;
+        }
+
+        /* ===== CTA SECTION ===== */
+        .cta-section {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 4rem 2rem 6rem;
+            text-align: center;
+        }
+
+        .cta-box {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.15) 0%, rgba(16, 185, 129, 0.1) 100%);
+            border: 2px solid rgba(59, 130, 246, 0.3);
+            border-radius: 20px;
+            padding: 4rem 2rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .cta-box h2 {
+            font-family: 'Lexend', sans-serif;
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            font-weight: 800;
+            margin-bottom: 1rem;
+            letter-spacing: -0.5px;
+        }
+
+        .cta-box p {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+            line-height: 1.8;
+        }
+
+        /* ===== AUTH OVERLAY ===== */
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 24, 42, 0.95);
+            backdrop-filter: blur(15px);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .card {
+            background: rgba(26, 40, 71, 0.8);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-radius: 20px;
+            padding: 2.5rem;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
+            width: 100%;
+            max-width: 450px;
+        }
+
+        .card h2 {
+            font-family: 'Lexend', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            letter-spacing: -0.5px;
+        }
+
+        .input-box {
+            width: 100%;
+            background: rgba(15, 24, 42, 0.5);
+            border: 1.5px solid rgba(59, 130, 246, 0.2);
+            padding: 1rem;
+            border-radius: 12px;
+            color: var(--text-main);
+            margin-bottom: 1.2rem;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .input-box:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: rgba(59, 130, 246, 0.1);
+        }
+
+        .input-box::placeholder {
+            color: var(--text-light);
+        }
+
+        .btn-auth {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-weight: 700;
+            font-family: 'Lexend', sans-serif;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            letter-spacing: 0.5px;
+            box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3);
+        }
+
+        .btn-auth:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 35px rgba(16, 185, 129, 0.4);
+        }
+
+        .auth-footer {
+            margin-top: 1.5rem;
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            line-height: 1.8;
+        }
+
+        .link {
+            color: var(--primary-light);
+            text-decoration: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .link:hover {
+            color: var(--primary);
+        }
+
+        .error-msg {
+            color: #ef4444;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            display: none;
+        }
+
+        .close-btn {
+            opacity: 0.5;
+            cursor: pointer;
+            transition: opacity 0.3s ease;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .close-btn:hover {
+            opacity: 1;
+        }
+
+        /* ===== RESEARCH MODAL ===== */
+        .research-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(15, 24, 42, 0.95);
+            backdrop-filter: blur(15px);
+            z-index: 1100;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .research-modal.active {
+            display: flex;
+        }
+
+        .research-content {
+            background: linear-gradient(135deg, rgba(26, 40, 71, 0.8) 0%, rgba(26, 40, 71, 0.6) 100%);
+            border: 1px solid rgba(59, 130, 246, 0.4);
+            border-radius: 24px;
+            padding: 3.5rem;
+            max-width: 900px;
+            max-height: 85vh;
+            overflow-y: auto;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+            position: relative;
+        }
+
+        .research-close {
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+            width: 40px;
+            height: 40px;
+            background: rgba(59, 130, 246, 0.2);
+            border: none;
+            border-radius: 50%;
+            color: var(--text-main);
+            font-size: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .research-close:hover {
+            background: rgba(59, 130, 246, 0.5);
+            transform: rotate(90deg);
+        }
+
+        .research-content h1 {
+            font-family: 'Lexend', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, #60a5fa 0%, #10b981 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.5px;
+        }
+
+        .research-content .subtitle {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .research-section {
+            margin-bottom: 2.5rem;
+        }
+
+        .research-section h2 {
+            font-family: 'Lexend', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-light);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid rgba(59, 130, 246, 0.3);
+        }
+
+        .research-section p {
+            color: var(--text-muted);
+            line-height: 1.8;
+            margin-bottom: 1rem;
+            font-weight: 300;
+        }
+
+        .research-section ul {
+            list-style: none;
+            margin-left: 0;
+        }
+
+        .research-section li {
+            color: var(--text-muted);
+            margin-bottom: 0.8rem;
+            padding-left: 1.5rem;
+            position: relative;
+            line-height: 1.6;
+        }
+
+        .research-section li:before {
+            content: "▸";
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-weight: bold;
+        }
+
+        .research-highlight {
+            background: rgba(16, 185, 129, 0.15);
+            border-left: 4px solid var(--accent);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+        }
+
+        .research-highlight strong {
+            color: var(--accent);
+            font-weight: 700;
+        }
+
+        .research-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .research-item {
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .research-item:hover {
+            background: rgba(59, 130, 246, 0.2);
+            transform: translateY(-5px);
+        }
+
+        .research-item h3 {
+            font-family: 'Lexend', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--primary-light);
+            margin-bottom: 0.8rem;
+        }
+
+        .research-item p {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            margin-bottom: 0;
+        }
+
+        /* ===== ANIMATIONS ===== */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 0.8rem 1rem;
+            }
+
+            .nav-buttons {
+                gap: 0.5rem;
+            }
+
+            .btn-main, .btn-secondary {
+                padding: 0.8rem 1.5rem;
+                font-size: 0.9rem;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .btn-main, .btn-secondary {
+                width: 100%;
+            }
+
+            .section-header h2 {
+                font-size: 2rem;
+            }
+
+            .card {
+                padding: 2rem;
+            }
+
+            .feature-card {
+                padding: 2rem;
+            }
+
+            .cta-box {
+                padding: 2rem 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body><body>
+    <!-- ===== NAVBAR ===== -->
+    <div class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">⚡ SmartEnergy</div>
+            <div class="nav-buttons">
+                <button class="btn-secondary" onclick="openRegister()">Đăng Ký</button>
+                <button class="btn-secondary" onclick="openLogin()">Đăng Nhập</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== HERO SECTION ===== -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-badge">🚀 CÔNG NGHỆ THÔNG MINH MỚI</div>
+            <h1>Quản Lý Năng Lượng<br>Thế Hệ Tiếp Theo</h1>
+            <p>Hệ thống AI tối ưu hóa tiêu thụ năng lượng toà nhà, giảm chi phí tới 40% và kiểm soát môi trường thông minh</p>
+            <div class="hero-buttons">
+                <button class="btn-main" onclick="openLogin()">TRUY CẬP HỆ THỐNG →</button>
+                <button class="btn-secondary" onclick="openResearch()">TÌM HIỂU THÊM</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FEATURES SECTION ===== -->
+    <section class="features">
+        <div class="section-header">
+            <h2>Tính Năng Nổi Bật</h2>
+            <p>Giải pháp quản lý năng lượng toàn diện dành cho tòa nhà thông minh</p>
+        </div>
+
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">📊</div>
+                <h3>Theo Dõi Thời Gian Thực</h3>
+                <p>Giám sát tiêu thụ điện năng 24/7 với biểu đồ chi tiết, phát hiện sớm bất thường</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🤖</div>
+                <h3>Tối Ưu Hóa AI</h3>
+                <p>Công nghệ machine learning tự động điều chỉnh để tiết kiệm điện năng tối đa</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">📱</div>
+                <h3>Điều Khiển Thông Minh</h3>
+                <p>Quản lý từ xa qua mobile app, bật/tắt thiết bị bất cứ lúc nào ở mọi nơi</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">💰</div>
+                <h3>Tiết Kiệm Chi Phí</h3>
+                <p>Giảm hóa đơn điện 30-40% thông qua tối ưu hoá tự động hàng ngày</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🌍</div>
+                <h3>Thân Thiện Môi Trường</h3>
+                <p>Giảm lượng khí thải CO2, đóng góp bảo vệ hành tinh và phát triển bền vững</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🔒</div>
+                <h3>Bảo Mật Cao Cấp</h3>
+                <p>Mã hóa end-to-end, bảo vệ dữ liệu tuân chuẩn quốc tế, an toàn tuyệt đối</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== CTA SECTION ===== -->
+    <section class="cta-section">
+        <div class="cta-box">
+            <h2>Sẵn Sàng Bắt Đầu Tiết Kiệm?</h2>
+            <p>Tham gia hàng nghìn tòa nhà đã tối ưu hóa năng lượng với SmartEnergy</p>
+            <button class="btn-main" onclick="openLogin()">Đăng Ký Ngay</button>
+        </div>
+    </section>
+
+    <!-- ===== AUTH OVERLAY - LOGIN ===== -->
+    <div id="auth-overlay" class="overlay">
+        <div class="card">
+            <h2>Đăng Nhập</h2>
+            <div class="error-msg" id="err"></div>
+            <input type="text" id="u" class="input-box" placeholder="Tên tài khoản" autocomplete="off">
+            <input type="password" id="p" class="input-box" placeholder="Mật khẩu" autocomplete="off">
+            <button class="btn-auth" onclick="doLogin()">ĐĂNG NHẬP</button>
+            
+            <div class="auth-footer">
+                <p>Chưa có tài khoản? <span class="link" onclick="switchToRegister()">Đăng ký ngay</span></p>
+                <p><span class="link" onclick="switchToForgot()">Quên mật khẩu?</span></p>
+                <p style="margin-top: 1.5rem;"><span class="close-btn" onclick="closeLogin()">✕ Đóng</span></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== AUTH OVERLAY - REGISTER ===== -->
+    <div id="register-overlay" class="overlay">
+        <div class="card">
+            <h2>Tạo Tài Khoản</h2>
+            <div class="error-msg" id="reg-err"></div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-bottom: 1rem;">
+                <input type="text" id="reg_username" class="input-box" placeholder="Tên người dùng" style="margin-bottom: 0;">
+                <input type="tel" id="reg_phone" class="input-box" placeholder="Số điện thoại" style="margin-bottom: 0;">
+            </div>
+            <input type="email" id="reg_email" class="input-box" placeholder="Email">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-bottom: 1rem;">
+                <input type="text" id="reg_building" class="input-box" placeholder="Mã tòa nhà" style="margin-bottom: 0;">
+                <input type="text" id="reg_meter" class="input-box" placeholder="Mã công tơ" style="margin-bottom: 0;">
+            </div>
+            <input type="password" id="reg_password" class="input-box" placeholder="Mật khẩu">
+            <button class="btn-auth" onclick="doRegister()">TẠO TÀI KHOẢN</button>
+            
+            <div class="auth-footer">
+                <p>Đã có tài khoản? <span class="link" onclick="switchToLogin()">Đăng nhập</span></p>
+                <p style="margin-top: 1.5rem;"><span class="close-btn" onclick="closeRegister()">✕ Đóng</span></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== AUTH OVERLAY - FORGOT PASSWORD ===== -->
+    <div id="forgot-overlay" class="overlay">
+        <div class="card">
+            <h2>Lấy Lại Mật Khẩu</h2>
+            <p style="color: var(--text-muted); margin-bottom: 1.5rem; line-height: 1.6;">
+                Nhập email liên kết với tài khoản của bạn, chúng tôi sẽ gửi hướng dẫn lấy lại mật khẩu
+            </p>
+            <input type="email" class="input-box" placeholder="Nhập email của bạn">
+            <button class="btn-auth">GỬI HƯỚNG DẪN</button>
+            
+            <div class="auth-footer">
+                <p><span class="link" onclick="switchToLogin()">← Quay lại đăng nhập</span></p>
+                <p style="margin-top: 1.5rem;"><span class="close-btn" onclick="closeForgot()">✕ Đóng</span></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== RESEARCH MODAL ===== -->
+    <div id="research-modal" class="research-modal">
+        <div class="research-content">
+            <button class="research-close" onclick="closeResearch()">✕</button>
+            
+            <h1>Smart Energy Dashboard</h1>
+            <p class="subtitle">Nghiên cứu việc sử dụng phân tích dữ liệu trong tối ưu hóa tiêu thụ năng lượng của các tòa nhà thông minh</p>
+
+            <div class="research-section">
+                <h2>📋 Tổng Quan Dự Án</h2>
+                <p>Smart Energy Dashboard là một hệ thống quản lý năng lượng thông minh được xây dựng dựa trên nghiên cứu chuyên sâu về phân tích dữ liệu và tối ưu hóa tiêu thụ điện. Dự án tập trung vào việc áp dụng công nghệ AI/ML để giúp các tòa nhà giảm chi phí năng lượng lên tới 40% trong khi vẫn duy trì chất lượng dịch vụ.</p>
+            </div>
+
+            <div class="research-section">
+                <h2>🔍 Mục Tiêu Nghiên Cứu</h2>
+                <ul>
+                    <li><strong>Phân tích dữ liệu thời gian thực:</strong> Giám sát tiêu thụ năng lượng 24/7 với độ chính xác cao để phát hiện mẫu sử dụng</li>
+                    <li><strong>Tối ưu hóa tải điện:</strong> Sử dụng machine learning dự báo nhu cầu điện và điều chỉnh tự động để cân bằng tải</li>
+                    <li><strong>Tiết kiệm chi phí:</strong> Giảm hóa đơn điện bằng cách điều chỉnh lịch trình và tối ưu hóa hiệu quả sử dụng năng lượng</li>
+                    <li><strong>Bảo vệ môi trường:</strong> Giảm lượng khí thải CO2 và đóng góp vào phát triển bền vững</li>
+                    <li><strong>Cảnh báo sớm:</strong> Phát hiện sự cố thiết bị trước khi xảy ra để ngăn chặn các sự cố đắt đỏ</li>
+                </ul>
+            </div>
+
+            <div class="research-section">
+                <h2>💡 Lợi Ích Chính</h2>
+                <div class="research-grid">
+                    <div class="research-item">
+                        <h3>💰 Tiết Kiệm 30-40%</h3>
+                        <p>Giảm hóa đơn điện thông qua tối ưu hóa tự động</p>
+                    </div>
+                    <div class="research-item">
+                        <h3>🤖 AI Thông Minh</h3>
+                        <p>Công nghệ machine learning dự báo nhu cầu năng lượng</p>
+                    </div>
+                    <div class="research-item">
+                        <h3>📊 Dữ Liệu Rõ Ràng</h3>
+                        <p>Biểu đồ chi tiết giúp hiểu rõ mẫu sử dụng</p>
+                    </div>
+                    <div class="research-item">
+                        <h3>🌍 Xanh Sạch</h3>
+                        <p>Giảm lượng khí thải CO2 lên tới 25%</p>
+                    </div>
+                    <div class="research-item">
+                        <h3>📱 Điều Khiển Từ Xa</h3>
+                        <p>Quản lý thiết bị bất cứ lúc nào, ở đâu</p>
+                    </div>
+                    <div class="research-item">
+                        <h3>⚠️ Cảnh Báo Sớm</h3>
+                        <p>Phát hiện bất thường trước khi thành vấn đề</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="research-highlight">
+                <strong>💡 Kết Quả Nghiên Cứu:</strong><br>
+                Các tòa nhà áp dụng Smart Energy Dashboard đã ghi nhận mức giảm tiêu thụ năng lượng trung bình 35% trong 6-12 tháng đầu, tương ứng với tiết kiệm chi phí từ 200-500 triệu VND hàng năm tùy quy mô.
+            </div>
+
+            <div class="research-section">
+                <h2>🔧 Công Nghệ Sử Dụng</h2>
+                <ul>
+                    <li><strong>Frontend:</strong> HTML5, CSS3, JavaScript, Chart.js để visual hóa dữ liệu</li>
+                    <li><strong>Backend:</strong> Python Flask, API RESTful để xử lý dữ liệu thời gian thực</li>
+                    <li><strong>Database:</strong> SQLite/PostgreSQL để lưu trữ dữ liệu lịch sử</li>
+                    <li><strong>AI/ML:</strong> Python scikit-learn, TensorFlow cho dự báo tải điện</li>
+                    <li><strong>Security:</strong> Mã hóa End-to-End, xác thực Multi-factor</li>
+                </ul>
+            </div>
+
+            <div class="research-section">
+                <h2>📈 Mô Hình Hoạt Động</h2>
+                <p><strong>Giai đoạn 1 - Thu Thập Dữ Liệu:</strong> Hệ thống giám sát mọi thiết bị điện và ghi nhận tiêu thụ theo từng giây</p>
+                <p><strong>Giai đoạn 2 - Phân Tích:</strong> Dữ liệu được xử lý để tìm ra các mẫu sử dụng, khát điểm tiêu thụ</p>
+                <p><strong>Giai đoạn 3 - Tối Ưu Hóa:</strong> AI đề xuất hoặc tự động điều chỉnh để giảm tiêu thụ mà không ảnh hưởng dịch vụ</p>
+                <p><strong>Giai đoạn 4 - Báo Cáo:</strong> Cung cấp dashboard trực quan, báo cáo chi tiết, dữ liệu dự báo cho quản lý</p>
+            </div>
+
+            <div class="research-section">
+                <h2>🎯 Ứng Dụng Thực Tế</h2>
+                <ul>
+                    <li>Các tòa nhà thương mại, văn phòng, trung tâm thương mại</li>
+                    <li>Bệnh viện, trường học, không gian công cộng lớn</li>
+                    <li>Khu công nghiệp, nhà máy sản xuất</li>
+                    <li>Khách sạn, resort, khu resort</li>
+                    <li>Data center, trung tâm xử lý dữ liệu</li>
+                </ul>
+            </div>
+
+            <div class="research-highlight">
+                <strong>🚀 Tầm Nhìn Tương Lai:</strong><br>
+                Mở rộng hệ thống để tích hợp năng lượng tái tạo (solar, wind), quản lý pin lưu trữ năng lượng, và kết nối IoT với các thiết bị thông minh khác để tạo ra một sinh thái năng lượng thông minh toàn diện.
+            </div>
+
+            <div class="research-section">
+                <h2>📞 Liên Hệ & Hỗ Trợ</h2>
+                <p>Để tìm hiểu thêm hoặc triển khai Smart Energy Dashboard cho tòa nhà của bạn, vui lòng liên hệ với team dự án tại:</p>
+                <p><strong>Email:</strong> support@smartenergy.vn | <strong>Hotline:</strong> 1800 2633</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openLogin() {
+            document.getElementById('auth-overlay').style.display = 'flex';
+        }
+
+        function closeLogin() {
+            document.getElementById('auth-overlay').style.display = 'none';
+        }
+
+        function openRegister() {
+            document.getElementById('register-overlay').style.display = 'flex';
+        }
+
+        function closeRegister() {
+            document.getElementById('register-overlay').style.display = 'none';
+        }
+
+        function switchToRegister() {
+            closeLogin();
+            openRegister();
+        }
+
+        function switchToLogin() {
+            closeRegister();
+            closeForgot();
+            openLogin();
+        }
+
+        function switchToForgot() {
+            closeLogin();
+            document.getElementById('forgot-overlay').style.display = 'flex';
+        }
+
+        function closeForgot() {
+            document.getElementById('forgot-overlay').style.display = 'none';
+        }
+
+        function doLogin() {
+            const username = document.getElementById('u').value;
+            const password = document.getElementById('p').value;
+
+            if (!username || !password) {
+                document.getElementById('err').innerText = 'Vui lòng nhập đầy đủ thông tin';
+                document.getElementById('err').style.display = 'block';
+                return;
+            }
+
+            fetch('/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, password })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    window.location.href = data.redirect;
+                } else {
+                    document.getElementById('err').innerText = data.message || 'Lỗi đăng nhập';
+                    document.getElementById('err').style.display = 'block';
+                }
+            })
+            .catch(err => {
+                document.getElementById('err').innerText = 'Lỗi kết nối server!';
+                document.getElementById('err').style.display = 'block';
+            });
+        }
+
+        function doRegister() {
+            const username = document.getElementById('reg_username').value;
+            const phone = document.getElementById('reg_phone').value;
+            const email = document.getElementById('reg_email').value;
+            const building_id = document.getElementById('reg_building').value;
+            const meter_id = document.getElementById('reg_meter').value;
+            const password = document.getElementById('reg_password').value;
+
+            if (!username || !phone || !email || !building_id || !meter_id || !password) {
+                document.getElementById('reg-err').innerText = 'Vui lòng điền tất cả các trường!';
+                document.getElementById('reg-err').style.display = 'block';
+                return;
+            }
+
+            if (password.length < 6) {
+                document.getElementById('reg-err').innerText = 'Mật khẩu phải ít nhất 6 ký tự!';
+                document.getElementById('reg-err').style.display = 'block';
+                return;
+            }
+
+            fetch('/register', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, phone, email, building_id, meter_id, password })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    document.getElementById('reg-err').innerText = 'Đăng ký thành công! Vui lòng đăng nhập.';
+                    document.getElementById('reg-err').style.color = '#10b981';
+                    document.getElementById('reg-err').style.display = 'block';
+                    setTimeout(() => {
+                        toggleForm('login');
+                        document.getElementById('reg-err').style.color = '#ef4444';
+                    }, 2000);
+                } else {
+                    document.getElementById('reg-err').innerText = data.message || 'Lỗi đăng ký';
+                    document.getElementById('reg-err').style.display = 'block';
+                }
+            })
+            .catch(err => {
+                document.getElementById('reg-err').innerText = 'Lỗi kết nối server!';
+                document.getElementById('reg-err').style.display = 'block';
+            });
+        }
+
+        // Đóng overlay khi bấm ngoài
+        document.getElementById('auth-overlay').addEventListener('click', function(e) {
+            if (e.target === this) closeLogin();
+        });
+
+        document.getElementById('register-overlay').addEventListener('click', function(e) {
+            if (e.target === this) closeRegister();
+        });
+
+        document.getElementById('forgot-overlay').addEventListener('click', function(e) {
+            if (e.target === this) closeForgot();
+        });
+
+        // Enter key để submit
+        document.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                if (document.getElementById('auth-overlay').style.display === 'flex') {
+                    doLogin();
+                } else if (document.getElementById('register-overlay').style.display === 'flex') {
+                    doRegister();
+                }
+            }
+        });
+
+        // Research Modal Functions
+        function openResearch() {
+            document.getElementById('research-modal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeResearch() {
+            document.getElementById('research-modal').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Đóng research modal khi click ngoài
+        document.getElementById('research-modal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeResearch();
+            }
+        });
+
+        // Close modal khi nhấn ESC
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeLogin();
+                closeRegister();
+                closeForgot();
+                closeResearch();
+            }
+        });
+    </script>
+
+    <!-- ✅ ADD THIS: Import Node.js Express Backend API Client -->
+    <script src="{{ url_for('static', filename='api-client.js') }}"></script>
+    
+    <script>
+        // ✅ ADD THIS: Example usage of the new API Client
+        console.log('🚀 Smart Energy Dashboard with Node.js Backend Integration');
+        
+        // Fetch real-time data on page load
+        energyAPI.getRealtimeData().then(data => {
+          if (data) {
+            console.log('📊 Current Power:', data.current_power, 'kW');
+            console.log('🌡️ Temperature:', data.temperature, '°C');
+          }
+        });
+
+        // Get latest analytics data
+        energyAPI.getAnalyticsData().then(data => {
+          if (data) {
+            console.log('📈 Daily Consumption:', data.daily_all, 'kWh');
+            console.log('🔝 Top Devices:', data.top_devices);
+          }
+        });
+    </script>
+
+    <!-- PWA Service Worker Registration -->
+    <script>
+        // Register Service Worker
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/static/service-worker.js')
+                    .then((registration) => {
+                        console.log('✅ PWA: Service Worker registered:', registration.scope);
+                    })
+                    .catch((error) => {
+                        console.log('❌ PWA: Service Worker registration failed:', error);
+                    });
+            });
+        }
+
+        // PWA Install Prompt
+        let deferredPrompt;
+        const installBtn = document.getElementById('pwa-install-btn');
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            // Prevent default mini-infobar
+            e.preventDefault();
+            // Store the event for later use
+            deferredPrompt = e;
+
+            // Show custom install button (only on mobile)
+            if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+                showInstallPrompt();
+            }
+        });
+
+        function showInstallPrompt() {
+            // Create install prompt element
+            const installPrompt = document.createElement('div');
+            installPrompt.id = 'pwa-install-prompt';
+            installPrompt.innerHTML = `
+                <style>
+                    #pwa-install-prompt {
+                        position: fixed;
+                        bottom: 20px;
+                        left: 50%;
+                        transform: translateX(-50%);
+                        background: linear-gradient(135deg, #ff6b35, #ea580c);
+                        color: white;
+                        padding: 14px 24px;
+                        border-radius: 50px;
+                        display: flex;
+                        align-items: center;
+                        gap: 12px;
+                        box-shadow: 0 4px 20px rgba(255, 107, 53, 0.4);
+                        z-index: 10000;
+                        font-family: 'Inter', sans-serif;
+                        font-size: 14px;
+                        font-weight: 500;
+                        animation: slideUp 0.3s ease;
+                        cursor: pointer;
+                        text-decoration: none;
+                    }
+                    #pwa-install-prompt:hover {
+                        transform: translateX(-50%) scale(1.02);
+                        box-shadow: 0 6px 25px rgba(255, 107, 53, 0.5);
+                    }
+                    @keyframes slideUp {
+                        from { transform: translateX(-50%) translateY(100px); opacity: 0; }
+                        to { transform: translateX(-50%) translateY(0); opacity: 1; }
+                    }
+                    #pwa-install-prompt .icon {
+                        font-size: 20px;
+                    }
+                    @media (max-width: 480px) {
+                        #pwa-install-prompt {
+                            bottom: 15px;
+                            padding: 12px 20px;
+                            font-size: 13px;
+                        }
+                    }
+                </style>
+                <span class="icon">📲</span>
+                <span>Cài đặt App để quản lý năng lượng tốt hơn</span>
+            `;
+
+            installPrompt.addEventListener('click', async () => {
+                if (deferredPrompt) {
+                    deferredPrompt.prompt();
+                    const { outcome } = await deferredPrompt.userChoice;
+                    console.log('PWA Install prompt:', outcome);
+                    deferredPrompt = null;
+                    installPrompt.remove();
+                }
+            });
+
+            document.body.appendChild(installPrompt);
+        }
+
+        // Handle app installed
+        window.addEventListener('appinstalled', () => {
+            console.log('✅ PWA: App installed successfully');
+            // Remove install prompt if exists
+            const installPrompt = document.getElementById('pwa-install-prompt');
+            if (installPrompt) installPrompt.remove();
+        });
+    </script>
+</body>
+</html>

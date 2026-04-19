@@ -1,0 +1,1381 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Energy V2.1 - Professional Building Energy Management</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='responsive.css') }}">
+    
+    <style>
+        :root {
+            /* Cầu Rồng Đà Nẵng Theme - Deep Ocean & Golden Light */
+            --primary: #0066cc;
+            --primary-dark: #004499;
+            --primary-dark-deep: #0f172a;
+            --primary-light: #38bdf8;
+            --secondary: #00aa77;
+            --accent: #ff6b35;
+            --accent-light: #ffa947;
+            --bg-light: #f5f7fa;
+            --bg-white: #ffffff;
+            --text-dark: #1a2332;
+            --text-muted: #6b7280;
+            --text-light: #e2e8f0;
+            --border-light: #e5e7eb;
+            --border-cyan: #38bdf8;
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
+            --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.12);
+            --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.15);
+            --shadow-glow: 0 0 20px rgba(56, 189, 248, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            font-family: 'Inter', 'Roboto', sans-serif;
+            color: var(--text-dark);
+            background: transparent !important;
+            scroll-behavior: smooth;
+            line-height: 1.6;
+        }
+
+        /* ===== NAVBAR ===== */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: transparent !important;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.3) !important;
+            z-index: 1002 !important;
+            padding: 16px 40px;
+            box-shadow: none !important;
+            transition: all 0.4s ease;
+            pointer-events: auto !important;
+        }
+
+        .navbar.scrolled {
+            background: var(--primary-dark-deep) !important;
+            backdrop-filter: blur(15px);
+            border-bottom: none;
+            box-shadow: var(--shadow-lg);
+            z-index: 1002 !important;
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            z-index: 1001;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary-dark-deep) !important;
+            letter-spacing: -0.5px;
+            transition: all 0.3s ease;
+        }
+
+        .navbar.scrolled .brand {
+            color: #ffffff !important;
+        }
+
+        .brand:hover {
+            color: var(--primary-dark-deep);
+        }
+
+        .brand i {
+            font-size: 28px;
+            color: var(--primary-dark-deep) !important;
+            transition: all 0.3s ease;
+        }
+
+        .navbar.scrolled .brand i {
+            color: #ffffff !important;
+        }
+
+        .nav-menu {
+            display: flex !important;
+            gap: 40px;
+            list-style: none;
+            z-index: 1001;
+        }
+
+        .nav-link {
+            color: var(--primary-dark-deep) !important;
+            font-weight: 700 !important;
+            font-size: 15px !important;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .navbar.scrolled .nav-link {
+            color: #ffffff !important;
+        }
+
+        .nav-link:hover {
+            color: var(--accent) !important;
+            font-weight: 800 !important;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: width 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 0 0 transparent;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+            box-shadow: 0 0 8px rgba(255, 107, 53, 0.5);
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 16px;
+        }
+
+        .btn-login, .btn-register {
+            padding: 10px 24px;
+            border-radius: 12px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-login {
+            color: var(--primary-dark-deep) !important;
+            background: transparent !important;
+            border: 2px solid var(--primary-dark-deep) !important;
+            box-shadow: none !important;
+        }
+
+        .btn-login:hover {
+            background: rgba(15, 23, 42, 0.1) !important;
+            border-color: var(--primary-dark-deep) !important;
+            box-shadow: 0 0 12px rgba(15, 23, 42, 0.2) !important;
+        }
+
+        .navbar.scrolled .btn-login {
+            color: #ffffff !important;
+            border-color: #ffffff !important;
+        }
+
+        .navbar.scrolled .btn-login:hover {
+            background: rgba(255, 255, 255, 0.1) !important;
+            border-color: #ffffff !important;
+            box-shadow: 0 0 12px rgba(255, 255, 255, 0.2) !important;
+        }
+
+        .btn-register {
+            background: var(--accent) !important;
+            color: white !important;
+            font-size: 14px !important;
+            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.4), 
+                        0 0 20px rgba(255, 107, 53, 0.2);
+            border: none;
+        }
+
+        .btn-register:hover {
+            background: var(--accent-light) !important;
+            box-shadow: 0 8px 25px rgba(255, 107, 53, 0.6) !important;
+            transform: translateY(-2px);
+        }
+
+        .btn-register:active {
+            transform: translateY(0);
+        }
+
+        /* ===== HERO SECTION ===== */
+        .hero {
+            margin-top: 64px;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 60px 40px;
+            background: linear-gradient(135deg, #001f3f 0%, #003d7a 50%, #003d7a 100%);
+            background-blend-mode: darken;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Blur Effect - Industrial Building Background */
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 64px;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url('data:image/svg+xml;utf8,<svg width="1600" height="1024" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1024"><defs><linearGradient id="heroGrad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:%23001e50;stop-opacity:0.9" /><stop offset="50%" style="stop-color:%23003d99;stop-opacity:0.85" /><stop offset="100%" style="stop-color:%23004d99;stop-opacity:0.9" /></linearGradient><radialGradient id="lightGrad" cx="50%" cy="50%" r="50%"><stop offset="0%" style="stop-color:%234da6ff;stop-opacity:0.4" /><stop offset="100%" style="stop-color:%23003d99;stop-opacity:0" /></radialGradient></defs><rect width="1600" height="1024" fill="url(%23heroGrad)"/><path d="M0 600 L100 550 L200 580 L300 500 L500 520 L700 580 L900 500 L1100 550 L1300 480 L1500 520 L1600 500 L1600 1024 L0 1024 Z" fill="%23001a3d" opacity="0.6"/><circle cx="200" cy="300" r="150" fill="url(%23lightGrad)"/><circle cx="1300" cy="250" r="200" fill="url(%23lightGrad)"/><g opacity="0.4"><rect x="150" y="200" width="200" height="400" fill="%230066cc" rx="10"/><rect x="800" y="150" width="180" height="450" fill="%2300aa77" rx="8"/><rect x="1200" y="300" width="150" height="350" fill="%230066cc" rx="8"/></g><line x1="200" y1="250" x2="200" y2="600" stroke="%2300ff88" stroke-width="3" opacity="0.6"/><line x1="800" y1="200" x2="800" y2="600" stroke="%2300ff88" stroke-width="3" opacity="0.6"/><line x1="1200" y1="300" x2="1200" y2="650" stroke="%2300ff88" stroke-width="3" opacity="0.6"/><polyline points="100,100 400,50 700,120 1000,60 1300,100 1600,80" stroke="%234da6ff" stroke-width="2" fill="none" opacity="0.5"/></svg>');
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+            filter: blur(3px);
+            z-index: 1;
+            pointer-events: none !important;
+        }
+
+        /* Dark Overlay - For Better Text Contrast */
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: 64px;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(0, 30, 80, 0.5) 0%, rgba(0, 60, 130, 0.4) 50%, rgba(0, 85, 170, 0.35) 100%);
+            z-index: 2;
+            pointer-events: none !important;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            max-width: 800px;
+            text-align: center;
+            animation: fadeInUp 0.8s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero h1 {
+            font-size: 52px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 20px;
+            line-height: 1.2;
+            letter-spacing: -1px;
+            text-shadow: 0 2px 20px rgba(0, 0, 0, 0.4);
+            background: linear-gradient(135deg, #ffffff 0%, #e0f2fe 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 18px;
+            color: #e0f2fe;
+            margin-bottom: 40px;
+            line-height: 1.8;
+            font-weight: 400;
+            text-shadow: 0 1px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-cta {
+            padding: 14px 40px;
+            background: linear-gradient(135deg, var(--primary), #0099ff);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 8px 24px rgba(0, 102, 204, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-cta::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            transition: left 0.3s ease;
+            border-radius: 6px;
+        }
+
+        .btn-cta:hover::before {
+            left: 100%;
+        }
+
+        .btn-cta:hover {
+            background: linear-gradient(135deg, var(--primary-dark), #0077cc);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 32px rgba(0, 102, 204, 0.6);
+        }
+
+        .btn-cta:active {
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            padding: 14px 40px;
+            background: rgba(255, 255, 255, 0.15);
+            color: #ffffff;
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.25);
+            border-color: rgba(255, 255, 255, 0.6);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
+            color: #e0f2fe;
+        }
+
+        .btn-secondary:active {
+            transform: translateY(-2px);
+        }
+
+        /* ===== SECTIONS ===== */
+        .section {
+            padding: 100px 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: 42px;
+            font-weight: 700;
+            color: var(--text-dark);
+            text-align: center;
+            margin-bottom: 20px;
+            letter-spacing: -0.5px;
+        }
+
+        .section-subtitle {
+            font-size: 18px;
+            color: var(--text-muted);
+            text-align: center;
+            margin-bottom: 50px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* ===== INTRODUCTION SECTION ===== */
+        #intro {
+            background: var(--bg-light);
+        }
+
+        .intro-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .intro-card {
+            background: white;
+            border-radius: 12px;
+            padding: 32px;
+            text-align: center;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-light);
+        }
+
+        .intro-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--primary);
+        }
+
+        .intro-card i {
+            font-size: 48px;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+
+        .intro-card h3 {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--text-dark);
+        }
+
+        .intro-card p {
+            color: var(--text-muted);
+            line-height: 1.8;
+            font-size: 15px;
+        }
+
+        /* ===== PRODUCTS SECTION ===== */
+        #products {
+            background: white;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 30px;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--border-light);
+            box-shadow: var(--shadow-sm);
+            transition: all 0.3s ease;
+        }
+
+        .product-card:hover {
+            box-shadow: var(--shadow-lg);
+            border-color: var(--primary);
+            transform: translateY(-8px);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, #e8f1ff 0%, #f0f3f7 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 60px;
+            border-bottom: 2px solid var(--border-light);
+        }
+
+        .product-content {
+            padding: 28px;
+        }
+
+        .product-content h3 {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--text-dark);
+        }
+
+        .product-content p {
+            color: var(--text-muted);
+            line-height: 1.8;
+            font-size: 15px;
+            margin-bottom: 16px;
+        }
+
+        .feature-list {
+            list-style: none;
+            margin: 16px 0;
+        }
+
+        .feature-list li {
+            padding: 8px 0;
+            color: var(--text-muted);
+            font-size: 14px;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .feature-list li::before {
+            content: '✓';
+            font-weight: 700;
+            color: var(--secondary);
+            font-size: 16px;
+        }
+
+        /* ===== HARDWARE SECTION ===== */
+        #hardware {
+            background: var(--bg-light);
+        }
+
+        .hardware-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .hardware-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-light);
+            transition: all 0.3s ease;
+        }
+
+        .hardware-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--secondary);
+        }
+
+        .hardware-image {
+            width: 100%;
+            height: 220px;
+            background: linear-gradient(135deg, #e8f9f5 0%, #f0f7f5 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 80px;
+        }
+
+        .hardware-content {
+            padding: 24px;
+        }
+
+        .hardware-content h4 {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: var(--text-dark);
+        }
+
+        .hardware-content p {
+            color: var(--text-muted);
+            font-size: 14px;
+            line-height: 1.7;
+            margin-bottom: 12px;
+        }
+
+        .spec-tag {
+            display: inline-block;
+            background: rgba(0, 170, 119, 0.1);
+            color: var(--secondary);
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-top: 8px;
+        }
+
+        /* ===== AUTOMATION SECTION ===== */
+        #automation {
+            background: white;
+        }
+
+        .automation-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 28px;
+            margin-top: 50px;
+        }
+
+        .automation-card {
+            background: white;
+            border-radius: 12px;
+            border: 2px solid var(--border-light);
+            padding: 32px;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .automation-card:hover {
+            border-color: var(--primary);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .automation-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .automation-icon {
+            font-size: 36px;
+            color: var(--primary);
+        }
+
+        .automation-toggle {
+            width: 52px;
+            height: 28px;
+            background: var(--border-light);
+            border-radius: 14px;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            padding: 2px;
+        }
+
+        .automation-toggle::after {
+            content: '';
+            position: absolute;
+            width: 24px;
+            height: 24px;
+            background: white;
+            border-radius: 50%;
+            top: 2px;
+            left: 2px;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .automation-toggle:hover::after {
+            box-shadow: var(--shadow-md);
+        }
+
+        .automation-toggle.active {
+            background: var(--secondary);
+        }
+
+        .automation-toggle.active::after {
+            left: 26px;
+        }
+
+        .automation-info h4 {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 8px;
+        }
+
+        .automation-info p {
+            color: var(--text-muted);
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        .automation-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            padding-top: 12px;
+            border-top: 1px solid var(--border-light);
+            margin-top: 12px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        /* ===== PARTNERS SECTION ===== */
+        #partners {
+            background: var(--bg-light);
+        }
+
+        .partners-container {
+            position: relative;
+            overflow: hidden;
+            background: white;
+            border-radius: 12px;
+            padding: 40px 20px;
+            box-shadow: var(--shadow-md);
+        }
+
+        .partners-scroll {
+            display: flex;
+            gap: 40px;
+            overflow-x: auto;
+            padding: 20px 0;
+            scroll-behavior: smooth;
+        }
+
+        .partners-scroll::-webkit-scrollbar {
+            height: 4px;
+        }
+
+        .partners-scroll::-webkit-scrollbar-track {
+            background: var(--border-light);
+            border-radius: 10px;
+        }
+
+        .partners-scroll::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 10px;
+        }
+
+        .partner-item {
+            flex-shrink: 0;
+            width: 180px;
+            height: 100px;
+            background: var(--bg-light);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            filter: grayscale(100%);
+            opacity: 0.6;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+
+        .partner-item:hover {
+            filter: grayscale(0%);
+            opacity: 1;
+            transform: scale(1.05);
+            border-color: var(--primary);
+            background: white;
+            box-shadow: var(--shadow-md);
+        }
+
+        /* ===== CONTACT SECTION ===== */
+        #contact {
+            background: white;
+        }
+
+        .contact-container {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .contact-form {
+            background: var(--bg-light);
+            border-radius: 12px;
+            padding: 40px;
+            border: 1px solid var(--border-light);
+        }
+
+        .form-group {
+            margin-bottom: 28px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 10px;
+            font-size: 15px;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 16px;
+            background: white;
+            border: 2px solid var(--border-light);
+            border-radius: 6px;
+            color: var(--text-dark);
+            font-family: 'Inter', sans-serif;
+            font-size: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .form-buttons {
+            display: flex;
+            gap: 16px;
+            margin-top: 32px;
+        }
+
+        .btn-submit {
+            flex: 1;
+            padding: 14px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-submit:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-reset {
+            flex: 1;
+            padding: 14px;
+            background: white;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-reset:hover {
+            background: rgba(0, 102, 204, 0.08);
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            background: var(--primary-dark-deep) !important;
+            color: var(--text-light);
+            padding: 60px 40px;
+            text-align: center;
+            border-top: 2px solid var(--primary-light);
+            box-shadow: 0 -8px 32px rgba(56, 189, 248, 0.15);
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            text-align: left;
+            margin-bottom: 40px;
+        }
+
+        .footer-section h3 {
+            color: var(--primary-light);
+            margin-bottom: 16px;
+            font-size: 18px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .footer-section p, .footer-section a {
+            margin: 12px 0;
+            font-size: 14px;
+            opacity: 0.8;
+            transition: all 0.3s ease;
+            color: var(--text-light);
+        }
+
+        .footer-section a {
+            text-decoration: none;
+            color: var(--primary-light);
+            font-weight: 500;
+        }
+
+        .footer-section a:hover {
+            color: var(--accent-light);
+            text-shadow: 0 0 10px rgba(56, 189, 248, 0.5);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(56, 189, 248, 0.2);
+            padding-top: 30px;
+            text-align: center;
+            opacity: 0.7;
+            font-size: 13px;
+        }
+
+        .footer p {
+            margin: 8px 0;
+            font-size: 15px;
+            opacity: 0.8;
+        }
+
+        .footer strong {
+            color: var(--primary-light);
+            font-weight: 700;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none !important;
+            }
+
+            .hero {
+                margin-top: 64px;
+                min-height: auto;
+                padding: 80px 20px;
+            }
+
+            .hero-content {
+                max-width: 100%;
+            }
+
+            .hero h1 {
+                font-size: 32px;
+                line-height: 1.3;
+                margin-bottom: 16px;
+            }
+
+            .hero-subtitle {
+                font-size: 15px;
+                margin-bottom: 30px;
+                line-height: 1.6;
+            }
+
+            .hero-buttons {
+                gap: 12px;
+                flex-direction: column;
+            }
+
+            .btn-cta, .btn-secondary {
+                width: 100%;
+                padding: 12px 24px;
+                font-size: 15px;
+            }
+
+            .section-title {
+                font-size: 28px;
+            }
+
+            .section {
+                padding: 60px 20px;
+            }
+
+            .navbar {
+                padding: 12px 20px;
+            }
+
+            .intro-grid,
+            .products-grid,
+            .hardware-grid,
+            .automation-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-form {
+                padding: 28px 20px;
+            }
+
+            .hero {
+                padding: 40px 20px;
+                margin-top: 80px;
+            }
+        }
+
+        /* ===== ANIMATIONS ===== */
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section {
+            animation: slideIn 0.6s ease-out;
+        }
+    </style>
+</head>
+<body>
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="brand">
+                <i class="fas fa-bolt"></i>
+                <span>Smart Energy</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a class="nav-link" onclick="smoothScroll('intro')">Giới thiệu</a></li>
+                <li><a class="nav-link" onclick="smoothScroll('products')">Sản phẩm</a></li>
+                <li><a class="nav-link" onclick="smoothScroll('hardware')">Thiết bị</a></li>
+                <li><a class="nav-link" onclick="smoothScroll('automation')">Tự động hóa</a></li>
+                <li><a class="nav-link" onclick="smoothScroll('partners')">Đối tác</a></li>
+                <li><a class="nav-link" onclick="smoothScroll('contact')">Liên hệ</a></li>
+            </ul>
+            <div class="nav-buttons">
+                <button class="btn-login" onclick="window.location.href='/login'">Đăng nhập</button>
+                <button class="btn-register" onclick="window.location.href='/auth'">Đăng ký</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Quản Lý Năng Lượng Thông Minh Cho Tòa Nhà Hiện Đại</h1>
+            <p class="hero-subtitle">Giảm chi phí điện tối đa 40% với công nghệ AI, IoT và tự động hóa thông minh. Giải pháp dẫn đầu cho các tòa nhà thương mại và công nghiệp.</p>
+            <div class="hero-buttons">
+                <button class="btn-cta" onclick="window.location.href='/dashboard'">
+                    <i class="fas fa-play-circle"></i> Truy Cập Dashboard
+                </button>
+                <button class="btn-secondary" onclick="smoothScroll('products')">
+                    Tìm Hiểu Thêm
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- INTRODUCTION SECTION -->
+    <section id="intro" class="section">
+        <h2 class="section-title">Tại Sao Chọn Smart Energy?</h2>
+        <p class="section-subtitle">Hệ thống quản lý năng lượng tích hợp với công nghệ hàng đầu</p>
+        <div class="intro-grid">
+            <div class="intro-card">
+                <i class="fas fa-chart-line"></i>
+                <h3>Giám Sát Thời Thực</h3>
+                <p>Theo dõi tiêu thụ điện 24/7 với độ chính xác 99.8%. Cập nhật dữ liệu mỗi 5 giây.</p>
+            </div>
+            <div class="intro-card">
+                <i class="fas fa-brain"></i>
+                <h3>AI & Machine Learning</h3>
+                <p>Dự báo tải với độ chính xác cao. Tối ưu hóa tự động dựa trên mô hình học máy.</p>
+            </div>
+            <div class="intro-card">
+                <i class="fas fa-cog"></i>
+                <h3>Tự Động Hóa Thông Minh</h3>
+                <p>3 kịch bản AI: HVAC, Peak Hour, Safety. Giảm tải tự động trong giờ cao điểm.</p>
+            </div>
+            <div class="intro-card">
+                <i class="fas fa-bell"></i>
+                <h3>Cảnh Báo Tức Thời</h3>
+                <p>Nhận thông báo SMS/Email khi công suất vượt ngưỡng. Tránh tình trạng quá tải.</p>
+            </div>
+            <div class="intro-card">
+                <i class="fas fa-sliders-h"></i>
+                <h3>Phân Loại Tải Tự Động</h3>
+                <p>Xác định mức tiêu thụ (Xanh/Cam/Đỏ) theo 3 loại tòa nhà khác nhau.</p>
+            </div>
+            <div class="intro-card">
+                <i class="fas fa-shield-alt"></i>
+                <h3>Bảo Vệ Dữ Liệu</h3>
+                <p>Mã hóa AES-256. Truy cập theo vai trò (Admin/User). GDPR compliant.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- PRODUCTS SECTION -->
+    <section id="products" class="section">
+        <h2 class="section-title">Các Tính Năng Chính</h2>
+        <p class="section-subtitle">Toàn bộ giải pháp quản lý năng lượng đẳng cấp doanh nghiệp</p>
+        <div class="products-grid">
+            <div class="product-card">
+                <div class="product-image">📊</div>
+                <div class="product-content">
+                    <h3>Dashboard Tích Hợp</h3>
+                    <p>Giao diện trực quan, hiển thị các chỉ số năng lượng chính theo thời gian thực.</p>
+                    <ul class="feature-list">
+                        <li>Biểu đồ phụ tải 30 ngày</li>
+                        <li>So sánh chi phí theo tháng</li>
+                        <li>Dự báo tiêu thụ tháng</li>
+                        <li>Xuất báo cáo PDF/Excel</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="product-card">
+                <div class="product-image">🤖</div>
+                <div class="product-content">
+                    <h3>AI Tối Ưu Hóa</h3>
+                    <p>Công nghệ Machine Learning LinearRegression cho dự báo chính xác.</p>
+                    <ul class="feature-list">
+                        <li>Dự báo tiêu thụ hàng tháng</li>
+                        <li>Phát hiện thiết bị tiêu thụ</li>
+                        <li>ECO Mode tự động</li>
+                        <li>Gợi ý tối ưu hóa chi tiết</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="product-card">
+                <div class="product-image">⚙️</div>
+                <div class="product-content">
+                    <h3>Điều Khiển Thiết Bị</h3>
+                    <p>Bật/Tắt thiết bị từ xa. Lập lịch chạy tự động. Thống kê tiêu thụ chi tiết.</p>
+                    <ul class="feature-list">
+                        <li>Điều khiển từ xa qua web</li>
+                        <li>Lập lịch định kỳ</li>
+                        <li>Lịch sử hoạt động đầy đủ</li>
+                        <li>Hoàn tác nhanh chóng</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- HARDWARE SECTION -->
+    <section id="hardware" class="section">
+        <h2 class="section-title">Thiết Bị Phần Cứng</h2>
+        <p class="section-subtitle">Các thiết bị IoT chuyên nghiệp được sử dụng trong hệ thống</p>
+        <div class="hardware-grid">
+            <div class="hardware-card">
+                <div class="hardware-image">📲</div>
+                <div class="hardware-content">
+                    <h4>Công Tơ Điện Thông Minh</h4>
+                    <p>Thu thập dữ liệu tiêu thụ điện chính xác mỗi 5 giây.</p>
+                    <p style="font-size: 13px; color: #999; margin-top: 8px;">Protocol: Modbus/TCP | Độ chính xác: ±0.5%</p>
+                    <span class="spec-tag">🔌 3 pha 100A</span>
+                </div>
+            </div>
+            <div class="hardware-card">
+                <div class="hardware-image">🏠</div>
+                <div class="hardware-content">
+                    <h4>Gateway Trung Tâm</h4>
+                    <p>Hub điều khiển tất cả thiết bị. Đồng bộ dữ liệu lên Cloud.</p>
+                    <p style="font-size: 13px; color: #999; margin-top: 8px;">Kết nối: 4G, WiFi, Ethernet</p>
+                    <span class="spec-tag">📡 Hỗ trợ 50+ thiết bị</span>
+                </div>
+            </div>
+            <div class="hardware-card">
+                <div class="hardware-image">🌡️</div>
+                <div class="hardware-content">
+                    <h4>Cảm Biến Nhiệt Độ/Độ Ẩm</h4>
+                    <p>Theo dõi điều kiện môi trường trong tòa nhà thời gian thực.</p>
+                    <p style="font-size: 13px; color: #999; margin-top: 8px;">Chuẩn: ±1°C, ±2% RH</p>
+                    <span class="spec-tag">📊 Cập nhật 10 giây</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- AUTOMATION SECTION -->
+    <section id="automation" class="section">
+        <h2 class="section-title">3 Kịch Bản Tự Động Hóa AI</h2>
+        <p class="section-subtitle">Hệ thống học tập và tối ưu hóa năng lượng liên tục 24/7</p>
+        <div class="automation-grid">
+            <div class="automation-card">
+                <div class="automation-header">
+                    <div class="automation-icon">❄️</div>
+                    <button class="automation-toggle active" onclick="toggleScenario(this)" data-scenario="hvac"></button>
+                </div>
+                <div class="automation-info">
+                    <h4>Tối Ưu HVAC</h4>
+                    <p>Giảm tải điều hòa khi nhiệt độ &lt; 24°C. Tiết kiệm 20-30%.</p>
+                </div>
+                <div class="automation-stats">
+                    <div class="stat-item">
+                        <div class="stat-value">12</div>
+                        <div class="stat-label">Kích hoạt hôm nay</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">2.5 kWh</div>
+                        <div class="stat-label">Tiết kiệm</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="automation-card">
+                <div class="automation-header">
+                    <div class="automation-icon">⏰</div>
+                    <button class="automation-toggle active" onclick="toggleScenario(this)" data-scenario="peak"></button>
+                </div>
+                <div class="automation-info">
+                    <h4>Giờ Cao Điểm</h4>
+                    <p>Ngắt tải phụ từ 17h-20h. Ưu tiên tải thiết yếu.</p>
+                </div>
+                <div class="automation-stats">
+                    <div class="stat-item">
+                        <div class="stat-value">3</div>
+                        <div class="stat-label">Lần hôm nay</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">1.8 kWh</div>
+                        <div class="stat-label">Tiết kiệm</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="automation-card">
+                <div class="automation-header">
+                    <div class="automation-icon">🛡️</div>
+                    <button class="automation-toggle active" onclick="toggleScenario(this)" data-scenario="safety"></button>
+                </div>
+                <div class="automation-info">
+                    <h4>An Toàn Hệ Thống</h4>
+                    <p>Ngắt khi vượt ngưỡng 8kW. Bảo vệ thiết bị điện.</p>
+                </div>
+                <div class="automation-stats">
+                    <div class="stat-item">
+                        <div class="stat-value">0</div>
+                        <div class="stat-label">Cảnh báo</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">Bình thường</div>
+                        <div class="stat-label">Trạng thái</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PARTNERS SECTION -->
+    <section id="partners" class="section">
+        <h2 class="section-title">Đối Tác Tin Cậy</h2>
+        <p class="section-subtitle">Được tin tưởng bởi các tập đoàn và công ty hàng đầu</p>
+        <div class="partners-container">
+            <div class="partners-scroll">
+                <div class="partner-item">🏢</div>
+                <div class="partner-item">🏭</div>
+                <div class="partner-item">🏗️</div>
+                <div class="partner-item">🏛️</div>
+                <div class="partner-item">🏦</div>
+                <div class="partner-item">🏥</div>
+                <div class="partner-item">🏪</div>
+                <div class="partner-item">🏨</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTACT SECTION -->
+    <section id="contact" class="section">
+        <h2 class="section-title">Liên Hệ Chúng Tôi</h2>
+        <p class="section-subtitle">Hãy gửi yêu cầu của bạn. Chúng tôi sẽ phản hồi trong vòng 24 giờ</p>
+        <div class="contact-container">
+            <form class="contact-form" onsubmit="handleContactSubmit(event)">
+                <div class="form-group">
+                    <label>Tên Công Ty</label>
+                    <input type="text" placeholder="Nhập tên công ty của bạn" required>
+                </div>
+                <div class="form-group">
+                    <label>Email Liên Hệ</label>
+                    <input type="email" placeholder="your@company.com" required>
+                </div>
+                <div class="form-group">
+                    <label>Số Điện Thoại</label>
+                    <input type="tel" placeholder="+84 (0)123 456 789" required>
+                </div>
+                <div class="form-group">
+                    <label>Chủ Đề</label>
+                    <input type="text" placeholder="Tôi quan tâm đến..." required>
+                </div>
+                <div class="form-group">
+                    <label>Tin Nhắn Chi Tiết</label>
+                    <textarea placeholder="Hãy mô tả nhu cầu của bạn..." required></textarea>
+                </div>
+                <div class="form-buttons">
+                    <button type="submit" class="btn-submit">📤 Gửi Yêu Cầu</button>
+                    <button type="reset" class="btn-reset">Xóa Form</button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-content">
+            <!-- Company Info -->
+            <div class="footer-section">
+                <h3><i class="fas fa-bolt"></i> Smart Energy V2.1</h3>
+                <p>Hệ thống quản lý năng lượng thông minh cho các tòa nhà hiện đại.</p>
+                <p>🎯 Tiết kiếm năng lượng tối đa 40% | Công nghệ AI & IoT</p>
+            </div>
+
+            <!-- Contact Information -->
+            <div class="footer-section">
+                <h3><i class="fas fa-map-marker-alt"></i> Liên Hệ</h3>
+                <p><strong>📍 Địa chỉ:</strong> Đà Nẵng, Việt Nam</p>
+                <p><strong>📧 Email:</strong> <a href="mailto:doanvandoan132@gmail.com">doanvandoan132@gmail.com</a></p>
+                <p><strong>📱 Điện thoại:</strong> <a href="tel:+84123456789">+84 (0)123 456 789</a></p>
+            </div>
+
+            <!-- Quick Links -->
+            <div class="footer-section">
+                <h3><i class="fas fa-link"></i> Liên Kết Nhanh</h3>
+                <p><a href="/">🏠 Trang chủ</a></p>
+                <p><a href="/dashboard">📊 Dashboard</a></p>
+                <p><a href="/login">🔐 Đăng nhập</a></p>
+                <p><a href="#contact">💬 Liên hệ</a></p>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2026 <strong>Smart Energy V2.1</strong> - Professional Building Energy Management</p>
+            <p>Công nghệ AI & IoT cho tòa nhà thông minh | Powered by <strong>Advanced Energy Solutions</strong></p>
+        </div>
+    </footer>
+
+    <script>
+        // ===== NAVBAR SCROLL EFFECT =====
+        const navbar = document.querySelector('.navbar');
+        
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        function smoothScroll(sectionId) {
+            const section = document.getElementById(sectionId);
+            if (section) {
+                section.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        function toggleScenario(button) {
+            button.classList.toggle('active');
+            const scenario = button.dataset.scenario;
+            console.log(`Scenario ${scenario} toggled`);
+        }
+
+        function handleContactSubmit(event) {
+            event.preventDefault();
+            const form = event.target;
+            
+            // Collect form data
+            const formData = new FormData(form);
+            
+            // Simple validation and feedback
+            alert('✓ Cảm ơn bạn đã liên hệ! Chúng tôi sẽ phản hồi trong vòng 24 giờ.');
+            form.reset();
+        }
+
+        // Smooth active nav link on scroll
+        window.addEventListener('scroll', () => {
+            const sections = ['intro', 'products', 'hardware', 'automation', 'partners', 'contact'];
+            
+            sections.forEach(id => {
+                const section = document.getElementById(id);
+                if (section) {
+                    const rect = section.getBoundingClientRect();
+                    if (rect.top <= window.innerHeight / 2 && rect.bottom >= window.innerHeight / 2) {
+                        // Highlight active nav link
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Energy V2.1 - Quản Lý Năng Lượng Thông Minh</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Lexend:wght@600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='responsive.css') }}">
+    
+    <style>
+        :root {
+            --primary: #3b82f6;
+            --primary-dark: #1e40af;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --dark-bg: #0f172a;
+            --card-bg: rgba(30, 41, 59, 0.6);
+            --text-main: #f1f5f9;
+            --text-muted: #cbd5e1;
+            --text-light: #94a3b8;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text-main);
+            background: var(--dark-bg);
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+
+        /* ===== NAVBAR ===== */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            z-index: 1000;
+            padding: 16px 40px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--text-main);
+        }
+
+        .brand i {
+            font-size: 28px;
+            background: linear-gradient(135deg, var(--primary), #60a5fa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 40px;
+            list-style: none;
+        }
+
+        .nav-link {
+            color: var(--text-light);
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-link:hover {
+            color: var(--primary);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary), var(--success));
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn-login, .btn-register {
+            padding: 10px 24px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-login {
+            color: var(--primary);
+            background: transparent;
+            border: 2px solid var(--primary);
+        }
+
+        .btn-login:hover {
+            background: rgba(59, 130, 246, 0.1);
+        }
+
+        .btn-register {
+            background: linear-gradient(135deg, var(--primary), #60a5fa);
+            color: white;
+            border: none;
+        }
+
+        .btn-register:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(59, 130, 246, 0.3);
+        }
+
+        /* ===== HERO SECTION ===== */
+        .hero {
+            margin-top: 80px;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 60px 40px;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.15) 0%, rgba(16, 185, 129, 0.1) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.3) 0%, transparent 70%);
+            top: -100px;
+            right: -100px;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(16, 185, 129, 0.2) 0%, transparent 70%);
+            bottom: -100px;
+            left: -100px;
+            animation: float 8s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(20px); }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 56px;
+            font-weight: 800;
+            font-family: 'Lexend', sans-serif;
+            background: linear-gradient(135deg, #ffffff, #cbd5e1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 18px;
+            color: var(--text-light);
+            margin-bottom: 40px;
+            line-height: 1.8;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            padding: 14px 40px;
+            background: linear-gradient(135deg, var(--primary), #60a5fa);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 28px rgba(59, 130, 246, 0.4);
+        }
+
+        .btn-secondary {
+            padding: 14px 40px;
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(59, 130, 246, 0.1);
+            transform: translateY(-4px);
+        }
+
+        /* ===== SECTIONS ===== */
+        .section {
+            padding: 100px 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: 42px;
+            font-weight: 800;
+            font-family: 'Lexend', sans-serif;
+            background: linear-gradient(135deg, #ffffff, #cbd5e1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .section-subtitle {
+            font-size: 18px;
+            color: var(--text-light);
+            text-align: center;
+            margin-top: -30px;
+            margin-bottom: 50px;
+        }
+
+        /* INTRODUCTION SECTION */
+        #intro {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.05) 0%, rgba(16, 185, 129, 0.05) 100%);
+        }
+
+        .intro-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .intro-card {
+            background: linear-gradient(135deg, var(--card-bg), rgba(59, 130, 246, 0.05));
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            border-radius: 16px;
+            padding: 32px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .intro-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(59, 130, 246, 0.5);
+            box-shadow: 0 12px 32px rgba(59, 130, 246, 0.15);
+        }
+
+        .intro-card i {
+            font-size: 48px;
+            color: var(--primary);
+            margin-bottom: 16px;
+        }
+
+        .intro-card h3 {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .intro-card p {
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+
+        /* PRODUCTS SECTION */
+        #products {
+            background: transparent;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+        }
+
+        .product-card {
+            background: linear-gradient(135deg, var(--card-bg), rgba(59, 130, 246, 0.08));
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-radius: 18px;
+            overflow: hidden;
+            transition: all 0.35s ease;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(59, 130, 246, 0.6);
+            box-shadow: 0 16px 40px rgba(59, 130, 246, 0.2);
+        }
+
+        .product-header {
+            padding: 24px;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(16, 185, 129, 0.05));
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .product-header i {
+            font-size: 40px;
+            color: var(--primary);
+            margin-bottom: 12px;
+        }
+
+        .product-header h3 {
+            font-size: 22px;
+            font-weight: 700;
+        }
+
+        .product-content {
+            padding: 24px;
+        }
+
+        .product-content p {
+            color: var(--text-light);
+            line-height: 1.8;
+            margin-bottom: 16px;
+        }
+
+        .feature-list {
+            list-style: none;
+            margin: 20px 0;
+        }
+
+        .feature-list li {
+            padding: 8px 0;
+            color: var(--text-light);
+            font-size: 14px;
+        }
+
+        .feature-list li::before {
+            content: '✓ ';
+            color: var(--success);
+            font-weight: 700;
+            margin-right: 8px;
+        }
+
+        /* AUTOMATION SECTION */
+        #automation {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.05) 0%, rgba(59, 130, 246, 0.05) 100%);
+        }
+
+        .automation-showcase {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+        }
+
+        .auto-scenario {
+            background: linear-gradient(135deg, var(--card-bg), rgba(139, 92, 246, 0.08));
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            border-radius: 16px;
+            padding: 28px;
+            transition: all 0.3s ease;
+        }
+
+        .auto-scenario:hover {
+            transform: scale(1.05);
+            border-color: rgba(139, 92, 246, 0.6);
+            box-shadow: 0 10px 28px rgba(139, 92, 246, 0.2);
+        }
+
+        .auto-scenario i {
+            font-size: 32px;
+            margin-bottom: 12px;
+        }
+
+        .auto-scenario h4 {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .auto-scenario p {
+            color: var(--text-light);
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        /* PARTNERS SECTION */
+        #partners {
+            background: transparent;
+        }
+
+        .partners-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 30px;
+            align-items: center;
+        }
+
+        .partner-logo {
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 120px;
+            filter: grayscale(100%);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .partner-logo:hover {
+            filter: grayscale(0%);
+            transform: scale(1.05);
+            border-color: rgba(59, 130, 246, 0.3);
+            background: rgba(59, 130, 246, 0.05);
+        }
+
+        .partner-logo i {
+            font-size: 48px;
+            color: var(--text-light);
+        }
+
+        /* CONTACT SECTION */
+        #contact {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.08) 0%, rgba(59, 130, 246, 0.08) 100%);
+        }
+
+        .contact-container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 14px;
+            background: rgba(30, 41, 59, 0.5);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            border-radius: 8px;
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: rgba(59, 130, 246, 0.6);
+            background: rgba(30, 41, 59, 0.7);
+            box-shadow: 0 0 12px rgba(59, 130, 246, 0.2);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .contact-buttons {
+            display: flex;
+            gap: 16px;
+            margin-top: 30px;
+        }
+
+        .btn-submit {
+            flex: 1;
+            padding: 14px;
+            background: linear-gradient(135deg, var(--primary), #60a5fa);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3);
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 40px;
+            text-align: center;
+            color: var(--text-light);
+        }
+
+        .footer p {
+            margin: 8px 0;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 36px;
+            }
+
+            .section-title {
+                font-size: 32px;
+            }
+
+            .section {
+                padding: 60px 20px;
+            }
+
+            .hero {
+                padding: 40px 20px;
+                margin-top: 80px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="brand">
+                <i class="fas fa-bolt"></i>
+                <span>Smart Energy V2.1</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a class="nav-link" onclick="smoothScroll('intro')">Giới thiệu</a></li>
+                <li><a class="nav-link" onclick="smoothScroll('products')">Sản phẩm</a></li>
+                <li><a class="nav-link" onclick="smoothScroll('automation')">Tự động hóa</a></li>
+                <li><a class="nav-link" onclick="smoothScroll('partners')">Đối tác</a></li>
+                <li><a class="nav-link" onclick="smoothScroll('contact')">Liên hệ</a></li>
+            </ul>
+            <div class="nav-buttons">
+                <button class="btn-login" onclick="window.location.href='/login'">Đăng nhập</button>
+                <button class="btn-register" onclick="window.location.href='/auth'">Đăng ký</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>⚡ Quản Lý Năng Lượng Thông Minh</h1>
+            <p>Giảm chi phí điện tối đa 40% với công nghệ AI và tự động hóa thông minh</p>
+            <div class="hero-buttons">
+                <button class="btn-primary" onclick="window.location.href='/dashboard'">🚀 Truy cập Dashboard</button>
+                <button class="btn-secondary" onclick="smoothScroll('products')">Tìm hiểu thêm</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- INTRODUCTION -->
+    <section id="intro" class="section">
+        <h2 class="section-title">🎯 Tại sao chọn Smart Energy?</h2>
+        <p class="section-subtitle">Hệ thống quản lý năng lượng hàng đầu cho các tòa nhà thông minh</p>
+        <div class="intro-grid">
+            <div class="intro-card">
+                <i class="fas fa-chart-line"></i>
+                <h3>Giám sát Thời Thực</h3>
+                <p>Theo dõi tiêu thụ điện 24/7 với độ chính xác cao</p>
+            </div>
+            <div class="intro-card">
+                <i class="fas fa-brain"></i>
+                <h3>AI Thông Minh</h3>
+                <p>Dự báo tải với LinearRegression và tối ưu hóa tự động</p>
+            </div>
+            <div class="intro-card">
+                <i class="fas fa-clock"></i>
+                <h3>Kịch Bản Tự động</h3>
+                <p>3 chế độ AI tối ưu: HVAC, Peak Hours, Bảo vệ Hệ thống</p>
+            </div>
+            <div class="intro-card">
+                <i class="fas fa-bell"></i>
+                <h3>Cảnh Báo Thông Minh</h3>
+                <p>Nhận thông báo ngay khi công suất vượt ngưỡng</p>
+            </div>
+            <div class="intro-card">
+                <i class="fas fa-ban"></i>
+                <h3>Phân Loại Tải</h3>
+                <p>Tự động xác định mức tiêu thụ (Bình thường/Cao/Tới hạn)</p>
+            </div>
+            <div class="intro-card">
+                <i class="fas fa-shield-alt"></i>
+                <h3>Bảo Vệ Dữ Liệu</h3>
+                <p>Mã hóa an toàn và truy cập theo vai trò (Admin/User)</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- PRODUCTS -->
+    <section id="products" class="section">
+        <h2 class="section-title">📊 Các Tính Năng Chính</h2>
+        <p class="section-subtitle">Toàn bộ giải pháp quản lý năng lượng thế hệ mới</p>
+        <div class="products-grid">
+            <div class="product-card">
+                <div class="product-header">
+                    <i class="fas fa-desktop"></i>
+                    <h3>Dashboard Động</h3>
+                </div>
+                <div class="product-content">
+                    <ul class="feature-list">
+                        <li>Biểu đồ tải thời thực</li>
+                        <li>Lịch sử 30 ngày</li>
+                        <li>So sánh chi phí</li>
+                        <li>Dự báo tháng tiếp</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="product-card">
+                <div class="product-header">
+                    <i class="fas fa-robot"></i>
+                    <h3>AI Tối Ưu Hóa</h3>
+                </div>
+                <div class="product-content">
+                    <ul class="feature-list">
+                        <li>LinearRegression Prediction</li>
+                        <li>ECO Mode tự động</li>
+                        <li>Phát hiện thiết bị tiêu thụ</li>
+                        <li>Gợi ý tối ưu hóa</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="product-card">
+                <div class="product-header">
+                    <i class="fas fa-cog"></i>
+                    <h3>Điều Khiển Thiết Bị</h3>
+                </div>
+                <div class="product-content">
+                    <ul class="feature-list">
+                        <li>Bật/Tắt thiết bị từ xa</li>
+                        <li>Phân loại tải tự động</li>
+                        <li>Lịch sử hoạt động</li>
+                        <li>Hoàn tác nhanh</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- AUTOMATION -->
+    <section id="automation" class="section">
+        <h2 class="section-title">🤖 3 Kịch Bản AI Tự động Hóa</h2>
+        <p class="section-subtitle">Hệ thống học tập và tối ưu hóa năng lượng liên tục</p>
+        <div class="automation-showcase">
+            <div class="auto-scenario">
+                <i class="fas fa-lightbulb"></i>
+                <h4>1️⃣ Tối ưu HVAC</h4>
+                <p>Giảm tải khi nhiệt độ < 24°C, tự động cân bằng năng lượng điều hòa</p>
+            </div>
+            <div class="auto-scenario">
+                <i class="fas fa-clock"></i>
+                <h4>2️⃣ Giờ Cao Điểm</h4>
+                <p>Ngắt tải phụ từ 17h-20h, ưu tiên tải thiết yếu</p>
+            </div>
+            <div class="auto-scenario">
+                <i class="fas fa-shield-alt"></i>
+                <h4>3️⃣ An Toàn Hệ Thống</h4>
+                <p>Ngắt khi vượt ngưỡng định mức, bảo vệ thiết bị</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- PARTNERS -->
+    <section id="partners" class="section">
+        <h2 class="section-title">🤝 Đối Tác Tin Cậy</h2>
+        <p class="section-subtitle">Được tin tưởng bởi các tổ chức hàng đầu</p>
+        <div class="partners-grid">
+            <div class="partner-logo"><i class="fas fa-building"></i></div>
+            <div class="partner-logo"><i class="fas fa-industry"></i></div>
+            <div class="partner-logo"><i class="fas fa-city"></i></div>
+            <div class="partner-logo"><i class="fas fa-warehouse"></i></div>
+            <div class="partner-logo"><i class="fas fa-home"></i></div>
+            <div class="partner-logo"><i class="fas fa-hospital"></i></div>
+        </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="section">
+        <h2 class="section-title">📞 Liên Hệ Chúng Tôi</h2>
+        <p class="section-subtitle">Bạn có câu hỏi? Hãy gửi tin nhắn cho chúng tôi</p>
+        <div class="contact-container">
+            <form id="contact-form" onsubmit="handleContactSubmit(event)">
+                <div class="form-group">
+                    <label>Tên của bạn</label>
+                    <input type="text" placeholder="Nhập tên của bạn" required>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" placeholder="your@email.com" required>
+                </div>
+                <div class="form-group">
+                    <label>Chủ đề</label>
+                    <input type="text" placeholder="Chủ đề liên hệ" required>
+                </div>
+                <div class="form-group">
+                    <label>Tin nhắn</label>
+                    <textarea placeholder="Viết tin nhắn của bạn ở đây..." required></textarea>
+                </div>
+                <div class="contact-buttons">
+                    <button type="submit" class="btn-submit">📤 Gửi Tin Nhắn</button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <p>&copy; 2026 Smart Energy V2.1 - Quản Lý Năng Lượng Thông Minh</p>
+        <p>✨ Công nghệ AI & ML cho bạn | Tiết kiệm năng lượng tối đa</p>
+    </footer>
+
+    <script>
+        function smoothScroll(sectionId) {
+            const section = document.getElementById(sectionId);
+            if (section) {
+                section.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        function handleContactSubmit(event) {
+            event.preventDefault();
+            const form = event.target;
+            const formData = new FormData(form);
+            
+            // Simple validation and feedback
+            alert('✓ Cảm ơn bạn đã liên hệ! Chúng tôi sẽ phản hồi sớm.');
+            form.reset();
+        }
+
+        // Active nav link on scroll
+        window.addEventListener('scroll', () => {
+            const sections = ['intro', 'products', 'automation', 'partners', 'contact'];
+            sections.forEach(id => {
+                const section = document.getElementById(id);
+                if (section) {
+                    const rect = section.getBoundingClientRect();
+                    if (rect.top <= window.innerHeight / 2 && rect.bottom >= window.innerHeight / 2) {
+                        document.querySelectorAll('.nav-link').forEach(link => link.style.color = '');
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
