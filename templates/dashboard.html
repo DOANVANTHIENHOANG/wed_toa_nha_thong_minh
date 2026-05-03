@@ -1121,7 +1121,7 @@ function switchTab(element) {
         if(cutSlider && cutDisplay) {
             cutSlider.addEventListener('input', function() {
                 cutDisplay.innerText = parseFloat(this.value).toFixed(1) + ' kW';
-                let percent = (this.value / 10) * 100;
+                let percent = (this.value / 60) * 100;
                 // Đổi thành #0f172a cho đồng bộ
                 this.style.background = `linear-gradient(90deg, #8b5cf6 ${percent}%, #0f172a ${percent}%)`;
             });
