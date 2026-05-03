@@ -111,6 +111,20 @@ def init_database():
         )
     ''')
     
+    # ===== TABLE: ai_logs (Lịch sử tối ưu hóa bằng AI - Mới!) =====
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS ai_logs (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+            room_name TEXT NOT NULL,
+            action_taken TEXT,
+            energy_saved_kwh REAL,
+            reason TEXT,
+            status TEXT DEFAULT 'SUCCESS',
+            created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+        )
+    ''')
+    
     # ===== TABLE: hourly_summary (Tóm tắt hàng giờ) =====
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS hourly_summary (
@@ -140,6 +154,39 @@ def init_database():
         )
     ''')
 
+    # ===== TABLE: users (Tài khoản người dùng - lưu động) =====
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS users (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            username TEXT UNIQUE NOT NULL,
+            fullname TEXT NOT NULL,
+            email TEXT DEFAULT '',
+            phone TEXT DEFAULT '',
+            password_hash TEXT NOT NULL,
+            building_id TEXT DEFAULT '',
+            meter_id TEXT DEFAULT '',
+            room_code TEXT DEFAULT '',
+            address TEXT DEFAULT '',
+            device_id INTEGER DEFAULT NULL,
+            role TEXT DEFAULT 'user',
+            created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+        )
+    ''')
+
+    # Seed 2 tài khoản mặc định admin + user nếu chưa có
+    from werkzeug.security import generate_password_hash
+    cursor.execute("SELECT COUNT(*) FROM users WHERE username IN ('admin','user')")
+    if cursor.fetchone()[0] == 0:
+        cursor.executemany('''
+            INSERT OR IGNORE INTO users (username, fullname, email, phone, password_hash, building_id, meter_id, role)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+        ''', [
+            ('admin', 'Administrator', 'admin@smartenergy.vn', '0901234567',
+             generate_password_hash('123'), 'B001', 'M001', 'admin'),
+            ('user',  'Default User',  'user@smartenergy.vn',  '0901234568',
+             generate_password_hash('123'), 'B001', 'M001', 'user'),
+        ])
+
     # ===== TABLE: devices (Danh sách thiết bị/phòng) =====
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS devices (
@@ -147,6 +194,8 @@ def init_database():
             room_name TEXT NOT NULL,
             floor INTEGER NOT NULL,
             room_code TEXT UNIQUE,
+            meter_code TEXT,
+            address TEXT,
             power_status TEXT DEFAULT 'OFF',
             current_power REAL DEFAULT 0.0,
             load_status TEXT DEFAULT 'Chờ',
@@ -154,6 +203,17 @@ def init_database():
             created_at DATETIME DEFAULT CURRENT_TIMESTAMP
         )
     ''')
+    
+    # Add columns if they don't exist (for migration)
+    try:
+        cursor.execute('ALTER TABLE devices ADD COLUMN meter_code TEXT')
+    except:
+        pass  # Column already exists
+    
+    try:
+        cursor.execute('ALTER TABLE devices ADD COLUMN address TEXT')
+    except:
+        pass  # Column already exists
 
     conn.commit()
     
@@ -245,13 +305,29 @@ def seed_data():
     # Xóa dữ liệu cũ trong bảng devices
     cursor.execute('DELETE FROM devices')
 
+    # Danh sách các quận tại Đà Nẵng
+    addresses_list = [
+        "Quận Thanh Khê",
+        "Quận Hải Châu", 
+        "Quận Liên Chiểu",
+        "Quận Ngũ Hành Sơn",
+        "Quận Sơn Trà"
+    ]
+
     # Tạo 25 phòng cho 5 tầng (5 phòng/tầng)
     rooms_data = []
+    device_counter = 1
 
     for floor in range(1, 6):  # Tầng 1-5
         for room in range(1, 6):  # Phòng 1-5
             room_name = f"Phòng {floor}0{room}"
             room_code = f"CB-L{floor}-{room}"
+            meter_code = f"CT-L{floor}-{room:03d}"
+            
+            # Phân phối địa chỉ: 5 phòng/quận
+            address_idx = (device_counter - 1) % len(addresses_list)
+            address = addresses_list[address_idx]
+            
             # Random trạng thái ban đầu (70% ON, 30% OFF)
             power_status = "ON" if random.random() > 0.3 else "OFF"
             # Random công suất nếu ON, 0 nếu OFF
@@ -271,15 +347,18 @@ def seed_data():
                 room_name,
                 floor,
                 room_code,
+                meter_code,
+                address,
                 power_status,
                 current_power,
                 load_status
             ))
+            device_counter += 1
 
-    # Chèn dữ liệu
+    # Chèn dữ liệu (cập nhật INSERT để bao gồm meter_code và address)
     cursor.executemany('''
-        INSERT INTO devices (room_name, floor, room_code, power_status, current_power, load_status)
-        VALUES (?, ?, ?, ?, ?, ?)
+        INSERT INTO devices (room_name, floor, room_code, meter_code, address, power_status, current_power, load_status)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
     ''', rooms_data)
 
     conn.commit()
@@ -299,7 +378,7 @@ def get_all_devices_from_db():
     cursor = conn.cursor()
 
     cursor.execute('''
-        SELECT id, room_name, floor, room_code, power_status,
+        SELECT id, room_name, floor, room_code, meter_code, address, power_status,
                current_power, load_status, last_updated
         FROM devices
         ORDER BY floor, room_name

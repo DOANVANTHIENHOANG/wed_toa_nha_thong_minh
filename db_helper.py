@@ -324,6 +324,83 @@ def get_optimization_history(limit=10):
 
     return [dict(row) for row in rows]
 
+def log_ai_optimization(room_name, action_taken, energy_saved, reason):
+    """
+    Ghi lại lịch sử tối ưu hóa AI vào bảng ai_logs.
+    
+    Args:
+        room_name (str): Tên phòng/thiết bị được tối ưu
+        action_taken (str): Hành động đã thực hiện (VD: "Giảm tải", "Tắt máy lạnh")
+        energy_saved (float): Lượng điện tiết kiệm (kWh)
+        reason (str): Lý do tối ưu (VD: "Vượt ngưỡng", "Giờ cao điểm")
+    
+    Returns:
+        bool: True nếu ghi thành công, False nếu lỗi
+    """
+    try:
+        conn = get_db()
+        cursor = conn.cursor()
+        
+        # 🔧 Validate dữ liệu đầu vào
+        if not room_name or not isinstance(room_name, str):
+            room_name = "Unknown"
+        if not action_taken or not isinstance(action_taken, str):
+            action_taken = "N/A"
+        if not isinstance(energy_saved, (int, float)):
+            energy_saved = 0.0
+        if not reason or not isinstance(reason, str):
+            reason = "Tối ưu hóa tự động"
+        
+        # 📝 INSERT vào bảng ai_logs
+        cursor.execute('''
+            INSERT INTO ai_logs 
+            (room_name, action_taken, energy_saved_kwh, reason, status, timestamp)
+            VALUES (?, ?, ?, ?, ?, ?)
+        ''', (room_name, action_taken, round(float(energy_saved), 4), reason, 'SUCCESS', datetime.now().isoformat()))
+        
+        conn.commit()
+        conn.close()
+        
+        print(f"✅ AI Optimization logged: {room_name} - {action_taken} ({energy_saved:.2f} kWh saved)")
+        return True
+        
+    except Exception as e:
+        print(f"❌ Error logging AI optimization: {str(e)}")
+        # 🔒 Đừng sập hệ thống vì lỗi database, chỉ log lỗi
+        import traceback
+        traceback.print_exc()
+        return False
+
+def get_ai_optimization_history(limit=20):
+    """
+    Lấy lịch sử tối ưu hóa AI gần đây.
+    
+    Args:
+        limit (int): Số lượng records lấy (mặc định 20)
+    
+    Returns:
+        list: Danh sách dict chứa lịch sử tối ưu
+    """
+    try:
+        conn = get_db()
+        cursor = conn.cursor()
+        
+        cursor.execute('''
+            SELECT id, room_name, action_taken, energy_saved_kwh, reason, status, timestamp
+            FROM ai_logs
+            ORDER BY timestamp DESC
+            LIMIT ?
+        ''', (limit,))
+        
+        rows = cursor.fetchall()
+        conn.close()
+        
+        return [dict(row) for row in rows]
+        
+    except Exception as e:
+        print(f"❌ Error getting AI optimization history: {str(e)}")
+        return []
+
 # ===== DEVICES (NEW) =====
 
 def get_all_devices():
@@ -380,3 +457,28 @@ def update_device_power(device_id, power_status, current_power):
     conn.close()
 
     return True
+
+# ===== AUTHENTICATION & DEVICE VERIFICATION =====
+
+def verify_device_credentials(room_code, meter_code, address):
+    """
+    Xác thực thông tin thiết bị: Query bảng devices với 3 điều kiện AND bắt buộc
+    Returns:
+        dict: Thông tin device nếu tìm thấy đúng 1 bản ghi
+        None: Nếu không tìm thấy hoặc tìm thấy > 1 bản ghi
+    """
+    conn = get_db()
+    cursor = conn.cursor()
+
+    cursor.execute('''
+        SELECT id, room_name, floor, room_code, meter_code, address
+        FROM devices
+        WHERE room_code = ? AND meter_code = ? AND address = ?
+    ''', (room_code, meter_code, address))
+
+    row = cursor.fetchone()
+    conn.close()
+
+    if row:
+        return dict(row)
+    return None

@@ -1,5 +1,5 @@
 /**
- * Smart Energy V2.1 - GeminiAnalysis.js - ENHANCED V6
+ * Smart Energy V2.1 - GeminiAnalysis.js - ENHANCED V6 (FIXED HISTORY BUG)
  *
  * UPGRADES:
  * - Scanning effect with orange progress bar (1.5s)
@@ -13,6 +13,11 @@
 // ========== GLOBAL STATE ==========
 window.currentAlertDevice = null;
 window.geminiInitialized = false;
+
+// 🚀 HÀM MỚI: Tự động tìm khung chat thật (tránh bị lỗi tàng hình)
+function getChatContainer() {
+    return document.getElementById('real-chat-history') || document.getElementById('ai-response');
+}
 
 // ========== TAB OBSERVER ==========
 function attachGeminiTabListener() {
@@ -41,9 +46,10 @@ if (document.readyState === 'loading') {
 function initGeminiChat() {
     console.log('📱 initGeminiChat() - currentAlertDevice:', window.currentAlertDevice);
 
-    const responseDiv = document.getElementById('ai-response');
+    // 🚀 DÙNG HÀM TÌM ID MỚI
+    const responseDiv = getChatContainer();
     if (!responseDiv) {
-        console.error('❌ ai-response div not found');
+        console.error('❌ ai-response/real-chat-history div not found');
         return;
     }
 
@@ -51,21 +57,28 @@ function initGeminiChat() {
         const device = window.currentAlertDevice;
         console.log('✅ Processing alert for:', device.name);
 
+        // 🚀 ẨN GỢI Ý NẾU CÓ BÁO ĐỘNG KHẨN CẤP
+        const suggestions = document.getElementById('gemini-suggestions');
+        if (suggestions) suggestions.style.display = 'none';
+
         responseDiv.innerHTML = '';
         showScanningEffect(device);
 
         setTimeout(() => {
             generateDynamicAnalysis(device);
             window.geminiInitialized = true;
+            // Cập nhật bộ nhớ RAM nếu có
+            if (typeof window.permanentChatData !== 'undefined') window.permanentChatData = responseDiv.innerHTML;
         }, 1500);
+
+        // 🚀 XÓA TRẠNG THÁI BÁO ĐỘNG ĐỂ KHÔNG BỊ LẶP LẠI KHI CHUYỂN TAB
+        window.currentAlertDevice = null;
     } else {
-        if (!window.geminiInitialized) {
+        // 🚀 FIX LỖI XÓA CHAT: CHỈ IN RA LỜI CHÀO NẾU KHUNG CHAT ĐANG TRỐNG
+        if (responseDiv.innerHTML.trim() === '' || responseDiv.innerHTML.includes('Đang chờ dữ liệu')) {
             responseDiv.innerHTML = `
                 <div style="padding: 40px; text-align: center; color: #94a3b8;">
-                    <p style="font-size: 16px; margin: 0;">🤖 Đang chờ dữ liệu...</p>
-                    <p style="font-size: 13px; margin: 12px 0 0 0; color: #64748b;">
-                        Hãy nhấn 'Hỏi Gemini' từ Modal cảnh báo để bắt đầu phân tích.
-                    </p>
+                    <p style="font-size: 16px; margin: 0;">🤖 Sẵn sàng phân tích ...</p>
                 </div>
             `;
         }
@@ -74,7 +87,7 @@ function initGeminiChat() {
 
 // ========== SCANNING EFFECT (1.5s Orange Progress Bar) ==========
 function showScanningEffect(device) {
-    const responseDiv = document.getElementById('ai-response');
+    const responseDiv = getChatContainer();
     responseDiv.innerHTML = `
         <div style="padding: 50px 30px; text-align: center;">
             <div style="font-size: 60px; margin-bottom: 25px;">🔍</div>
@@ -86,7 +99,6 @@ function showScanningEffect(device) {
                 Công suất: <strong>${device.power ? device.power.toFixed(2) : '0.00'} kW</strong>
             </p>
 
-            <!-- Orange Progress Bar -->
             <div style="width: 100%; height: 8px; background: rgba(255, 107, 53, 0.15); border-radius: 4px; overflow: hidden; margin-bottom: 20px;">
                 <div id="gemini-progress" style="width: 0%; height: 100%; background: linear-gradient(90deg, #ff6b35, #ffb020, #ff6b35); border-radius: 4px; transition: width 0.1s linear;"></div>
             </div>
@@ -122,7 +134,7 @@ function showScanningEffect(device) {
 
 // ========== DYNAMIC ANALYSIS WITH 6 FEATURES ==========
 function generateDynamicAnalysis(device) {
-    const responseDiv = document.getElementById('ai-response');
+    const responseDiv = getChatContainer();
     console.log('📊 Generating dynamic analysis for:', device.name);
 
     const power = device.power || 0;
@@ -220,7 +232,6 @@ function generateDynamicAnalysis(device) {
             color: #f1f5f9;
             box-shadow: 0 0 40px rgba(${hexToRgb(statusColor)}, 0.25);
         ">
-            <!-- Header -->
             <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 25px; padding-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.1);">
                 <div style="font-size: 50px;">${statusEmoji}</div>
                 <div style="flex: 1;">
@@ -235,7 +246,6 @@ function generateDynamicAnalysis(device) {
                 </div>
             </div>
 
-            <!-- Dynamic Advice (based on kW) -->
             <div style="margin: 0 0 20px 0; padding: 16px; background: rgba(${hexToRgb(statusColor)}, 0.1); border-left: 4px solid ${statusColor}; border-radius: 8px;">
                 <h4 style="margin: 0 0 10px 0; color: ${statusColor}; font-size: 15px;">📊 Phân tích công suất</h4>
                 <p style="margin: 0; color: #e2e8f0; font-size: 14px; line-height: 1.7;">
@@ -243,7 +253,6 @@ function generateDynamicAnalysis(device) {
                 </p>
             </div>
 
-            <!-- Risk Prediction -->
             <div style="margin: 0 0 15px 0; padding: 16px; background: rgba(239, 68, 68, 0.1); border-left: 4px solid #ef4444; border-radius: 8px;">
                 <h4 style="margin: 0 0 10px 0; color: #ef4444; font-size: 15px;">🎯 Dự báo rủi ro</h4>
                 <div style="display: flex; align-items: center; gap: 15px;">
@@ -257,10 +266,8 @@ function generateDynamicAnalysis(device) {
                 </div>
             </div>
 
-            <!-- Energy Savings -->
             ${savingsHTML}
 
-            <!-- Recommendations -->
             <div style="margin: 15px 0; padding: 16px; background: rgba(56, 189, 248, 0.08); border-left: 4px solid #38bdf8; border-radius: 8px;">
                 <h4 style="margin: 0 0 10px 0; color: #38bdf8; font-size: 15px;">💡 Khuyến nghị</h4>
                 <ul style="margin: 0; padding-left: 20px; color: #cbd5e1; font-size: 13px; line-height: 1.8;">
@@ -318,7 +325,6 @@ function generateDynamicAnalysis(device) {
                 `}
             </div>
 
-            <!-- Cre: Thiên Hoàng -->
             <div style="margin-top: 25px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.08); text-align: center;">
                 <p style="margin: 0; color: rgba(255,255,255,0.35); font-size: 11px; font-weight: 300; letter-spacing: 0.5px;">
                     Cre: Thiên Hoàng
@@ -340,23 +346,24 @@ async function optimizeEnergy(deviceId) {
         return;
     }
 
-    showToast(`⚡ Đang tối ưu năng lượng cho ${device.name}...`, 'info');
+    const oldStatus = device.load_status ? device.load_status.label : 'Không xác định';
+    const oldPower = device.power;
 
-    // Reduce power by 50% for critical, 30% for high
+    showToast(`🔧 Cấu hình lại dòng điện cho ${device.name}...`, 'info');
+
     if (device.power > 4.0) {
-        device.power = Math.max(device.power * 0.5, 1.0);
+        device.power = 0.5;
     } else if (device.power > 2.0) {
-        device.power = Math.max(device.power * 0.7, 1.5);
+        device.power = 0.5;
     }
 
     device.load_status = deviceDatabase.calculateLoadStatus(device.power);
+    const newStatus = device.load_status ? device.load_status.label : 'Bình thường';
 
-    // Save to database via API
     if (deviceDatabase && deviceDatabase.saveToDatabase) {
         deviceDatabase.saveToDatabase(deviceId, device.status ? 'ON' : 'OFF', device.power);
     }
 
-    // Call API to update device status
     try {
         const res = await fetch(`/api/device/${deviceId}/update`, {
             method: 'POST',
@@ -372,23 +379,107 @@ async function optimizeEnergy(deviceId) {
         console.error("Lỗi API:", err);
     }
 
-    // Update UI
     if (typeof deviceUI !== 'undefined' && deviceUI.updateDeviceUI) {
         deviceUI.updateDeviceUI(deviceId, device.status);
     }
 
     setTimeout(() => {
-        showToast(`✅ Đã tối ưu: ${device.power.toFixed(2)} kW`, 'success');
+        const responseDiv = getChatContainer();
+        if (responseDiv) {
+            responseDiv.innerHTML = `
+                <div style="
+                    background: linear-gradient(135deg, rgba(15, 23, 42, 0.98) 0%, rgba(30, 41, 59, 0.95) 100%);
+                    border: 2px solid #10b981;
+                    border-radius: 16px;
+                    padding: 40px;
+                    text-align: center;
+                    color: #f1f5f9;
+                    box-shadow: 0 0 40px rgba(16, 185, 129, 0.3);
+                    animation: success-pop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+                ">
+                    <div style="font-size: 80px; margin-bottom: 20px; animation: checkmark-bounce 1s ease-out;">✅</div>
+                    <h2 style="margin: 0 0 15px 0; color: #10b981; font-size: 32px; font-weight: 700;">FIX THÀNH CÔNG</h2>
+                    <p style="margin: 0 0 25px 0; color: #cbd5e1; font-size: 18px; line-height: 1.6;">
+                        ${device.name} đã được cấu hình.
+                    </p>
+                    
+                    <div style="
+                        background: rgba(16, 185, 129, 0.15);
+                        border: 1px solid #10b981;
+                        border-radius: 8px;
+                        padding: 20px;
+                        margin: 20px 0;
+                    ">
+                        <div style="display: flex; justify-content: space-around; align-items: center;">
+                            <div style="text-align: center;">
+                                <div style="font-size: 12px; color: #94a3b8; margin-bottom: 8px;">Trạng thái cũ</div>
+                                <div style="font-size: 24px; font-weight: 700; color: #ef4444;">${oldStatus}</div>
+                            </div>
+                            <div style="font-size: 30px; color: #10b981; font-weight: 700;">→</div>
+                            <div style="text-align: center;">
+                                <div style="font-size: 12px; color: #94a3b8; margin-bottom: 8px;">Trạng thái mới</div>
+                                <div style="font-size: 24px; font-weight: 700; color: #10b981;">${newStatus}</div>
+                            </div>
+                        </div>
+                    </div>
 
-        // 🔥 CHUYỂN TAB VÀ TẢI LẠI
-        const deviceTab = document.querySelector('[data-tab="devices"]');
-        if (deviceTab) {
-            deviceTab.click();
-            if (typeof loadDevices === 'function') {
-                loadDevices();
-            }
+                    <div style="
+                        background: rgba(56, 189, 248, 0.1);
+                        border: 1px solid #38bdf8;
+                        border-radius: 8px;
+                        padding: 15px;
+                        margin-top: 20px;
+                    ">
+                        <div style="font-size: 14px; color: #38bdf8; font-weight: 600;">⚡ Công suất mới: ${device.power.toFixed(2)} kW</div>
+                        <div style="font-size: 12px; color: #94a3b8; margin-top: 5px;">Giảm từ ${oldPower.toFixed(2)} kW</div>
+                    </div>
+
+                    <p style="margin: 30px 0 0 0; color: #94a3b8; font-size: 14px; animation: countdown-pulse 1s infinite;">
+                        ⏰ Quay lại Thiết bị & Tải sau <span id="countdown-timer">2</span> giây...
+                    </p>
+                </div>
+
+                <style>
+                    @keyframes success-pop {
+                        0% { transform: scale(0.8); opacity: 0; }
+                        50% { transform: scale(1.05); }
+                        100% { transform: scale(1); opacity: 1; }
+                    }
+                    @keyframes checkmark-bounce {
+                        0% { transform: scale(0); }
+                        50% { transform: scale(1.1); }
+                        100% { transform: scale(1); }
+                    }
+                    @keyframes countdown-pulse {
+                        0%, 100% { opacity: 1; }
+                        50% { opacity: 0.5; }
+                    }
+                </style>
+            `;
         }
-    }, 1000);
+
+        let countdown = 2;
+        const timerInterval = setInterval(() => {
+            countdown--;
+            const timerEl = document.getElementById('countdown-timer');
+            if (timerEl) {
+                timerEl.textContent = countdown;
+            }
+            if (countdown <= 0) {
+                clearInterval(timerInterval);
+            }
+        }, 1000);
+
+        setTimeout(() => {
+            const deviceTab = document.querySelector('[data-tab="devices"]');
+            if (deviceTab) {
+                deviceTab.click();
+                if (typeof loadDevices === 'function') {
+                    loadDevices();
+                }
+            }
+        }, 2000);
+    }, 500);
 }
 
 // Emergency Shutdown
@@ -405,17 +496,14 @@ async function emergencyShutdown(deviceId) {
 
     showToast(`🛑 Đang ngắt khẩn cấp ${device.name}...`, 'error');
 
-    // Set power to 0
     device.power = 0;
     device.status = false;
     device.load_status = { level: 'idle', label: 'Chờ', color: '#9ca3af' };
 
-    // Save to database via API
     if (deviceDatabase && deviceDatabase.saveToDatabase) {
         deviceDatabase.saveToDatabase(deviceId, 'OFF', 0);
     }
 
-    // Call API to update device status
     try {
         const res = await fetch(`/api/device/${deviceId}/update`, {
             method: 'POST',
@@ -431,7 +519,6 @@ async function emergencyShutdown(deviceId) {
         console.error("Lỗi API:", err);
     }
 
-    // Update UI
     if (typeof deviceUI !== 'undefined' && deviceUI.updateDeviceUI) {
         deviceUI.updateDeviceUI(deviceId, false);
     }
@@ -439,7 +526,6 @@ async function emergencyShutdown(deviceId) {
     setTimeout(() => {
         showToast(`✅ ${device.name} đã được ngắt khẩn cấp`, 'success');
 
-        // 🔥 CHUYỂN TAB VÀ TẢI LẠI
         const deviceTab = document.querySelector('[data-tab="devices"]');
         if (deviceTab) {
             deviceTab.click();

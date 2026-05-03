@@ -10,7 +10,6 @@
     
     <style>
         :root {
-            /* Cầu Rồng Đà Nẵng Theme - Deep Ocean & Golden Light */
             --primary: #0066cc;
             --primary-dark: #004499;
             --primary-dark-deep: #0f172a;
@@ -19,23 +18,16 @@
             --accent: #ff6b35;
             --accent-light: #ffa947;
             --bg-light: #f5f7fa;
-            --bg-white: #ffffff;
             --text-dark: #1a2332;
             --text-muted: #6b7280;
             --text-light: #e2e8f0;
             --border-light: #e5e7eb;
-            --border-cyan: #38bdf8;
-            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
-            --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.12);
-            --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.15);
-            --shadow-glow: 0 0 20px rgba(56, 189, 248, 0.3);
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.08);
+            --shadow-md: 0 4px 16px rgba(0,0,0,0.12);
+            --shadow-lg: 0 8px 32px rgba(0,0,0,0.15);
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         html, body {
             font-family: 'Inter', 'Roboto', sans-serif;
@@ -44,975 +36,682 @@
             scroll-behavior: smooth;
             line-height: 1.6;
         }
+/* ========================================================
+   1. TRẠNG THÁI MẶC ĐỊNH (KÍNH TÀNG HÌNH VÔ CỰC)
+   ======================================================== */
+.navbar {
+    position: fixed; top: 0; width: 100%;
+    background: transparent !important; /* Xóa sổ màu trắng, trong suốt 100% */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important; /* Viền mờ tinh tế phân định không gian */
+    z-index: 1002 !important;
+    padding: 16px 40px;
+    transition: all 0.4s ease;
+}
 
-        /* ===== NAVBAR ===== */
-        .navbar {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            background: transparent !important;
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(0, 0, 0, 0.3) !important;
-            z-index: 1002 !important;
-            padding: 16px 40px;
-            box-shadow: none !important;
-            transition: all 0.4s ease;
-            pointer-events: auto !important;
-        }
+.nav-container {
+    max-width: 1400px; margin: 0 auto;
+    display: flex; justify-content: space-between; align-items: center;
+}
 
-        .navbar.scrolled {
-            background: var(--primary-dark-deep) !important;
-            backdrop-filter: blur(15px);
-            border-bottom: none;
-            box-shadow: var(--shadow-lg);
-            z-index: 1002 !important;
-        }
+/* Đổi toàn bộ Logo sang màu Trắng */
+.brand {
+    display: flex; align-items: center; gap: 12px;
+    font-size: 24px; font-weight: 700;
+    color: #ffffff !important; 
+    letter-spacing: -0.5px; transition: all 0.3s ease;
+}
+.brand i { font-size: 28px; color: #ffffff !important; transition: all 0.3s ease; }
 
+/* Đổi Menu Links sang màu Trắng hơi mờ (Tăng chiều sâu) */
+.nav-menu { display: flex !important; gap: 40px; list-style: none; }
+.nav-link {
+    color: rgba(255, 255, 255, 0.85) !important; 
+    font-weight: 700 !important; font-size: 15px !important;
+    cursor: pointer; transition: all 0.3s ease; position: relative;
+}
+/* Khi rê chuột (Hover): Phát sáng Neon thay vì gạch chân màu cam cũ */
+.nav-link:hover { color: #00f0ff !important; text-shadow: 0 0 8px rgba(0, 240, 255, 0.5); }
+.nav-link::after {
+    content: ''; position: absolute; bottom: -8px; left: 0;
+    width: 0; height: 2px; background: #00f0ff;
+    transition: width 0.3s ease; box-shadow: 0 0 8px #00f0ff;
+}
+.nav-link:hover::after { width: 100%; }
+
+/* Nút bấm Đăng nhập & Đăng ký hòa hợp không gian */
+.nav-buttons { display: flex; gap: 16px; }
+.btn-login, .btn-register {
+    padding: 10px 24px; border-radius: 12px; border: none;
+    cursor: pointer; font-weight: 600; font-size: 14px;
+    transition: all 0.3s ease; letter-spacing: 0.5px;
+}
+.btn-login {
+    color: #ffffff !important;
+    background: transparent !important;
+    border: 2px solid rgba(255, 255, 255, 0.5) !important;
+}
+.btn-login:hover { background: rgba(255, 255, 255, 0.1) !important; border-color: #ffffff !important; }
+.btn-register {
+    background: var(--accent) !important; color: white !important;
+    box-shadow: 0 4px 15px rgba(255, 107, 53, 0.4);
+}
+.btn-register:hover {
+    background: var(--accent-light) !important;
+    box-shadow: 0 8px 25px rgba(255, 107, 53, 0.6) !important; transform: translateY(-2px);
+}
+
+/* ========================================================
+   2. TRẠNG THÁI CUỘN (SCROLLED) - BIẾN HÌNH CYBER-TECH
+   ======================================================== */
+.navbar.scrolled {
+    background: rgba(10, 15, 30, 0.85) !important; 
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    border-bottom: 1px solid rgba(0, 240, 255, 0.3) !important;
+    box-shadow: 0 10px 30px rgba(0, 240, 255, 0.15) !important;
+}
+
+/* Logo phát sáng xịn hơn khi cuộn */
+.navbar.scrolled .brand, .navbar.scrolled .brand i { 
+    text-shadow: 0 0 10px rgba(0, 240, 255, 0.4);
+}
+
+/* Tia Laser chốt hạ ngầu lòi */
+.navbar.scrolled::after {
+    content: ''; position: absolute; bottom: -1px; left: -100%;
+    width: 40%; height: 2px;
+    background: linear-gradient(90deg, transparent, rgba(0, 240, 255, 0.8), #ffffff, rgba(0, 240, 255, 0.8), transparent);
+    box-shadow: 0 0 10px #00f0ff, 0 0 20px #00f0ff;
+    animation: cyber-scan 3.5s ease-in-out infinite;
+}
+
+@keyframes cyber-scan {
+    0% { left: -50%; }
+    100% { left: 100%; }
+}
+        /* ================= KẾT THÚC PHẦN CYBER ================= */   
         .nav-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: relative;
-            z-index: 1001;
+            max-width: 1400px; margin: 0 auto;
+            display: flex; justify-content: space-between; align-items: center;
         }
-
         .brand {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-size: 24px;
-            font-weight: 700;
+            display: flex; align-items: center; gap: 12px;
+            font-size: 24px; font-weight: 700;
             color: var(--primary-dark-deep) !important;
-            letter-spacing: -0.5px;
-            transition: all 0.3s ease;
+            letter-spacing: -0.5px; transition: all 0.3s ease;
         }
-
-        .navbar.scrolled .brand {
-            color: #ffffff !important;
-        }
-
-        .brand:hover {
-            color: var(--primary-dark-deep);
-        }
-
-        .brand i {
-            font-size: 28px;
-            color: var(--primary-dark-deep) !important;
-            transition: all 0.3s ease;
-        }
-
-        .navbar.scrolled .brand i {
-            color: #ffffff !important;
-        }
-
-        .nav-menu {
-            display: flex !important;
-            gap: 40px;
-            list-style: none;
-            z-index: 1001;
-        }
-
+        .navbar.scrolled .brand,
+        .navbar.scrolled .brand i { color: #fff !important; }
+        .brand i { font-size: 28px; color: var(--primary-dark-deep) !important; transition: all 0.3s ease; }
+        .nav-menu { display: flex !important; gap: 40px; list-style: none; }
         .nav-link {
             color: var(--primary-dark-deep) !important;
-            font-weight: 700 !important;
-            font-size: 15px !important;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
+            font-weight: 700 !important; font-size: 15px !important;
+            cursor: pointer; transition: all 0.3s ease; position: relative;
         }
-
-        .navbar.scrolled .nav-link {
-            color: #ffffff !important;
-        }
-
-        .nav-link:hover {
-            color: var(--accent) !important;
-            font-weight: 800 !important;
-        }
-
+        .navbar.scrolled .nav-link { color: #fff !important; }
+        .nav-link:hover { color: var(--accent) !important; }
         .nav-link::after {
-            content: '';
-            position: absolute;
-            bottom: -8px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--accent);
-            transition: width 0.3s ease, box-shadow 0.3s ease;
-            box-shadow: 0 0 0 transparent;
+            content: ''; position: absolute; bottom: -8px; left: 0;
+            width: 0; height: 2px; background: var(--accent);
+            transition: width 0.3s ease;
         }
-
-        .nav-link:hover::after {
-            width: 100%;
-            box-shadow: 0 0 8px rgba(255, 107, 53, 0.5);
-        }
-
-        .nav-buttons {
-            display: flex;
-            gap: 16px;
-        }
-
+        .nav-link:hover::after { width: 100%; }
+        .nav-buttons { display: flex; gap: 16px; }
         .btn-login, .btn-register {
-            padding: 10px 24px;
-            border-radius: 12px;
-            border: none;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 14px;
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+            padding: 10px 24px; border-radius: 12px; border: none;
+            cursor: pointer; font-weight: 600; font-size: 14px;
+            transition: all 0.3s ease; letter-spacing: 0.5px;
         }
-
         .btn-login {
             color: var(--primary-dark-deep) !important;
             background: transparent !important;
             border: 2px solid var(--primary-dark-deep) !important;
-            box-shadow: none !important;
         }
-
-        .btn-login:hover {
-            background: rgba(15, 23, 42, 0.1) !important;
-            border-color: var(--primary-dark-deep) !important;
-            box-shadow: 0 0 12px rgba(15, 23, 42, 0.2) !important;
-        }
-
-        .navbar.scrolled .btn-login {
-            color: #ffffff !important;
-            border-color: #ffffff !important;
-        }
-
-        .navbar.scrolled .btn-login:hover {
-            background: rgba(255, 255, 255, 0.1) !important;
-            border-color: #ffffff !important;
-            box-shadow: 0 0 12px rgba(255, 255, 255, 0.2) !important;
-        }
-
+        .btn-login:hover { background: rgba(15,23,42,0.1) !important; }
+        .navbar.scrolled .btn-login { color: #fff !important; border-color: #fff !important; }
+        .navbar.scrolled .btn-login:hover { background: rgba(255,255,255,0.1) !important; }
         .btn-register {
-            background: var(--accent) !important;
-            color: white !important;
-            font-size: 14px !important;
-            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.4), 
-                        0 0 20px rgba(255, 107, 53, 0.2);
-            border: none;
+            background: var(--accent) !important; color: white !important;
+            box-shadow: 0 4px 15px rgba(255,107,53,0.4);
         }
-
         .btn-register:hover {
             background: var(--accent-light) !important;
-            box-shadow: 0 8px 25px rgba(255, 107, 53, 0.6) !important;
+            box-shadow: 0 8px 25px rgba(255,107,53,0.6) !important;
             transform: translateY(-2px);
         }
 
-        .btn-register:active {
-            transform: translateY(0);
-        }
-
-        /* ===== HERO SECTION ===== */
+       /* ===== HERO ===== */
         .hero {
-            margin-top: 64px;
+            /* 1. XÓA SỔ KHOẢNG TRẮNG, KÉO ẢNH ÉP SÁT LÊN NÓC */
+            margin-top: 0 !important; 
+            
             min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 60px 40px;
-            background: linear-gradient(135deg, #001f3f 0%, #003d7a 50%, #003d7a 100%);
-            background-blend-mode: darken;
-            position: relative;
-            overflow: hidden;
+            display: flex; align-items: center; justify-content: center;
+            
+            /* 2. TĂNG PADDING Ở TRÊN LÊN 140px ĐỂ CHỮ KHÔNG BỊ MENU ĐÈ MẤT */
+            padding: 140px 40px 60px; 
+            
+            position: relative; overflow: hidden;
+            background: #001e50 !important; z-index: 1;
         }
-
-        /* Blur Effect - Industrial Building Background */
         .hero::before {
-            content: '';
-            position: absolute;
-            top: 64px;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-image: url('data:image/svg+xml;utf8,<svg width="1600" height="1024" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1024"><defs><linearGradient id="heroGrad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:%23001e50;stop-opacity:0.9" /><stop offset="50%" style="stop-color:%23003d99;stop-opacity:0.85" /><stop offset="100%" style="stop-color:%23004d99;stop-opacity:0.9" /></linearGradient><radialGradient id="lightGrad" cx="50%" cy="50%" r="50%"><stop offset="0%" style="stop-color:%234da6ff;stop-opacity:0.4" /><stop offset="100%" style="stop-color:%23003d99;stop-opacity:0" /></radialGradient></defs><rect width="1600" height="1024" fill="url(%23heroGrad)"/><path d="M0 600 L100 550 L200 580 L300 500 L500 520 L700 580 L900 500 L1100 550 L1300 480 L1500 520 L1600 500 L1600 1024 L0 1024 Z" fill="%23001a3d" opacity="0.6"/><circle cx="200" cy="300" r="150" fill="url(%23lightGrad)"/><circle cx="1300" cy="250" r="200" fill="url(%23lightGrad)"/><g opacity="0.4"><rect x="150" y="200" width="200" height="400" fill="%230066cc" rx="10"/><rect x="800" y="150" width="180" height="450" fill="%2300aa77" rx="8"/><rect x="1200" y="300" width="150" height="350" fill="%230066cc" rx="8"/></g><line x1="200" y1="250" x2="200" y2="600" stroke="%2300ff88" stroke-width="3" opacity="0.6"/><line x1="800" y1="200" x2="800" y2="600" stroke="%2300ff88" stroke-width="3" opacity="0.6"/><line x1="1200" y1="300" x2="1200" y2="650" stroke="%2300ff88" stroke-width="3" opacity="0.6"/><polyline points="100,100 400,50 700,120 1000,60 1300,100 1600,80" stroke="%234da6ff" stroke-width="2" fill="none" opacity="0.5"/></svg>');
-            background-size: cover;
-            background-attachment: fixed;
+            content: ""; position: absolute; inset: 0;
+            background-image:
+                linear-gradient(rgba(0,30,80,0.7), rgba(15,23,42,0.9)),
+                linear-gradient(rgba(56,189,248,0.08) 1.5px, transparent 1.5px),
+                linear-gradient(90deg, rgba(56,189,248,0.08) 1.5px, transparent 1.5px),
+                url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070');
+            background-size: cover, 45px 45px, 45px 45px, cover;
             background-position: center;
-            filter: blur(3px);
-            z-index: 1;
-            pointer-events: none !important;
+            background-attachment: fixed;
+            animation: heroCinematic 12s ease-in-out infinite alternate;
+            z-index: -2;
         }
-
-        /* Dark Overlay - For Better Text Contrast */
         .hero::after {
-            content: '';
-            position: absolute;
-            top: 64px;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, rgba(0, 30, 80, 0.5) 0%, rgba(0, 60, 130, 0.4) 50%, rgba(0, 85, 170, 0.35) 100%);
-            z-index: 2;
-            pointer-events: none !important;
+            content: ""; position: absolute; inset: 0;
+            background: linear-gradient(to bottom, transparent 0%, rgba(56,189,248,0.12) 50%, transparent 100%);
+            animation: heroRadar 4s linear infinite; z-index: -1;
         }
+        @keyframes heroCinematic { 0%{transform:scale(1);} 100%{transform:scale(1.18);} }
+        @keyframes heroRadar { 0%{transform:translateY(-100%);} 100%{transform:translateY(100%);} }
+        @keyframes fadeInUp { from{opacity:0;transform:translateY(30px);} to{opacity:1;transform:translateY(0);} }
+        @keyframes liveBlink { 0%,100%{opacity:1;transform:scale(1);} 50%{opacity:0.4;transform:scale(0.7);} }
+        @keyframes gradientShift { 0%{background-position:0% 50%;} 100%{background-position:200% 50%;} }
+        @keyframes pulseRing { 0%{transform:scale(0.8);opacity:0.7;} 100%{transform:scale(2.8);opacity:0;} }
+        @keyframes progressShine { 0%{transform:translateX(-20px);opacity:0;} 50%{opacity:1;} 100%{transform:translateX(20px);opacity:0;} }
 
         .hero-content {
-            position: relative;
-            z-index: 10;
-            max-width: 800px;
-            text-align: center;
-            animation: fadeInUp 0.8s ease;
+            position: relative; z-index: 10; max-width: 920px;
+            text-align: center; animation: fadeInUp 0.9s ease;
         }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .hero-badge {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: rgba(56,189,248,0.15); border: 1px solid rgba(56,189,248,0.3);
+            color: #7dd3fc; padding: 8px 22px; border-radius: 30px;
+            font-size: 12.5px; font-weight: 600; letter-spacing: 0.8px;
+            margin-bottom: 28px; text-transform: uppercase;
         }
-
+        .hero-badge .badge-dot {
+            width: 7px; height: 7px; background: #38bdf8; border-radius: 50%;
+            animation: liveBlink 1.5s ease-in-out infinite;
+        }
         .hero h1 {
-            font-size: 52px;
-            font-weight: 700;
-            color: #ffffff;
-            margin-bottom: 20px;
-            line-height: 1.2;
-            letter-spacing: -1px;
-            text-shadow: 0 2px 20px rgba(0, 0, 0, 0.4);
-            background: linear-gradient(135deg, #ffffff 0%, #e0f2fe 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            font-size: 56px; font-weight: 800; margin-bottom: 24px;
+            line-height: 1.15; letter-spacing: -1.5px;
+            background: linear-gradient(135deg, #fff 0%, #bae6fd 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
         }
-
         .hero-subtitle {
-            font-size: 18px;
-            color: #e0f2fe;
-            margin-bottom: 40px;
-            line-height: 1.8;
-            font-weight: 400;
-            text-shadow: 0 1px 10px rgba(0, 0, 0, 0.3);
+            font-size: 18px; color: #c7e3f5; margin-bottom: 48px;
+            line-height: 1.8; max-width: 680px; margin-left: auto; margin-right: auto;
         }
-
-        .hero-buttons {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
+        .hero-buttons { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin-bottom: 64px; }
         .btn-cta {
-            padding: 14px 40px;
+            padding: 16px 44px;
             background: linear-gradient(135deg, var(--primary), #0099ff);
-            color: white;
-            border: none;
-            border-radius: 6px;
-            font-weight: 700;
-            font-size: 16px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            box-shadow: 0 8px 24px rgba(0, 102, 204, 0.4);
-            position: relative;
-            overflow: hidden;
+            color: white; border: none; border-radius: 8px;
+            font-weight: 700; font-size: 16px; cursor: pointer;
+            transition: all 0.3s ease; display: flex; align-items: center; gap: 10px;
+            box-shadow: 0 8px 24px rgba(0,102,204,0.4);
+            position: relative; overflow: hidden;
         }
-
         .btn-cta::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: rgba(255, 255, 255, 0.1);
-            transition: left 0.3s ease;
-            border-radius: 6px;
+            content: ''; position: absolute; top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: rgba(255,255,255,0.15); transition: left 0.4s ease;
         }
-
-        .btn-cta:hover::before {
-            left: 100%;
-        }
-
-        .btn-cta:hover {
-            background: linear-gradient(135deg, var(--primary-dark), #0077cc);
-            transform: translateY(-4px);
-            box-shadow: 0 12px 32px rgba(0, 102, 204, 0.6);
-        }
-
-        .btn-cta:active {
-            transform: translateY(-2px);
-        }
-
+        .btn-cta:hover::before { left: 100%; }
+        .btn-cta:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(0,102,204,0.5); }
         .btn-secondary {
-            padding: 14px 40px;
-            background: rgba(255, 255, 255, 0.15);
-            color: #ffffff;
-            border: 2px solid rgba(255, 255, 255, 0.4);
-            border-radius: 6px;
-            font-weight: 700;
-            font-size: 16px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+            padding: 16px 44px; background: rgba(255,255,255,0.12); color: #fff;
+            border: 2px solid rgba(255,255,255,0.4); border-radius: 8px;
+            font-weight: 700; font-size: 16px; cursor: pointer;
+            transition: all 0.3s ease; backdrop-filter: blur(10px);
+            display: flex; align-items: center; gap: 10px;
         }
+        .btn-secondary:hover { background: rgba(255,255,255,0.22); transform: translateY(-4px); }
 
-        .btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.25);
-            border-color: rgba(255, 255, 255, 0.6);
-            transform: translateY(-4px);
-            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
-            color: #e0f2fe;
+        /* Hero Stats Strip */
+        .hero-stats {
+            display: flex; justify-content: center; gap: 56px;
+            background: rgba(255,255,255,0.07); backdrop-filter: blur(14px);
+            border: 1px solid rgba(255,255,255,0.12); border-radius: 18px;
+            padding: 28px 48px; flex-wrap: wrap;
         }
-
-        .btn-secondary:active {
-            transform: translateY(-2px);
-        }
+        .hero-stat { text-align: center; }
+        .hero-stat-value { font-size: 40px; font-weight: 800; color: #fff; letter-spacing: -1.5px; line-height: 1; }
+        .hero-stat-value em { color: #38bdf8; font-style: normal; }
+        .hero-stat-label { font-size: 12.5px; color: #94a3b8; margin-top: 6px; font-weight: 500; }
 
         /* ===== SECTIONS ===== */
-        .section {
-            padding: 100px 40px;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
+        .section { padding: 100px 40px; max-width: 1400px; margin: 0 auto; }
+        .section-full { padding: 100px 0; }
+        .section-inner { max-width: 1400px; margin: 0 auto; padding: 0 40px; }
         .section-title {
-            font-size: 42px;
-            font-weight: 700;
-            color: var(--text-dark);
-            text-align: center;
-            margin-bottom: 20px;
-            letter-spacing: -0.5px;
+            font-size: 42px; font-weight: 800; color: var(--text-dark);
+            text-align: center; margin-bottom: 16px; letter-spacing: -0.5px;
         }
-
         .section-subtitle {
-            font-size: 18px;
-            color: var(--text-muted);
-            text-align: center;
-            margin-bottom: 50px;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
+            font-size: 17px; color: var(--text-muted); text-align: center;
+            margin-bottom: 56px; max-width: 640px; margin-left: auto; margin-right: auto; line-height: 1.75;
         }
 
-        /* ===== INTRODUCTION SECTION ===== */
-        #intro {
-            background: var(--bg-light);
+        /* Scroll fade-in */
+        .fade-up {
+            opacity: 0; transform: translateY(32px);
+            transition: opacity 0.55s ease, transform 0.55s ease;
         }
+        .fade-up.visible { opacity: 1; transform: translateY(0); }
+        .fade-up:nth-child(2) { transition-delay: 0.09s; }
+        .fade-up:nth-child(3) { transition-delay: 0.18s; }
+        .fade-up:nth-child(4) { transition-delay: 0.27s; }
+        .fade-up:nth-child(5) { transition-delay: 0.36s; }
+        .fade-up:nth-child(6) { transition-delay: 0.45s; }
 
-        .intro-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-        }
-
+        /* ===== INTRO SECTION ===== */
+        #intro { background: linear-gradient(180deg, #f0f4f8 0%, #e8eef5 100%); }
+        .intro-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(310px, 1fr)); gap: 28px; }
         .intro-card {
-            background: white;
-            border-radius: 12px;
-            padding: 32px;
-            text-align: center;
-            box-shadow: var(--shadow-sm);
-            transition: all 0.3s ease;
-            border: 1px solid var(--border-light);
+            background: white; border-radius: 20px; padding: 36px 28px;
+            box-shadow: 0 4px 20px rgba(0,30,80,0.07);
+            border: 1px solid rgba(0,102,204,0.08);
+            transition: all 0.4s cubic-bezier(0.175,0.885,0.32,1.275);
+            position: relative; overflow: hidden;
         }
-
-        .intro-card:hover {
-            transform: translateY(-8px);
-            box-shadow: var(--shadow-lg);
-            border-color: var(--primary);
+        .intro-card::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--primary-light), var(--accent));
+            background-size: 200% 100%; opacity: 0; transition: opacity 0.4s ease;
         }
-
-        .intro-card i {
-            font-size: 48px;
-            color: var(--primary);
-            margin-bottom: 20px;
+        .intro-card:hover::before { opacity: 1; animation: gradientShift 2s linear infinite; }
+        .intro-card:hover { transform: translateY(-12px) scale(1.02); box-shadow: 0 24px 52px rgba(0,30,80,0.14); border-color: rgba(0,102,204,0.2); }
+        .intro-badge {
+            display: inline-block; padding: 4px 12px; border-radius: 20px;
+            font-size: 10.5px; font-weight: 700; letter-spacing: 0.8px;
+            text-transform: uppercase; margin-bottom: 14px;
+            background: rgba(0,102,204,0.08); color: var(--primary);
         }
-
-        .intro-card h3 {
-            font-size: 20px;
-            font-weight: 700;
-            margin-bottom: 12px;
-            color: var(--text-dark);
+        .intro-icon-box {
+            width: 60px; height: 60px; border-radius: 16px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 26px; margin-bottom: 20px;
         }
-
-        .intro-card p {
-            color: var(--text-muted);
-            line-height: 1.8;
-            font-size: 15px;
-        }
+        .intro-icon-box.blue   { background: linear-gradient(135deg,#dbeafe,#bfdbfe); color:#1d4ed8; }
+        .intro-icon-box.green  { background: linear-gradient(135deg,#d1fae5,#a7f3d0); color:#065f46; }
+        .intro-icon-box.amber  { background: linear-gradient(135deg,#fef3c7,#fde68a); color:#92400e; }
+        .intro-icon-box.red    { background: linear-gradient(135deg,#fee2e2,#fecaca); color:#991b1b; }
+        .intro-icon-box.purple { background: linear-gradient(135deg,#ede9fe,#ddd6fe); color:#5b21b6; }
+        .intro-icon-box.cyan   { background: linear-gradient(135deg,#cffafe,#a5f3fc); color:#155e75; }
+        .intro-card i { font-size: 28px; transition: transform 0.3s ease; }
+        .intro-card:hover i { transform: scale(1.12) rotate(-5deg); }
+        .intro-card h3 { font-size: 19px; font-weight: 700; margin-bottom: 10px; color: var(--text-dark); }
+        .intro-card p { color: var(--text-muted); line-height: 1.75; font-size: 14.5px; }
 
         /* ===== PRODUCTS SECTION ===== */
-        #products {
-            background: white;
-        }
-
-        .products-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-            gap: 30px;
-        }
-
+        #products { background: linear-gradient(180deg,#fff 0%,#f8fafc 100%); }
+        .products-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(340px,1fr)); gap: 32px; }
         .product-card {
-            background: white;
-            border-radius: 12px;
-            overflow: hidden;
-            border: 1px solid var(--border-light);
-            box-shadow: var(--shadow-sm);
-            transition: all 0.3s ease;
+            background: white; border-radius: 20px; overflow: hidden;
+            border: 1px solid rgba(0,102,204,0.1);
+            box-shadow: 0 4px 24px rgba(0,30,80,0.06);
+            transition: all 0.4s cubic-bezier(0.175,0.885,0.32,1.275);
+            display: flex; flex-direction: column;
         }
-
-        .product-card:hover {
-            box-shadow: var(--shadow-lg);
-            border-color: var(--primary);
-            transform: translateY(-8px);
+        .product-card:hover { box-shadow: 0 24px 56px rgba(0,30,80,0.13); border-color: var(--primary); transform: translateY(-10px); }
+        .product-header-img {
+            width: 100%; height: 200px; display: flex;
+            align-items: center; justify-content: center;
+            position: relative; overflow: hidden;
         }
-
-        .product-image {
-            width: 100%;
-            height: 200px;
-            background: linear-gradient(135deg, #e8f1ff 0%, #f0f3f7 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 60px;
-            border-bottom: 2px solid var(--border-light);
+        .product-header-img.dash-bg { background: linear-gradient(135deg,#1e3a5f 0%,#0066cc 60%,#38bdf8 100%); }
+        .product-header-img.ai-bg   { background: linear-gradient(135deg,#0d1b2a 0%,#1a3a5c 50%,#00aa77 100%); }
+        .product-header-img.ctrl-bg { background: linear-gradient(135deg,#1a1a2e 0%,#16213e 50%,#533483 100%); }
+        .product-header-img::before {
+            content: ''; position: absolute; inset: 0;
+            background-image: radial-gradient(circle,rgba(255,255,255,0.07) 1px,transparent 1px);
+            background-size: 24px 24px;
         }
-
-        .product-content {
-            padding: 28px;
+        .product-fa-icon {
+            font-size: 64px; color: rgba(255,255,255,0.9); position: relative; z-index: 1;
+            filter: drop-shadow(0 8px 16px rgba(0,0,0,0.3)); transition: transform 0.3s ease;
         }
-
-        .product-content h3 {
-            font-size: 20px;
-            font-weight: 700;
-            margin-bottom: 12px;
-            color: var(--text-dark);
-        }
-
-        .product-content p {
-            color: var(--text-muted);
-            line-height: 1.8;
-            font-size: 15px;
-            margin-bottom: 16px;
-        }
-
-        .feature-list {
-            list-style: none;
-            margin: 16px 0;
-        }
-
+        .product-card:hover .product-fa-icon { transform: scale(1.15) rotate(5deg); }
+        .product-content { padding: 32px; flex: 1; display: flex; flex-direction: column; }
+        .product-content h3 { font-size: 22px; font-weight: 700; margin-bottom: 12px; color: var(--text-dark); }
+        .product-content p { color: var(--text-muted); line-height: 1.7; font-size: 15px; margin-bottom: 20px; }
+        .feature-list { list-style: none; margin-top: auto; }
         .feature-list li {
-            padding: 8px 0;
-            color: var(--text-muted);
-            font-size: 14px;
-            display: flex;
-            gap: 10px;
-            align-items: center;
+            padding: 10px 0; color: var(--text-muted); font-size: 14px;
+            display: flex; gap: 12px; align-items: center;
+            border-bottom: 1px solid rgba(0,0,0,0.04);
         }
-
+        .feature-list li:last-child { border-bottom: none; }
         .feature-list li::before {
-            content: '✓';
-            font-weight: 700;
-            color: var(--secondary);
-            font-size: 16px;
+            content: ''; display: inline-block; width: 20px; height: 20px; min-width: 20px;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2300aa77' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'%3E%3C/polyline%3E%3C/svg%3E");
+            background-size: contain; background-repeat: no-repeat;
         }
 
         /* ===== HARDWARE SECTION ===== */
-        #hardware {
-            background: var(--bg-light);
-        }
-
-        .hardware-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-        }
-
+        #hardware { background: linear-gradient(180deg,#f5f7fa 0%,#eef2f7 100%); }
+        .hardware-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(320px,1fr)); gap: 32px; }
         .hardware-card {
-            background: white;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: var(--shadow-sm);
-            border: 1px solid var(--border-light);
-            transition: all 0.3s ease;
+            background: white; border-radius: 20px; overflow: hidden;
+            box-shadow: 0 4px 24px rgba(0,30,80,0.06);
+            border: 1px solid rgba(0,102,204,0.08);
+            transition: all 0.4s cubic-bezier(0.175,0.885,0.32,1.275);
         }
-
-        .hardware-card:hover {
-            transform: translateY(-8px);
-            box-shadow: var(--shadow-lg);
-            border-color: var(--secondary);
-        }
-
+        .hardware-card:hover { transform: translateY(-10px); box-shadow: 0 24px 56px rgba(0,30,80,0.13); border-color: rgba(0,170,119,0.25); }
         .hardware-image {
-            width: 100%;
-            height: 220px;
-            background: linear-gradient(135deg, #e8f9f5 0%, #f0f7f5 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 80px;
+            width: 100%; height: 220px; display: flex;
+            align-items: center; justify-content: center;
+            position: relative; overflow: hidden;
         }
-
-        .hardware-content {
-            padding: 24px;
+        .hw-meter   { background: linear-gradient(135deg,#002d55 0%,#004d99 100%); }
+        .hw-gateway { background: linear-gradient(135deg,#003d2a 0%,#006644 100%); }
+        .hw-sensor  { background: linear-gradient(135deg,#2d1b00 0%,#7c4500 100%); }
+        .hw-fa-icon {
+            font-size: 68px; color: rgba(255,255,255,0.9); position: relative; z-index: 1;
+            filter: drop-shadow(0 6px 16px rgba(0,0,0,0.35));
         }
-
-        .hardware-content h4 {
-            font-size: 18px;
-            font-weight: 700;
-            margin-bottom: 10px;
-            color: var(--text-dark);
+        .pulse-ring-container {
+            position: absolute; width: 100%; height: 100%;
+            display: flex; align-items: center; justify-content: center;
         }
-
-        .hardware-content p {
-            color: var(--text-muted);
-            font-size: 14px;
-            line-height: 1.7;
-            margin-bottom: 12px;
+        .pulse-ring {
+            position: absolute; width: 80px; height: 80px; border-radius: 50%;
+            border: 2px solid rgba(255,255,255,0.2);
+            animation: pulseRing 2.2s ease-out infinite;
         }
-
+        .pulse-ring:nth-child(2) { animation-delay: 0.9s; }
+        .hardware-content { padding: 28px; }
+        .hardware-content h4 { font-size: 19px; font-weight: 700; margin-bottom: 10px; color: var(--text-dark); }
+        .hardware-content p { color: var(--text-muted); font-size: 14px; line-height: 1.7; margin-bottom: 16px; }
+        .spec-row {
+            display: flex; align-items: center; gap: 10px; margin-bottom: 8px;
+            font-size: 13px; color: #64748b; padding: 7px 10px;
+            background: #f8fafc; border-radius: 8px;
+        }
+        .spec-row i { font-size: 12px; color: var(--secondary); width: 14px; }
+        .spec-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
         .spec-tag {
-            display: inline-block;
-            background: rgba(0, 170, 119, 0.1);
-            color: var(--secondary);
-            padding: 6px 12px;
-            border-radius: 4px;
-            font-size: 12px;
-            font-weight: 600;
-            margin-top: 8px;
+            background: rgba(0,170,119,0.1); color: var(--secondary);
+            padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 600;
+            border: 1px solid rgba(0,170,119,0.15); transition: all 0.3s ease;
         }
+        .spec-tag:hover { background: rgba(0,170,119,0.2); transform: translateY(-2px); }
 
         /* ===== AUTOMATION SECTION ===== */
         #automation {
-            background: white;
+            background: linear-gradient(160deg,#0a1628 0%,#0f2044 50%,#0a1628 100%);
+            padding: 100px 40px; position: relative; overflow: hidden;
         }
-
+        #automation::before {
+            content: ''; position: absolute; inset: 0;
+            background: radial-gradient(circle at 20% 50%,rgba(56,189,248,0.07) 0%,transparent 50%),
+                        radial-gradient(circle at 80% 30%,rgba(0,170,119,0.07) 0%,transparent 50%);
+        }
+        #automation .section-title { color: #f0f6ff; }
+        #automation .section-subtitle { color: #94a3b8; }
+        .automation-inner { max-width: 1400px; margin: 0 auto; }
         .automation-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 28px;
-            margin-top: 50px;
+            display: grid; grid-template-columns: repeat(auto-fit,minmax(340px,1fr));
+            gap: 28px; margin-top: 48px; position: relative; z-index: 1;
         }
-
         .automation-card {
-            background: white;
-            border-radius: 12px;
-            border: 2px solid var(--border-light);
-            padding: 32px;
-            transition: all 0.3s ease;
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
+            background: rgba(255,255,255,0.05); backdrop-filter: blur(12px);
+            border-radius: 20px; border: 1px solid rgba(255,255,255,0.1);
+            padding: 32px; transition: all 0.4s ease;
+            display: flex; flex-direction: column; gap: 20px;
+            position: relative; overflow: hidden;
         }
-
-        .automation-card:hover {
-            border-color: var(--primary);
-            box-shadow: var(--shadow-lg);
+        .automation-card::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+            background: linear-gradient(90deg,var(--primary),var(--secondary),var(--accent));
+            opacity: 0; transition: opacity 0.4s ease;
         }
-
-        .automation-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
+        .automation-card:hover::before { opacity: 1; }
+        .automation-card:hover { border-color: rgba(255,255,255,0.22); box-shadow: 0 28px 64px rgba(0,0,0,0.45); transform: translateY(-8px); }
+        .auto-header { display: flex; justify-content: space-between; align-items: center; }
+        .auto-icon-box {
+            width: 56px; height: 56px; border-radius: 16px;
+            display: flex; align-items: center; justify-content: center; font-size: 26px;
         }
-
-        .automation-icon {
-            font-size: 36px;
-            color: var(--primary);
+        .hvac-box   { background: rgba(56,189,248,0.15); }
+        .peak-box   { background: rgba(251,191,36,0.15); }
+        .safety-box { background: rgba(239,68,68,0.15); }
+        .hvac-box i   { color: #38bdf8; font-size: 24px; }
+        .peak-box i   { color: #fbbf24; font-size: 24px; }
+        .safety-box i { color: #ef4444; font-size: 24px; }
+        .auto-status {
+            display: flex; align-items: center; gap: 7px;
+            font-size: 12px; font-weight: 600; padding: 5px 14px; border-radius: 20px;
+            background: rgba(16,185,129,0.15); color: #34d399; border: 1px solid rgba(16,185,129,0.25);
         }
-
-        .automation-toggle {
-            width: 52px;
-            height: 28px;
-            background: var(--border-light);
-            border-radius: 14px;
-            position: relative;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border: none;
-            padding: 2px;
+        .live-dot {
+            width: 7px; height: 7px; border-radius: 50%; background: #10b981;
+            animation: liveBlink 1.8s ease-in-out infinite; flex-shrink: 0;
         }
-
-        .automation-toggle::after {
-            content: '';
-            position: absolute;
-            width: 24px;
-            height: 24px;
-            background: white;
-            border-radius: 50%;
-            top: 2px;
-            left: 2px;
-            transition: all 0.3s ease;
-            box-shadow: var(--shadow-sm);
+        .auto-toggle {
+            width: 52px; height: 28px; background: rgba(255,255,255,0.12);
+            border-radius: 14px; position: relative; cursor: pointer;
+            border: 1px solid rgba(255,255,255,0.18); padding: 2px; transition: all 0.3s ease;
         }
-
-        .automation-toggle:hover::after {
-            box-shadow: var(--shadow-md);
+        .auto-toggle::after {
+            content: ''; position: absolute; width: 22px; height: 22px;
+            background: white; border-radius: 50%; top: 2px; left: 2px;
+            transition: all 0.3s ease; box-shadow: 0 2px 6px rgba(0,0,0,0.3);
         }
+        .auto-toggle.active { background: linear-gradient(135deg,var(--secondary),#00cc88); border-color: var(--secondary); }
+        .auto-toggle.active::after { left: 26px; }
+        .auto-info h4 { font-size: 19px; font-weight: 700; color: #f0f6ff; margin-bottom: 8px; letter-spacing: -0.3px; }
+        .auto-info p { color: #94a3b8; font-size: 14px; line-height: 1.75; }
+        .progress-wrap { margin-top: 2px; }
+        .progress-header { display: flex; justify-content: space-between; font-size: 12px; color: #64748b; margin-bottom: 8px; }
+        .progress-track { width: 100%; height: 6px; background: rgba(255,255,255,0.08); border-radius: 6px; overflow: hidden; }
+        .progress-fill { height: 100%; border-radius: 6px; transition: width 1.2s ease; position: relative; overflow: hidden; }
+        .progress-fill.hvac-fill   { background: linear-gradient(90deg,#0ea5e9,#38bdf8); }
+        .progress-fill.peak-fill   { background: linear-gradient(90deg,#d97706,#fbbf24); }
+        .progress-fill.safety-fill { background: linear-gradient(90deg,#dc2626,#f87171); }
+        .progress-fill::after { content:''; position:absolute; inset:0; background:linear-gradient(90deg,transparent,rgba(255,255,255,0.3),transparent); animation:progressShine 2s ease-in-out infinite; }
+        .auto-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.07); }
+        .auto-stat { background: rgba(255,255,255,0.04); border-radius: 12px; padding: 14px; text-align: center; }
+        .auto-stat-val { font-size: 22px; font-weight: 700; }
+        .auto-stat-lbl { font-size: 11px; color: #64748b; margin-top: 4px; }
 
-        .automation-toggle.active {
-            background: var(--secondary);
-        }
-
-        .automation-toggle.active::after {
-            left: 26px;
-        }
-
-        .automation-info h4 {
-            font-size: 18px;
-            font-weight: 700;
-            color: var(--text-dark);
-            margin-bottom: 8px;
-        }
-
-        .automation-info p {
-            color: var(--text-muted);
-            font-size: 14px;
-            line-height: 1.7;
-        }
-
-        .automation-stats {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 16px;
-            padding-top: 12px;
-            border-top: 1px solid var(--border-light);
-            margin-top: 12px;
-        }
-
-        .stat-item {
-            text-align: center;
-        }
-
-        .stat-value {
-            font-size: 20px;
-            font-weight: 700;
-            color: var(--primary);
-        }
-
-        .stat-label {
-            font-size: 12px;
-            color: var(--text-muted);
-            margin-top: 4px;
-        }
-
-        /* ===== PARTNERS SECTION ===== */
-        #partners {
-            background: var(--bg-light);
-        }
-
+        /* ===== PARTNERS ===== */
+        #partners { background: linear-gradient(180deg,#f0f4f8 0%,#e8eef5 100%); }
         .partners-container {
-            position: relative;
-            overflow: hidden;
-            background: white;
-            border-radius: 12px;
-            padding: 40px 20px;
-            box-shadow: var(--shadow-md);
+            background: white; border-radius: 20px; padding: 48px 32px;
+            box-shadow: 0 8px 32px rgba(0,30,80,0.08); border: 1px solid rgba(0,102,204,0.08);
         }
-
         .partners-scroll {
-            display: flex;
-            gap: 40px;
-            overflow-x: auto;
-            padding: 20px 0;
-            scroll-behavior: smooth;
+            display: flex; gap: 28px; overflow-x: auto; padding: 24px 4px;
+            scroll-behavior: smooth; scrollbar-width: thin;
+            scrollbar-color: var(--primary) rgba(0,0,0,0.06);
         }
-
-        .partners-scroll::-webkit-scrollbar {
-            height: 4px;
-        }
-
-        .partners-scroll::-webkit-scrollbar-track {
-            background: var(--border-light);
-            border-radius: 10px;
-        }
-
-        .partners-scroll::-webkit-scrollbar-thumb {
-            background: var(--primary);
-            border-radius: 10px;
-        }
-
+        .partners-scroll::-webkit-scrollbar { height: 10px; }
+        .partners-scroll::-webkit-scrollbar-track { background: rgba(0,0,0,0.06); border-radius: 20px; }
+        .partners-scroll::-webkit-scrollbar-thumb { background: linear-gradient(90deg,#38bdf8,#0066cc); border-radius: 20px; box-shadow: 0 0 10px rgba(56,189,248,0.4); }
         .partner-item {
-            flex-shrink: 0;
-            width: 180px;
-            height: 100px;
-            background: var(--bg-light);
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 48px;
-            filter: grayscale(100%);
-            opacity: 0.6;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            border: 2px solid transparent;
+            flex-shrink: 0; width: 180px; height: 130px;
+            background: linear-gradient(135deg,#f8fafc,#f0f4f8); border-radius: 16px;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            gap: 10px; font-size: 48px; filter: grayscale(100%); opacity: 0.55;
+            transition: all 0.4s cubic-bezier(0.175,0.885,0.32,1.275);
+            cursor: pointer; border: 2px solid transparent;
         }
+        .partner-item:hover { filter: grayscale(0%); opacity: 1; transform: scale(1.08) translateY(-4px); border-color: rgba(0,102,204,0.2); background: white; box-shadow: 0 12px 32px rgba(0,30,80,0.12); }
+        .partner-name { font-size: 12.5px; font-weight: 700; color: #475569; text-align: center; line-height: 1.3; }
 
-        .partner-item:hover {
-            filter: grayscale(0%);
-            opacity: 1;
-            transform: scale(1.05);
-            border-color: var(--primary);
-            background: white;
-            box-shadow: var(--shadow-md);
+        /* ===== CONTACT ===== */
+        #contact { background: linear-gradient(160deg,#f0f6ff 0%,#e8f1ff 60%,#f5f7fa 100%); position: relative; overflow: hidden; }
+        #contact::before { content:''; position:absolute; top:-100px; right:-100px; width:400px; height:400px; border-radius:50%; background:radial-gradient(circle,rgba(0,102,204,0.06),transparent 70%); }
+        .contact-wrapper {
+            display: grid; grid-template-columns: 1fr 1.5fr; gap: 52px;
+            align-items: start; max-width: 1100px; margin: 0 auto; position: relative; z-index: 1;
         }
-
-        /* ===== CONTACT SECTION ===== */
-        #contact {
-            background: white;
+        .contact-info { display: flex; flex-direction: column; gap: 20px; }
+        .contact-info-header h3 { font-size: 30px; font-weight: 800; color: var(--text-dark); line-height: 1.3; margin-bottom: 12px; letter-spacing: -0.5px; }
+        .contact-info-header p { color: var(--text-muted); font-size: 15px; line-height: 1.7; margin-bottom: 4px; }
+        .ci-item {
+            display: flex; align-items: flex-start; gap: 16px;
+            padding: 18px 20px; background: white; border-radius: 16px;
+            border: 1px solid rgba(0,102,204,0.1); box-shadow: 0 2px 12px rgba(0,102,204,0.05);
+            transition: all 0.3s ease; text-decoration: none; color: inherit;
         }
-
-        .contact-container {
-            max-width: 700px;
-            margin: 0 auto;
+        .ci-item:hover { transform: translateX(6px); box-shadow: 0 8px 28px rgba(0,102,204,0.12); border-color: rgba(0,102,204,0.22); }
+        .ci-icon {
+            width: 46px; height: 46px; border-radius: 12px;
+            display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0;
         }
-
-        .contact-form {
-            background: var(--bg-light);
-            border-radius: 12px;
-            padding: 40px;
-            border: 1px solid var(--border-light);
+        .ci-icon.map    { background:linear-gradient(135deg,#dbeafe,#bfdbfe); color:#1d4ed8; }
+        .ci-icon.mail   { background:linear-gradient(135deg,#d1fae5,#a7f3d0); color:#065f46; }
+        .ci-icon.phone  { background:linear-gradient(135deg,#fef3c7,#fde68a); color:#92400e; }
+        .ci-icon.clock  { background:linear-gradient(135deg,#ede9fe,#ddd6fe); color:#5b21b6; }
+        .ci-text strong { display: block; font-size: 13px; font-weight: 700; color: var(--text-dark); margin-bottom: 3px; }
+        .ci-text span { font-size: 13.5px; color: var(--text-muted); line-height: 1.55; }
+        .contact-social { display: flex; gap: 12px; margin-top: 4px; }
+        .social-btn {
+            width: 44px; height: 44px; border-radius: 12px; display: flex;
+            align-items: center; justify-content: center; font-size: 17px;
+            border: 1.5px solid var(--border-light); background: white;
+            color: var(--text-muted); cursor: pointer;
+            transition: all 0.3s ease; text-decoration: none;
         }
+        .social-btn:hover { background: var(--primary); color: white; border-color: var(--primary); transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,102,204,0.3); }
 
-        .form-group {
-            margin-bottom: 28px;
+        /* Form */
+        .contact-form-wrap {
+            background: white; border-radius: 24px; padding: 40px;
+            border: 1px solid rgba(0,102,204,0.1); box-shadow: 0 8px 40px rgba(0,102,204,0.09);
         }
-
-        .form-group label {
-            display: block;
-            font-weight: 600;
-            color: var(--text-dark);
-            margin-bottom: 10px;
-            font-size: 15px;
-        }
-
+        .contact-form-wrap h4 { font-size: 20px; font-weight: 700; color: var(--text-dark); margin-bottom: 28px; display: flex; align-items: center; gap: 10px; }
+        .contact-form-wrap h4 i { color: var(--primary); }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        .form-group { margin-bottom: 18px; }
+        .form-group label { display: block; font-weight: 600; color: var(--text-dark); margin-bottom: 7px; font-size: 13.5px; }
+        .form-group label i { color: var(--primary); margin-right: 5px; }
         .form-group input,
-        .form-group textarea {
-            width: 100%;
-            padding: 12px 16px;
-            background: white;
-            border: 2px solid var(--border-light);
-            border-radius: 6px;
-            color: var(--text-dark);
-            font-family: 'Inter', sans-serif;
-            font-size: 15px;
-            transition: all 0.3s ease;
+        .form-group textarea,
+        .form-group select {
+            width: 100%; padding: 12px 16px; background: #f8fafc;
+            border: 1.5px solid #e2e8f0; border-radius: 10px;
+            color: var(--text-dark); font-family: 'Inter', sans-serif;
+            font-size: 14.5px; transition: all 0.3s ease;
         }
-
         .form-group input:focus,
-        .form-group textarea:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1);
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none; border-color: var(--primary); background: white;
+            box-shadow: 0 0 0 4px rgba(0,102,204,0.1);
         }
-
-        .form-group textarea {
-            resize: vertical;
-            min-height: 120px;
-        }
-
-        .form-buttons {
-            display: flex;
-            gap: 16px;
-            margin-top: 32px;
-        }
-
+        .form-group textarea { resize: vertical; min-height: 120px; }
+        .form-buttons { display: flex; gap: 12px; margin-top: 8px; }
         .btn-submit {
-            flex: 1;
-            padding: 14px;
-            background: var(--primary);
-            color: white;
-            border: none;
-            border-radius: 6px;
-            font-weight: 700;
-            font-size: 16px;
-            cursor: pointer;
-            transition: all 0.3s ease;
+            flex: 2; padding: 14px;
+            background: linear-gradient(135deg, var(--primary), #0099ff);
+            color: white; border: none; border-radius: 10px;
+            font-weight: 700; font-size: 15px; cursor: pointer;
+            transition: all 0.3s ease; position: relative; overflow: hidden;
+            display: flex; align-items: center; justify-content: center; gap: 8px;
         }
-
-        .btn-submit:hover {
-            background: var(--primary-dark);
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-md);
-        }
-
-        .btn-reset {
-            flex: 1;
-            padding: 14px;
-            background: white;
-            color: var(--primary);
-            border: 2px solid var(--primary);
-            border-radius: 6px;
-            font-weight: 700;
-            font-size: 16px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .btn-reset:hover {
-            background: rgba(0, 102, 204, 0.08);
-        }
+        .btn-submit::before { content:''; position:absolute; top:0; left:-100%; width:100%; height:100%; background:rgba(255,255,255,0.2); transition:left 0.4s ease; }
+        .btn-submit:hover::before { left:100%; }
+        .btn-submit:hover { background:linear-gradient(135deg,var(--primary-dark),#0077cc); transform:translateY(-2px); box-shadow:0 8px 24px rgba(0,102,204,0.35); }
+        .btn-reset { flex: 1; padding: 14px; background: white; color: var(--text-muted); border: 1.5px solid var(--border-light); border-radius: 10px; font-weight: 600; font-size: 14px; cursor: pointer; transition: all 0.3s ease; }
+        .btn-reset:hover { border-color: var(--primary); color: var(--primary); background: rgba(0,102,204,0.04); }
+        .form-note { font-size: 12px; color: #94a3b8; text-align: center; margin-top: 16px; }
+        .form-note i { color: #10b981; margin-right: 4px; }
 
         /* ===== FOOTER ===== */
         .footer {
-            background: var(--primary-dark-deep) !important;
-            color: var(--text-light);
-            padding: 60px 40px;
-            text-align: center;
-            border-top: 2px solid var(--primary-light);
-            box-shadow: 0 -8px 32px rgba(56, 189, 248, 0.15);
+            background: linear-gradient(135deg,#0f172a 0%,#1a2332 100%) !important;
+            color: var(--text-light); padding: 80px 40px 40px;
+            border-top: 3px solid transparent; position: relative; overflow: hidden;
         }
-
+        .footer::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+            background: linear-gradient(90deg,var(--primary),var(--primary-light),var(--accent),var(--primary));
+            background-size: 300% 100%; animation: gradientShift 3s linear infinite;
+        }
         .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 40px;
-            text-align: left;
-            margin-bottom: 40px;
+            max-width: 1200px; margin: 0 auto 48px;
+            display: grid; grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
+            gap: 48px; text-align: left; position: relative; z-index: 1;
         }
+        .footer-section h3 { color: var(--primary-light); margin-bottom: 20px; font-size: 18px; font-weight: 700; display: flex; align-items: center; gap: 10px; }
+        .footer-section p, .footer-section a { margin: 12px 0; font-size: 14px; opacity: 0.8; color: var(--text-light); line-height: 1.7; }
+        .footer-section a { text-decoration: none; color: var(--primary-light); font-weight: 500; display: inline-block; transition: all 0.3s ease; position: relative; }
+        .footer-section a::after { content:''; position:absolute; bottom:-2px; left:0; width:0; height:1px; background:var(--accent-light); transition:width 0.3s ease; }
+        .footer-section a:hover { color: var(--accent-light); transform: translateX(4px); }
+        .footer-section a:hover::after { width: 100%; }
+        .footer-bottom { border-top: 1px solid rgba(56,189,248,0.15); padding-top: 32px; text-align: center; opacity: 0.7; font-size: 13px; position: relative; z-index: 1; }
+        .footer-bottom p { margin: 8px 0; }
+        .footer strong { color: var(--primary-light); font-weight: 700; }
 
-        .footer-section h3 {
-            color: var(--primary-light);
-            margin-bottom: 16px;
-            font-size: 18px;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .footer-section p, .footer-section a {
-            margin: 12px 0;
-            font-size: 14px;
-            opacity: 0.8;
+        /* ===== SCROLL TO TOP ===== */
+        #scrollTopBtn {
+            position: fixed; bottom: 28px; right: 28px; z-index: 9999;
+            width: 48px; height: 48px; border-radius: 50%; border: none;
+            background: linear-gradient(135deg,var(--primary),#0099ff);
+            color: white; font-size: 18px; cursor: pointer;
+            box-shadow: 0 4px 20px rgba(0,102,204,0.45);
+            opacity: 0; transform: translateY(20px);
             transition: all 0.3s ease;
-            color: var(--text-light);
+            display: flex; align-items: center; justify-content: center;
         }
-
-        .footer-section a {
-            text-decoration: none;
-            color: var(--primary-light);
-            font-weight: 500;
-        }
-
-        .footer-section a:hover {
-            color: var(--accent-light);
-            text-shadow: 0 0 10px rgba(56, 189, 248, 0.5);
-        }
-
-        .footer-bottom {
-            border-top: 1px solid rgba(56, 189, 248, 0.2);
-            padding-top: 30px;
-            text-align: center;
-            opacity: 0.7;
-            font-size: 13px;
-        }
-
-        .footer p {
-            margin: 8px 0;
-            font-size: 15px;
-            opacity: 0.8;
-        }
-
-        .footer strong {
-            color: var(--primary-light);
-            font-weight: 700;
-        }
+        #scrollTopBtn.visible { opacity: 1; transform: translateY(0); }
+        #scrollTopBtn:hover { transform: translateY(-4px) scale(1.1); box-shadow: 0 8px 32px rgba(0,102,204,0.55); }
 
         /* ===== RESPONSIVE ===== */
+        @media (max-width: 900px) {
+            .contact-wrapper { grid-template-columns: 1fr; }
+            .form-row { grid-template-columns: 1fr; }
+            .hero-stats { gap: 28px; padding: 20px 24px; }
+        }
         @media (max-width: 768px) {
-            .nav-menu {
-                display: none !important;
-            }
-
-            .hero {
-                margin-top: 64px;
-                min-height: auto;
-                padding: 80px 20px;
-            }
-
-            .hero-content {
-                max-width: 100%;
-            }
-
-            .hero h1 {
-                font-size: 32px;
-                line-height: 1.3;
-                margin-bottom: 16px;
-            }
-
-            .hero-subtitle {
-                font-size: 15px;
-                margin-bottom: 30px;
-                line-height: 1.6;
-            }
-
-            .hero-buttons {
-                gap: 12px;
-                flex-direction: column;
-            }
-
-            .btn-cta, .btn-secondary {
-                width: 100%;
-                padding: 12px 24px;
-                font-size: 15px;
-            }
-
-            .section-title {
-                font-size: 28px;
-            }
-
-            .section {
-                padding: 60px 20px;
-            }
-
-            .navbar {
-                padding: 12px 20px;
-            }
-
-            .intro-grid,
-            .products-grid,
-            .hardware-grid,
-            .automation-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .contact-form {
-                padding: 28px 20px;
-            }
-
-            .hero {
-                padding: 40px 20px;
-                margin-top: 80px;
-            }
+            .nav-menu { display: none !important; }
+            .hero { margin-top: 64px; padding: 80px 20px; }
+            .hero h1 { font-size: 32px; line-height: 1.25; }
+            .hero-subtitle { font-size: 15px; }
+            .hero-buttons { flex-direction: column; }
+            .btn-cta, .btn-secondary { width: 100%; }
+            .hero-stats { display: none; }
+            .section-title { font-size: 28px; }
+            .section { padding: 60px 20px; }
+            #automation { padding: 60px 20px; }
+            .navbar { padding: 12px 20px; }
+            .intro-grid, .products-grid, .hardware-grid, .automation-grid { grid-template-columns: 1fr; }
+            .contact-form-wrap { padding: 28px 20px; }
         }
+        /* ========================================================
+   CÚ CHỐT: ÉP TOÀN BỘ CHỮ THÀNH TRẮNG KHI Ở TRÊN CÙNG
+      ======================================================== */
+.navbar:not(.scrolled) .brand,
+.navbar:not(.scrolled) .brand i,
+.navbar:not(.scrolled) .nav-link {
+    color: #ffffff !important;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5) !important; /* Thêm đổ bóng nhẹ để chữ nổi bần bật */
+}
 
-        /* ===== ANIMATIONS ===== */
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
+.navbar:not(.scrolled) .btn-login {
+    color: #ffffff !important;
+    border-color: rgba(255, 255, 255, 0.8) !important;
+}
 
-        .section {
-            animation: slideIn 0.6s ease-out;
-        }
+/* Tắt cái gạch chân màu cam cũ đi, nhường chỗ cho Neon */
+.navbar:not(.scrolled) .nav-link.active,
+.navbar:not(.scrolled) .nav-link:hover {
+    color: #00f0ff !important;
+}
     </style>
 </head>
 <body>
+
     <!-- NAVBAR -->
-    <nav class="navbar">
+    <nav class="navbar" id="mainNav">
         <div class="nav-container">
             <div class="brand">
                 <i class="fas fa-bolt"></i>
@@ -1036,15 +735,37 @@
     <!-- HERO SECTION -->
     <section class="hero">
         <div class="hero-content">
+            <div class="hero-badge">
+                <span class="badge-dot"></span>
+                HỆ THỐNG ĐANG HOẠT ĐỘNG 24/7
+            </div>
             <h1>Quản Lý Năng Lượng Thông Minh Cho Tòa Nhà Hiện Đại</h1>
-            <p class="hero-subtitle">Giảm chi phí điện tối đa 40% với công nghệ AI, IoT và tự động hóa thông minh. Giải pháp dẫn đầu cho các tòa nhà thương mại và công nghiệp.</p>
+            <p class="hero-subtitle">Giảm chi phí điện tối đa 40% với công nghệ AI, IoT và tự động hóa thông minh. Giải pháp dẫn đầu cho các tòa nhà thương mại và công nghiệp tại Đà Nẵng.</p>
             <div class="hero-buttons">
                 <button class="btn-cta" onclick="window.location.href='/dashboard'">
                     <i class="fas fa-play-circle"></i> Truy Cập Dashboard
                 </button>
                 <button class="btn-secondary" onclick="smoothScroll('products')">
-                    Tìm Hiểu Thêm
+                    <i class="fas fa-info-circle"></i> Tìm Hiểu Thêm
                 </button>
+            </div>
+            <div class="hero-stats">
+                <div class="hero-stat">
+                    <div class="hero-stat-value"><em id="cnt-saving">0</em>%</div>
+                    <div class="hero-stat-label">Tiết kiệm điện năng</div>
+                </div>
+                <div class="hero-stat">
+                    <div class="hero-stat-value"><em id="cnt-device">0</em>+</div>
+                    <div class="hero-stat-label">Thiết bị IoT kết nối</div>
+                </div>
+                <div class="hero-stat">
+                    <div class="hero-stat-value"><em id="cnt-uptime">0</em>/7</div>
+                    <div class="hero-stat-label">Giám sát liên tục</div>
+                </div>
+                <div class="hero-stat">
+                    <div class="hero-stat-value"><em id="cnt-ai">0</em>+</div>
+                    <div class="hero-stat-label">Kích hoạt AI hôm nay</div>
+                </div>
             </div>
         </div>
     </section>
@@ -1052,37 +773,43 @@
     <!-- INTRODUCTION SECTION -->
     <section id="intro" class="section">
         <h2 class="section-title">Tại Sao Chọn Smart Energy?</h2>
-        <p class="section-subtitle">Hệ thống quản lý năng lượng tích hợp với công nghệ hàng đầu</p>
+        <p class="section-subtitle">Hệ thống quản lý năng lượng tích hợp công nghệ hàng đầu, thiết kế riêng cho tòa nhà Việt Nam</p>
         <div class="intro-grid">
-            <div class="intro-card">
-                <i class="fas fa-chart-line"></i>
+            <div class="intro-card fade-up">
+                <div class="intro-badge">REALTIME</div>
+                <div class="intro-icon-box blue"><i class="fas fa-chart-line"></i></div>
                 <h3>Giám Sát Thời Thực</h3>
-                <p>Theo dõi tiêu thụ điện 24/7 với độ chính xác 99.8%. Cập nhật dữ liệu mỗi 5 giây.</p>
+                <p>Theo dõi tiêu thụ điện 24/7 với độ chính xác 99.8%. Dashboard cập nhật mỗi 5 giây, không bỏ sót bất kỳ biến động nào.</p>
             </div>
-            <div class="intro-card">
-                <i class="fas fa-brain"></i>
+            <div class="intro-card fade-up">
+                <div class="intro-badge">AI / ML</div>
+                <div class="intro-icon-box green"><i class="fas fa-brain"></i></div>
                 <h3>AI & Machine Learning</h3>
-                <p>Dự báo tải với độ chính xác cao. Tối ưu hóa tự động dựa trên mô hình học máy.</p>
+                <p>Dự báo phụ tải bằng LinearRegression. Phát hiện thiết bị tiêu thụ bất thường và gợi ý tối ưu hóa chi tiết từng phòng.</p>
             </div>
-            <div class="intro-card">
-                <i class="fas fa-cog"></i>
+            <div class="intro-card fade-up">
+                <div class="intro-badge">AUTO</div>
+                <div class="intro-icon-box amber"><i class="fas fa-cogs"></i></div>
                 <h3>Tự Động Hóa Thông Minh</h3>
-                <p>3 kịch bản AI: HVAC, Peak Hour, Safety. Giảm tải tự động trong giờ cao điểm.</p>
+                <p>3 kịch bản AI: HVAC Optimizer, Peak Hour Cut, Safety Guard. Giảm tải tự động trong giờ cao điểm, không cần can thiệp thủ công.</p>
             </div>
-            <div class="intro-card">
-                <i class="fas fa-bell"></i>
+            <div class="intro-card fade-up">
+                <div class="intro-badge">ALERT</div>
+                <div class="intro-icon-box red"><i class="fas fa-bell"></i></div>
                 <h3>Cảnh Báo Tức Thời</h3>
-                <p>Nhận thông báo SMS/Email khi công suất vượt ngưỡng. Tránh tình trạng quá tải.</p>
+                <p>Nhận thông báo ngay khi công suất vượt ngưỡng an toàn. Tránh tình trạng quá tải, bảo vệ thiết bị điện toàn tòa nhà.</p>
             </div>
-            <div class="intro-card">
-                <i class="fas fa-sliders-h"></i>
+            <div class="intro-card fade-up">
+                <div class="intro-badge">SMART</div>
+                <div class="intro-icon-box purple"><i class="fas fa-sliders-h"></i></div>
                 <h3>Phân Loại Tải Tự Động</h3>
-                <p>Xác định mức tiêu thụ (Xanh/Cam/Đỏ) theo 3 loại tòa nhà khác nhau.</p>
+                <p>Tự động xác định mức tiêu thụ Xanh / Cam / Đỏ theo từng loại tòa nhà: văn phòng, thương mại, công nghiệp.</p>
             </div>
-            <div class="intro-card">
-                <i class="fas fa-shield-alt"></i>
+            <div class="intro-card fade-up">
+                <div class="intro-badge">SECURE</div>
+                <div class="intro-icon-box cyan"><i class="fas fa-shield-alt"></i></div>
                 <h3>Bảo Vệ Dữ Liệu</h3>
-                <p>Mã hóa AES-256. Truy cập theo vai trò (Admin/User). GDPR compliant.</p>
+                <p>Mã hóa AES-256. Phân quyền truy cập Admin / User theo vai trò. Toàn bộ lịch sử tối ưu hóa lưu trữ trên database bảo mật.</p>
             </div>
         </div>
     </section>
@@ -1090,44 +817,50 @@
     <!-- PRODUCTS SECTION -->
     <section id="products" class="section">
         <h2 class="section-title">Các Tính Năng Chính</h2>
-        <p class="section-subtitle">Toàn bộ giải pháp quản lý năng lượng đẳng cấp doanh nghiệp</p>
+        <p class="section-subtitle">Toàn bộ giải pháp quản lý năng lượng đẳng cấp doanh nghiệp trong một nền tảng duy nhất</p>
         <div class="products-grid">
-            <div class="product-card">
-                <div class="product-image">📊</div>
+            <div class="product-card fade-up">
+                <div class="product-header-img dash-bg">
+                    <i class="fas fa-tachometer-alt product-fa-icon"></i>
+                </div>
                 <div class="product-content">
                     <h3>Dashboard Tích Hợp</h3>
-                    <p>Giao diện trực quan, hiển thị các chỉ số năng lượng chính theo thời gian thực.</p>
+                    <p>Giao diện trực quan, hiển thị tất cả chỉ số năng lượng theo thời gian thực. Đẹp, chuyên nghiệp khi thuyết trình.</p>
                     <ul class="feature-list">
                         <li>Biểu đồ phụ tải 30 ngày</li>
-                        <li>So sánh chi phí theo tháng</li>
-                        <li>Dự báo tiêu thụ tháng</li>
-                        <li>Xuất báo cáo PDF/Excel</li>
+                        <li>So sánh chi phí điện theo tháng</li>
+                        <li>Dự báo tiêu thụ tháng tới</li>
+                        <li>Xuất báo cáo PDF / Excel</li>
                     </ul>
                 </div>
             </div>
-            <div class="product-card">
-                <div class="product-image">🤖</div>
+            <div class="product-card fade-up">
+                <div class="product-header-img ai-bg">
+                    <i class="fas fa-robot product-fa-icon"></i>
+                </div>
                 <div class="product-content">
                     <h3>AI Tối Ưu Hóa</h3>
-                    <p>Công nghệ Machine Learning LinearRegression cho dự báo chính xác.</p>
+                    <p>Công nghệ Machine Learning — LinearRegression — phân tích hành vi tiêu thụ và đề xuất tối ưu theo thời gian thực.</p>
                     <ul class="feature-list">
                         <li>Dự báo tiêu thụ hàng tháng</li>
-                        <li>Phát hiện thiết bị tiêu thụ</li>
-                        <li>ECO Mode tự động</li>
-                        <li>Gợi ý tối ưu hóa chi tiết</li>
+                        <li>Phát hiện thiết bị tiêu thụ bất thường</li>
+                        <li>Tự động bật ECO Mode</li>
+                        <li>Gợi ý tối ưu hóa chi tiết từng phòng</li>
                     </ul>
                 </div>
             </div>
-            <div class="product-card">
-                <div class="product-image">⚙️</div>
+            <div class="product-card fade-up">
+                <div class="product-header-img ctrl-bg">
+                    <i class="fas fa-gamepad product-fa-icon"></i>
+                </div>
                 <div class="product-content">
                     <h3>Điều Khiển Thiết Bị</h3>
-                    <p>Bật/Tắt thiết bị từ xa. Lập lịch chạy tự động. Thống kê tiêu thụ chi tiết.</p>
+                    <p>Bật / Tắt và giám sát thiết bị từ xa qua trình duyệt. Lập lịch định kỳ và xem lịch sử hoạt động đầy đủ.</p>
                     <ul class="feature-list">
                         <li>Điều khiển từ xa qua web</li>
-                        <li>Lập lịch định kỳ</li>
-                        <li>Lịch sử hoạt động đầy đủ</li>
-                        <li>Hoàn tác nhanh chóng</li>
+                        <li>Lập lịch bật / tắt định kỳ</li>
+                        <li>Lịch sử hoạt động 30 ngày</li>
+                        <li>Hoàn tác hành động nhanh chóng</li>
                     </ul>
                 </div>
             </div>
@@ -1136,105 +869,193 @@
 
     <!-- HARDWARE SECTION -->
     <section id="hardware" class="section">
-        <h2 class="section-title">Thiết Bị Phần Cứng</h2>
-        <p class="section-subtitle">Các thiết bị IoT chuyên nghiệp được sử dụng trong hệ thống</p>
+        <h2 class="section-title">Thiết Bị Phần Cứng IoT</h2>
+        <p class="section-subtitle">Hệ sinh thái thiết bị IoT chuyên nghiệp, kết nối liền mạch với nền tảng Smart Energy</p>
         <div class="hardware-grid">
-            <div class="hardware-card">
-                <div class="hardware-image">📲</div>
+            <div class="hardware-card fade-up">
+                <div class="hardware-image hw-meter">
+                    <div class="pulse-ring-container">
+                        <div class="pulse-ring"></div>
+                        <div class="pulse-ring"></div>
+                    </div>
+                    <i class="fas fa-bolt hw-fa-icon"></i>
+                </div>
                 <div class="hardware-content">
                     <h4>Công Tơ Điện Thông Minh</h4>
-                    <p>Thu thập dữ liệu tiêu thụ điện chính xác mỗi 5 giây.</p>
-                    <p style="font-size: 13px; color: #999; margin-top: 8px;">Protocol: Modbus/TCP | Độ chính xác: ±0.5%</p>
-                    <span class="spec-tag">🔌 3 pha 100A</span>
+                    <p>Thu thập dữ liệu tiêu thụ điện chính xác mỗi 5 giây, truyền qua giao thức công nghiệp Modbus/TCP.</p>
+                    <div class="spec-row"><i class="fas fa-network-wired"></i><span>Protocol: Modbus / TCP</span></div>
+                    <div class="spec-row"><i class="fas fa-crosshairs"></i><span>Độ chính xác: ±0.5%</span></div>
+                    <div class="spec-row"><i class="fas fa-sync-alt"></i><span>Cập nhật: 5 giây / lần</span></div>
+                    <div class="spec-tags">
+                        <span class="spec-tag">⚡ 3 pha 100A</span>
+                        <span class="spec-tag">RS-485</span>
+                    </div>
                 </div>
             </div>
-            <div class="hardware-card">
-                <div class="hardware-image">🏠</div>
+            <div class="hardware-card fade-up">
+                <div class="hardware-image hw-gateway">
+                    <div class="pulse-ring-container">
+                        <div class="pulse-ring"></div>
+                        <div class="pulse-ring"></div>
+                    </div>
+                    <i class="fas fa-server hw-fa-icon"></i>
+                </div>
                 <div class="hardware-content">
                     <h4>Gateway Trung Tâm</h4>
-                    <p>Hub điều khiển tất cả thiết bị. Đồng bộ dữ liệu lên Cloud.</p>
-                    <p style="font-size: 13px; color: #999; margin-top: 8px;">Kết nối: 4G, WiFi, Ethernet</p>
-                    <span class="spec-tag">📡 Hỗ trợ 50+ thiết bị</span>
+                    <p>Hub điều phối toàn bộ thiết bị IoT trong tòa nhà. Đồng bộ dữ liệu lên Cloud theo thời gian thực.</p>
+                    <div class="spec-row"><i class="fas fa-wifi"></i><span>Kết nối: 4G / WiFi / Ethernet</span></div>
+                    <div class="spec-row"><i class="fas fa-microchip"></i><span>CPU: ARM Cortex-A7</span></div>
+                    <div class="spec-row"><i class="fas fa-plug"></i><span>Hỗ trợ 50+ thiết bị đồng thời</span></div>
+                    <div class="spec-tags">
+                        <span class="spec-tag">📡 Zigbee 3.0</span>
+                        <span class="spec-tag">☁️ Cloud Sync</span>
+                    </div>
                 </div>
             </div>
-            <div class="hardware-card">
-                <div class="hardware-image">🌡️</div>
+            <div class="hardware-card fade-up">
+                <div class="hardware-image hw-sensor">
+                    <div class="pulse-ring-container">
+                        <div class="pulse-ring"></div>
+                        <div class="pulse-ring"></div>
+                    </div>
+                    <i class="fas fa-thermometer-half hw-fa-icon"></i>
+                </div>
                 <div class="hardware-content">
-                    <h4>Cảm Biến Nhiệt Độ/Độ Ẩm</h4>
-                    <p>Theo dõi điều kiện môi trường trong tòa nhà thời gian thực.</p>
-                    <p style="font-size: 13px; color: #999; margin-top: 8px;">Chuẩn: ±1°C, ±2% RH</p>
-                    <span class="spec-tag">📊 Cập nhật 10 giây</span>
+                    <h4>Cảm Biến Nhiệt Độ / Độ Ẩm</h4>
+                    <p>Theo dõi điều kiện môi trường trong từng phòng để AI tối ưu HVAC tự động chính xác nhất.</p>
+                    <div class="spec-row"><i class="fas fa-ruler"></i><span>Chuẩn: ±1°C, ±2% RH</span></div>
+                    <div class="spec-row"><i class="fas fa-clock"></i><span>Cập nhật mỗi 10 giây</span></div>
+                    <div class="spec-row"><i class="fas fa-battery-three-quarters"></i><span>Tuổi thọ pin: 2 năm</span></div>
+                    <div class="spec-tags">
+                        <span class="spec-tag">SHT30 Chip</span>
+                        <span class="spec-tag">📊 Log 30 ngày</span>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- AUTOMATION SECTION -->
-    <section id="automation" class="section">
-        <h2 class="section-title">3 Kịch Bản Tự Động Hóa AI</h2>
-        <p class="section-subtitle">Hệ thống học tập và tối ưu hóa năng lượng liên tục 24/7</p>
-        <div class="automation-grid">
-            <div class="automation-card">
-                <div class="automation-header">
-                    <div class="automation-icon">❄️</div>
-                    <button class="automation-toggle active" onclick="toggleScenario(this)" data-scenario="hvac"></button>
-                </div>
-                <div class="automation-info">
-                    <h4>Tối Ưu HVAC</h4>
-                    <p>Giảm tải điều hòa khi nhiệt độ &lt; 24°C. Tiết kiệm 20-30%.</p>
-                </div>
-                <div class="automation-stats">
-                    <div class="stat-item">
-                        <div class="stat-value">12</div>
-                        <div class="stat-label">Kích hoạt hôm nay</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-value">2.5 kWh</div>
-                        <div class="stat-label">Tiết kiệm</div>
-                    </div>
-                </div>
-            </div>
+    <section id="automation">
+        <div class="automation-inner" style="max-width:1400px; margin:0 auto; padding:0 40px;">
+            <h2 class="section-title">3 Kịch Bản Tự Động Hóa AI</h2>
+            <p class="section-subtitle">Hệ thống học tập và tối ưu hóa năng lượng liên tục 24/7, không cần vận hành thủ công</p>
+            <div class="automation-grid">
 
-            <div class="automation-card">
-                <div class="automation-header">
-                    <div class="automation-icon">⏰</div>
-                    <button class="automation-toggle active" onclick="toggleScenario(this)" data-scenario="peak"></button>
-                </div>
-                <div class="automation-info">
-                    <h4>Giờ Cao Điểm</h4>
-                    <p>Ngắt tải phụ từ 17h-20h. Ưu tiên tải thiết yếu.</p>
-                </div>
-                <div class="automation-stats">
-                    <div class="stat-item">
-                        <div class="stat-value">3</div>
-                        <div class="stat-label">Lần hôm nay</div>
+                <!-- HVAC -->
+                <div class="automation-card fade-up">
+                    <div class="auto-header">
+                        <div class="auto-icon-box hvac-box">
+                            <i class="fas fa-snowflake"></i>
+                        </div>
+                        <div style="display:flex; align-items:center; gap:10px;">
+                            <div class="auto-status">
+                                <span class="live-dot"></span> Đang chạy
+                            </div>
+                            <button class="auto-toggle active" onclick="toggleScenario(this, event)"></button>
+                        </div>
                     </div>
-                    <div class="stat-item">
-                        <div class="stat-value">1.8 kWh</div>
-                        <div class="stat-label">Tiết kiệm</div>
+                    <div class="auto-info">
+                        <h4>Tối Ưu HVAC</h4>
+                        <p>Tự động giảm tải điều hòa khi nhiệt độ phòng dưới 24°C. Tiết kiệm 20–30% điện năng HVAC mỗi ngày mà không ảnh hưởng tiện nghi người dùng.</p>
+                    </div>
+                    <div class="progress-wrap">
+                        <div class="progress-header">
+                            <span>Hiệu suất tiết kiệm hôm nay</span>
+                            <span style="color:#38bdf8; font-weight:700;">78%</span>
+                        </div>
+                        <div class="progress-track">
+                            <div class="progress-fill hvac-fill" style="width:78%"></div>
+                        </div>
+                    </div>
+                    <div class="auto-stats">
+                        <div class="auto-stat">
+                            <div class="auto-stat-val" style="color:#38bdf8;">12</div>
+                            <div class="auto-stat-lbl">Kích hoạt hôm nay</div>
+                        </div>
+                        <div class="auto-stat">
+                            <div class="auto-stat-val" style="color:#34d399;">2.5 kWh</div>
+                            <div class="auto-stat-lbl">Điện tiết kiệm</div>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="automation-card">
-                <div class="automation-header">
-                    <div class="automation-icon">🛡️</div>
-                    <button class="automation-toggle active" onclick="toggleScenario(this)" data-scenario="safety"></button>
-                </div>
-                <div class="automation-info">
-                    <h4>An Toàn Hệ Thống</h4>
-                    <p>Ngắt khi vượt ngưỡng 8kW. Bảo vệ thiết bị điện.</p>
-                </div>
-                <div class="automation-stats">
-                    <div class="stat-item">
-                        <div class="stat-value">0</div>
-                        <div class="stat-label">Cảnh báo</div>
+                <!-- PEAK HOUR -->
+                <div class="automation-card fade-up">
+                    <div class="auto-header">
+                        <div class="auto-icon-box peak-box">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div style="display:flex; align-items:center; gap:10px;">
+                            <div class="auto-status">
+                                <span class="live-dot"></span> Đang chạy
+                            </div>
+                            <button class="auto-toggle active" onclick="toggleScenario(this, event)"></button>
+                        </div>
                     </div>
-                    <div class="stat-item">
-                        <div class="stat-value">Bình thường</div>
-                        <div class="stat-label">Trạng thái</div>
+                    <div class="auto-info">
+                        <h4>Cắt Tải Giờ Cao Điểm</h4>
+                        <p>Ngắt các tải phụ không thiết yếu từ 17h–20h hàng ngày. Giảm đáng kể chi phí điện theo biểu giá giờ cao điểm EVN.</p>
+                    </div>
+                    <div class="progress-wrap">
+                        <div class="progress-header">
+                            <span>Hiệu suất tiết kiệm hôm nay</span>
+                            <span style="color:#fbbf24; font-weight:700;">55%</span>
+                        </div>
+                        <div class="progress-track">
+                            <div class="progress-fill peak-fill" style="width:55%"></div>
+                        </div>
+                    </div>
+                    <div class="auto-stats">
+                        <div class="auto-stat">
+                            <div class="auto-stat-val" style="color:#fbbf24;">3</div>
+                            <div class="auto-stat-lbl">Lần kích hoạt</div>
+                        </div>
+                        <div class="auto-stat">
+                            <div class="auto-stat-val" style="color:#34d399;">1.8 kWh</div>
+                            <div class="auto-stat-lbl">Điện tiết kiệm</div>
+                        </div>
                     </div>
                 </div>
+
+                <!-- SAFETY -->
+                <div class="automation-card fade-up">
+                    <div class="auto-header">
+                        <div class="auto-icon-box safety-box">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <div style="display:flex; align-items:center; gap:10px;">
+                            <div class="auto-status">
+                                <span class="live-dot"></span> Giám sát
+                            </div>
+                            <button class="auto-toggle active" onclick="toggleScenario(this, event)"></button>
+                        </div>
+                    </div>
+                    <div class="auto-info">
+                        <h4>Bảo Vệ An Toàn Hệ Thống</h4>
+                        <p>Tự động ngắt tải khi công suất vượt ngưỡng 8kW. Bảo vệ toàn bộ thiết bị khỏi quá tải và sự cố điện áp đột ngột.</p>
+                    </div>
+                    <div class="progress-wrap">
+                        <div class="progress-header">
+                            <span>Mức tải hiện tại / Ngưỡng 8kW</span>
+                            <span style="color:#f87171; font-weight:700;">32%</span>
+                        </div>
+                        <div class="progress-track">
+                            <div class="progress-fill safety-fill" style="width:32%"></div>
+                        </div>
+                    </div>
+                    <div class="auto-stats">
+                        <div class="auto-stat">
+                            <div class="auto-stat-val" style="color:#34d399;">0</div>
+                            <div class="auto-stat-lbl">Cảnh báo hôm nay</div>
+                        </div>
+                        <div class="auto-stat">
+                            <div class="auto-stat-val" style="color:#34d399; font-size:16px;">Bình thường</div>
+                            <div class="auto-stat-lbl">Trạng thái hệ thống</div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
     </section>
@@ -1242,17 +1063,17 @@
     <!-- PARTNERS SECTION -->
     <section id="partners" class="section">
         <h2 class="section-title">Đối Tác Tin Cậy</h2>
-        <p class="section-subtitle">Được tin tưởng bởi các tập đoàn và công ty hàng đầu</p>
+        <p class="section-subtitle">Được tin tưởng bởi các tập đoàn và công ty hàng đầu tại Đà Nẵng và miền Trung</p>
         <div class="partners-container">
             <div class="partners-scroll">
-                <div class="partner-item">🏢</div>
-                <div class="partner-item">🏭</div>
-                <div class="partner-item">🏗️</div>
-                <div class="partner-item">🏛️</div>
-                <div class="partner-item">🏦</div>
-                <div class="partner-item">🏥</div>
-                <div class="partner-item">🏪</div>
-                <div class="partner-item">🏨</div>
+                <div class="partner-item"><span>🏢</span><span class="partner-name">Vincom Center</span></div>
+                <div class="partner-item"><span>🏛️</span><span class="partner-name">Duy Tan University</span></div>
+                <div class="partner-item"><span>🏗️</span><span class="partner-name">Da Nang Software Park</span></div>
+                <div class="partner-item"><span>🏦</span><span class="partner-name">Vietcombank Tower</span></div>
+                <div class="partner-item"><span>🏪</span><span class="partner-name">Lotte Mart</span></div>
+                <div class="partner-item"><span>🏥</span><span class="partner-name">Family Hospital</span></div>
+                <div class="partner-item"><span>🏭</span><span class="partner-name">Da Nang Port</span></div>
+                <div class="partner-item"><span>🏨</span><span class="partner-name">Indochina Riverside</span></div>
             </div>
         </div>
     </section>
@@ -1260,121 +1081,215 @@
     <!-- CONTACT SECTION -->
     <section id="contact" class="section">
         <h2 class="section-title">Liên Hệ Chúng Tôi</h2>
-        <p class="section-subtitle">Hãy gửi yêu cầu của bạn. Chúng tôi sẽ phản hồi trong vòng 24 giờ</p>
-        <div class="contact-container">
-            <form class="contact-form" onsubmit="handleContactSubmit(event)">
-                <div class="form-group">
-                    <label>Tên Công Ty</label>
-                    <input type="text" placeholder="Nhập tên công ty của bạn" required>
+        <p class="section-subtitle">Hãy gửi yêu cầu của bạn — chúng tôi sẽ phản hồi trong vòng 24 giờ làm việc</p>
+        <div class="contact-wrapper">
+
+            <!-- LEFT: INFO -->
+            <div class="contact-info">
+                <div class="contact-info-header">
+                    <h3>Liên hệ<br>trực tiếp với chúng tôi</h3>
+                    <p>Đội ngũ kỹ thuật Smart Energy luôn sẵn sàng hỗ trợ bạn từ tư vấn đến triển khai hệ thống hoàn chỉnh.</p>
                 </div>
-                <div class="form-group">
-                    <label>Email Liên Hệ</label>
-                    <input type="email" placeholder="your@company.com" required>
+                <div class="ci-item">
+                    <div class="ci-icon map"><i class="fas fa-map-marker-alt"></i></div>
+                    <div class="ci-text">
+                        <strong>Địa chỉ</strong>
+                        <span>Đại học Duy Tân, Đà Nẵng, Việt Nam</span>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label>Số Điện Thoại</label>
-                    <input type="tel" placeholder="+84 (0)123 456 789" required>
+                <a class="ci-item" href="mailto:doanvandoan132@gmail.com">
+                    <div class="ci-icon mail"><i class="fas fa-envelope"></i></div>
+                    <div class="ci-text">
+                        <strong>Email liên hệ</strong>
+                        <span>doanvandoan132@gmail.com</span>
+                    </div>
+                </a>
+                <a class="ci-item" href="tel:+84123456789">
+                    <div class="ci-icon phone"><i class="fas fa-phone-alt"></i></div>
+                    <div class="ci-text">
+                        <strong>Điện thoại</strong>
+                        <span>+84 (0)123 456 789</span>
+                    </div>
+                </a>
+                <div class="ci-item">
+                    <div class="ci-icon clock"><i class="fas fa-clock"></i></div>
+                    <div class="ci-text">
+                        <strong>Giờ làm việc</strong>
+                        <span>Thứ 2 – Thứ 6: 8:00 – 17:30<br>Hỗ trợ kỹ thuật 24/7</span>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label>Chủ Đề</label>
-                    <input type="text" placeholder="Tôi quan tâm đến..." required>
+                <div class="contact-social">
+                    <a class="social-btn" href="#" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a class="social-btn" href="#" title="GitHub"><i class="fab fa-github"></i></a>
+                    <a class="social-btn" href="#" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    <a class="social-btn" href="mailto:doanvandoan132@gmail.com" title="Email"><i class="fas fa-envelope"></i></a>
                 </div>
-                <div class="form-group">
-                    <label>Tin Nhắn Chi Tiết</label>
-                    <textarea placeholder="Hãy mô tả nhu cầu của bạn..." required></textarea>
-                </div>
-                <div class="form-buttons">
-                    <button type="submit" class="btn-submit">📤 Gửi Yêu Cầu</button>
-                    <button type="reset" class="btn-reset">Xóa Form</button>
-                </div>
-            </form>
+            </div>
+
+            <!-- RIGHT: FORM -->
+            <div class="contact-form-wrap">
+                <h4><i class="fas fa-paper-plane"></i> Gửi Yêu Cầu Tư Vấn</h4>
+                <form onsubmit="handleContactSubmit(event)">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label><i class="fas fa-building"></i>Tên Công Ty</label>
+                            <input type="text" placeholder="Tên công ty của bạn..." required>
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-user"></i>Họ &amp; Tên</label>
+                            <input type="text" placeholder="Nguyễn Văn A" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label><i class="fas fa-envelope"></i>Email</label>
+                            <input type="email" placeholder="your@company.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-phone"></i>Điện Thoại</label>
+                            <input type="tel" placeholder="+84 (0)xxx xxx xxx">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-tag"></i>Nhu Cầu</label>
+                        <select>
+                            <option value="">-- Chọn loại nhu cầu --</option>
+                            <option>Tư vấn giải pháp năng lượng</option>
+                            <option>Demo hệ thống Smart Energy</option>
+                            <option>Báo giá lắp đặt IoT</option>
+                            <option>Hỗ trợ kỹ thuật</option>
+                            <option>Hợp tác đối tác</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-comment-alt"></i>Tin Nhắn Chi Tiết</label>
+                        <textarea placeholder="Mô tả nhu cầu, quy mô tòa nhà, vấn đề đang gặp phải..." required></textarea>
+                    </div>
+                    <div class="form-buttons">
+                        <button type="submit" class="btn-submit" id="submitBtn">
+                            <i class="fas fa-paper-plane"></i> Gửi Yêu Cầu Ngay
+                        </button>
+                        <button type="reset" class="btn-reset">Xóa</button>
+                    </div>
+                    <p class="form-note"><i class="fas fa-lock"></i> Thông tin của bạn được bảo mật hoàn toàn. Phản hồi trong vòng 24 giờ.</p>
+                </form>
+            </div>
         </div>
     </section>
 
     <!-- FOOTER -->
     <footer class="footer">
         <div class="footer-content">
-            <!-- Company Info -->
             <div class="footer-section">
                 <h3><i class="fas fa-bolt"></i> Smart Energy V2.1</h3>
-                <p>Hệ thống quản lý năng lượng thông minh cho các tòa nhà hiện đại.</p>
-                <p>🎯 Tiết kiếm năng lượng tối đa 40% | Công nghệ AI & IoT</p>
+                <p>Hệ thống quản lý năng lượng thông minh cho các tòa nhà hiện đại. Được phát triển bởi sinh viên Đại học Duy Tân.</p>
+                <p>🎯 Tiết kiệm tối đa 40% | Công nghệ AI & IoT</p>
+                <p style="margin-top:16px; color:#38bdf8; font-weight:600; font-size:13px;">Cre: Đoàn Văn Thiên Hoàng — Hệ thống Thông tin, DTU 2026</p>
             </div>
-
-            <!-- Contact Information -->
             <div class="footer-section">
                 <h3><i class="fas fa-map-marker-alt"></i> Liên Hệ</h3>
-                <p><strong>📍 Địa chỉ:</strong> Đà Nẵng, Việt Nam</p>
+                <p><strong>📍 Địa chỉ:</strong> Đại học Duy Tân, Đà Nẵng</p>
                 <p><strong>📧 Email:</strong> <a href="mailto:doanvandoan132@gmail.com">doanvandoan132@gmail.com</a></p>
                 <p><strong>📱 Điện thoại:</strong> <a href="tel:+84123456789">+84 (0)123 456 789</a></p>
+                <p><strong>⏰ Hỗ trợ kỹ thuật:</strong> 24/7</p>
             </div>
-
-            <!-- Quick Links -->
             <div class="footer-section">
                 <h3><i class="fas fa-link"></i> Liên Kết Nhanh</h3>
                 <p><a href="/">🏠 Trang chủ</a></p>
                 <p><a href="/dashboard">📊 Dashboard</a></p>
                 <p><a href="/login">🔐 Đăng nhập</a></p>
-                <p><a href="#contact">💬 Liên hệ</a></p>
+                <p><a href="#contact">💬 Liên hệ tư vấn</a></p>
+                <p><a href="#automation">🤖 3 Kịch bản AI</a></p>
             </div>
         </div>
-
         <div class="footer-bottom">
-            <p>&copy; 2026 <strong>Smart Energy V2.1</strong> - Professional Building Energy Management</p>
+            <p>&copy; 2026 <strong>Smart Energy V2.1</strong> — Professional Building Energy Management</p>
             <p>Công nghệ AI & IoT cho tòa nhà thông minh | Powered by <strong>Advanced Energy Solutions</strong></p>
         </div>
     </footer>
 
+    <!-- SCROLL TO TOP BUTTON -->
+    <button id="scrollTopBtn" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+
     <script>
-        // ===== NAVBAR SCROLL EFFECT =====
-        const navbar = document.querySelector('.navbar');
-        
+        // ===== NAVBAR SCROLL =====
+        const navbar = document.getElementById('mainNav');
+        const scrollTopBtn = document.getElementById('scrollTopBtn');
+
         window.addEventListener('scroll', () => {
-            if (window.scrollY > 50) {
-                navbar.classList.add('scrolled');
-            } else {
-                navbar.classList.remove('scrolled');
-            }
+            navbar.classList.toggle('scrolled', window.scrollY > 50);
+            scrollTopBtn.classList.toggle('visible', window.scrollY > 400);
         });
 
-        function smoothScroll(sectionId) {
-            const section = document.getElementById(sectionId);
-            if (section) {
-                section.scrollIntoView({ behavior: 'smooth' });
-            }
+        // ===== SMOOTH SCROLL =====
+        function smoothScroll(id) {
+            const el = document.getElementById(id);
+            if (el) el.scrollIntoView({ behavior: 'smooth' });
         }
 
-        function toggleScenario(button) {
-            button.classList.toggle('active');
-            const scenario = button.dataset.scenario;
-            console.log(`Scenario ${scenario} toggled`);
+        // ===== TOGGLE SCENARIO =====
+        function toggleScenario(btn, e) {
+            if (e) e.preventDefault();
+            btn.classList.toggle('active');
+            const card = btn.closest('.automation-card');
+            const statusEl = card.querySelector('.auto-status');
+            const isActive = btn.classList.contains('active');
+            statusEl.innerHTML = isActive
+                ? '<span class="live-dot"></span> Đang chạy'
+                : '<span class="live-dot" style="background:#6b7280;animation:none;"></span> Đã tắt';
+            statusEl.style.color = isActive ? '#34d399' : '#9ca3af';
+            statusEl.style.background = isActive ? 'rgba(16,185,129,0.15)' : 'rgba(107,114,128,0.15)';
         }
 
+        // ===== CONTACT FORM =====
         function handleContactSubmit(event) {
             event.preventDefault();
-            const form = event.target;
-            
-            // Collect form data
-            const formData = new FormData(form);
-            
-            // Simple validation and feedback
-            alert('✓ Cảm ơn bạn đã liên hệ! Chúng tôi sẽ phản hồi trong vòng 24 giờ.');
-            form.reset();
+            const btn = document.getElementById('submitBtn');
+            btn.innerHTML = '<i class="fas fa-check-circle"></i> Đã gửi thành công!';
+            btn.style.background = 'linear-gradient(135deg, #00aa77, #00cc88)';
+            btn.disabled = true;
+            setTimeout(() => {
+                event.target.reset();
+                btn.innerHTML = '<i class="fas fa-paper-plane"></i> Gửi Yêu Cầu Ngay';
+                btn.style.background = '';
+                btn.disabled = false;
+            }, 3500);
         }
 
-        // Smooth active nav link on scroll
-        window.addEventListener('scroll', () => {
-            const sections = ['intro', 'products', 'hardware', 'automation', 'partners', 'contact'];
-            
-            sections.forEach(id => {
-                const section = document.getElementById(id);
-                if (section) {
-                    const rect = section.getBoundingClientRect();
-                    if (rect.top <= window.innerHeight / 2 && rect.bottom >= window.innerHeight / 2) {
-                        // Highlight active nav link
-                    }
+        // ===== SCROLL FADE-IN =====
+        const fadeEls = document.querySelectorAll('.fade-up');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
                 }
             });
+        }, { threshold: 0.1 });
+        fadeEls.forEach(el => observer.observe(el));
+
+        // ===== ANIMATED COUNTERS =====
+        function animateCounter(id, target) {
+            let current = 0;
+            const step = Math.max(1, Math.ceil(target / 55));
+            const el = document.getElementById(id);
+            if (!el) return;
+            const timer = setInterval(() => {
+                current = Math.min(current + step, target);
+                el.textContent = current;
+                if (current >= target) clearInterval(timer);
+            }, 22);
+        }
+
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                animateCounter('cnt-saving', 40);
+                animateCounter('cnt-device', 50);
+                animateCounter('cnt-uptime', 24);
+                animateCounter('cnt-ai', 139);
+            }, 700);
         });
     </script>
 </body>

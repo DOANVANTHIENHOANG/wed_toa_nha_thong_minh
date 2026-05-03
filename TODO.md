@@ -1,19 +1,16 @@
-# TODO: Implement Gemini Optimization Fixes (V2.1) - COMPLETED ✅
+# TODO: Cập nhật Dashboard.html & main.js theo yêu cầu
 
-## Changes Applied:
-1. ✅ Created TODO.md
-2. ✅ static/GeminiAnalysis.js: Changed onclick="optimizeEnergy('${device.id}')" → "xacNhanToiUu('${device.id}')" on .btn-optimize (Áp dụng button now uses localStorage green lock)
-3. ✅ static/main.js: 
-   - Replaced loadRealtimeFromAPI() devicesRes block with optimized_rooms logic (forces green for 2min, calls renderTable())
-   - Removed xuLyCanhBao() function
-4. ✅ Gemini "Áp dụng" now sets localStorage → realtime forces "Bình thường" + green status
-5. "Cảnh báo" button only opens modal (no optimize calls)
+## Steps:
+- [x] Step 1: Thêm CSS Legend vào dashboard.html
+- [x] Step 2: Thêm HTML Legend và Widget % Tải vào dashboard.html
+- [x] Step 3: Thêm thông số "Công suất chịu tải tối đa: 12kW" vào dashboard.html
+- [x] Step 4: Viết lại hàm updateChart() trong main.js với borderColor động
+- [x] Step 5: Thêm hàm getPowerColor() và simulateRealtimeData() trong main.js
+- [x] Step 6: Đồng bộ Widget Current Power và % với giá trị cuối cùng trên biểu đồ
+- [x] Step 7: Tắt animation Chart.js để đường kẻ không giật
+- [x] Step 8: Kiểm tra và chạy thử
 
-## Test Instructions:
-1. Refresh dashboard → Devices tab
-2. Find "Tới hạn" device → Click "⚠️ Cảnh báo" → Modal → "Hỏi Gemini"
-3. Gemini tab → Click "⚡ Tối ưu năng lượng" → Should lock green for 2min
-4. Verify realtime piechart + table updates correctly
-
-**All steps complete. Ready for testing!**
+## Đã hoàn thành ✅
+- `templates/dashboard.html`: Thêm Legend 3 màu, widget % Tải, chỉ báo 12kW max.
+- `static/main.js`: Cập nhật logic biểu đồ động, dữ liệu giả lập 2.0-12.0 kW, đồng bộ widget, animation tắt.
 

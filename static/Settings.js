@@ -1,6 +1,6 @@
 /**
  * SED V2.1 - Settings.js
- * Cài đặt nâng cao hệ thống với real-time monitoring
+ * Cài đặt nâng cao hệ thống với real-time monitoring (BẢN ĐỘC QUYỀN VIP 100% DYNAMIC)
  */
 
 class AdvancedSettingsManager {
@@ -20,28 +20,37 @@ class AdvancedSettingsManager {
     }
 
     setupEventListeners() {
-        // Apply settings
-        const applyBtn = document.getElementById('btn-apply-settings');
+        // Hỗ trợ cả 2 tên ID (cũ và mới) của nút Lưu
+        const applyBtn = document.getElementById('btn-apply-settings') || document.getElementById('btn-save');
         if (applyBtn) {
             applyBtn.addEventListener('click', () => this.applySettings());
         }
 
-        // Reset to defaults
         const resetBtn = document.getElementById('btn-reset-settings');
         if (resetBtn) {
             resetBtn.addEventListener('click', () => this.resetToDefaults());
         }
 
-        // Clear alerts
         const clearAlertsBtn = document.getElementById('btn-clear-alerts');
         if (clearAlertsBtn) {
             clearAlertsBtn.addEventListener('click', () => this.clearAllAlerts());
         }
 
-        // Threshold slider
         const thresholdSlider = document.getElementById('threshold-slider');
         if (thresholdSlider) {
             thresholdSlider.addEventListener('input', (e) => this.updateThresholdDisplay(e.target.value));
+        }
+        // Xử lý làm mờ ô nhập giá khi bật EVN
+        const evnToggle = document.getElementById('evn-mode');
+        if (evnToggle) {
+            evnToggle.addEventListener('change', (e) => {
+                const staticPriceInput = document.getElementById('static-price') || document.getElementById('price-per-kwh-input');
+                if (staticPriceInput) {
+                    staticPriceInput.disabled = e.target.checked;
+                    staticPriceInput.style.opacity = e.target.checked ? '0.4' : '1';
+                    staticPriceInput.style.cursor = e.target.checked ? 'not-allowed' : 'text';
+                }
+            });
         }
     }
 
@@ -51,26 +60,102 @@ class AdvancedSettingsManager {
             const data = await response.json();
 
             this.settings = data;
+            window.systemSettings = data; // Đồng bộ lên RAM toàn hệ thống
 
-            // Populate form fields
-            const thresholdInput = document.getElementById('threshold-input');
-            const priceInput = document.getElementById('price-per-kwh-input');
-            const scheduleInput = document.getElementById('schedule-off-input');
-            const thresholdSlider = document.getElementById('threshold-slider');
+            // Hàm tự động điền dữ liệu (có giáp chống lỗi)
+            const setVal = (id, val) => { if(document.getElementById(id)) document.getElementById(id).value = val; };
+            const setCheck = (id, val) => { if(document.getElementById(id)) document.getElementById(id).checked = val; };
 
-            if (thresholdInput) thresholdInput.value = data.threshold || 5.0;
-            if (priceInput) priceInput.value = data.price_per_kwh || 2500;
-            if (scheduleInput) scheduleInput.value = data.schedule_off || '22:00';
-            if (thresholdSlider) {
-                thresholdSlider.value = data.threshold || 5.0;
-                thresholdSlider.max = 15.0;
-                this.updateThresholdDisplay(data.threshold || 5.0);
+            // 🚀 BƠM DỮ LIỆU CHO 6 TÍNH NĂNG MỚI
+            setVal('alert-slider', data.threshold || 15.0);
+            setVal('cut-slider', data.cut_threshold || 5.4);
+            setVal('static-price', data.price_per_kwh || 3500);
+            setVal('target-kwh', data.target_kwh || 500);
+            setCheck('evn-mode', data.evn_mode || false);
+            // Khóa ô giá tĩnh nếu EVN đang bật
+            const staticPriceInput = document.getElementById('static-price') || document.getElementById('price-per-kwh-input');
+            if (staticPriceInput) {
+                const isEvn = data.evn_mode === true || data.evn_mode === 'true';
+                staticPriceInput.disabled = isEvn;
+                staticPriceInput.style.opacity = isEvn ? '0.4' : '1';
+                staticPriceInput.style.cursor = isEvn ? 'not-allowed' : 'text';
+            }
+            setCheck('eco-mode', data.eco_mode || true);
+
+            // Giữ lại hỗ trợ cho các ID cũ lỡ web của sếp còn dùng
+            setVal('threshold-input', data.threshold || 15.0);
+            setVal('price-per-kwh-input', data.price_per_kwh || 3500);
+            setVal('schedule-off-input', data.schedule_off || '22:00');
+
+            if (document.getElementById('threshold-slider')) {
+                document.getElementById('threshold-slider').value = data.threshold || 15.0;
+                document.getElementById('threshold-slider').max = 200.0; // Nâng max lên 200 cho xịn
+                this.updateThresholdDisplay(data.threshold || 15.0);
             }
 
-            console.log('✅ Settings loaded:', data);
+            console.log('✅ Cấu hình đã được tải từ Lõi:', data);
         } catch (error) {
             console.error('❌ Error loading settings:', error);
             this.showNotification('Lỗi khi tải cài đặt', 'error');
+        }
+    }
+
+    // 🚀 HÀM QUAN TRỌNG NHẤT: BẮN FULL DỮ LIỆU XUỐNG PYTHON
+    async applySettings() {
+        try {
+            // Hàm lấy dữ liệu (Hỗ trợ quét cả ID cũ và ID mới)
+            const getVal = (id, def) => document.getElementById(id) ? document.getElementById(id).value : def;
+            const getCheck = (id, def) => document.getElementById(id) ? document.getElementById(id).checked : def;
+
+            // GOM 6 TRƯỜNG VIP
+            const threshold = parseFloat(getVal('alert-slider', getVal('threshold-input', 15.0)));
+            const cut_threshold = parseFloat(getVal('cut-slider', 5.4));
+            const target_kwh = parseInt(getVal('target-kwh', 500));
+            const price = parseInt(getVal('static-price', getVal('price-per-kwh-input', 3500)));
+            const evn_mode = getCheck('evn-mode', false);
+            const eco_mode = getCheck('eco-mode', true);
+            const scheduleOff = getVal('schedule-off-input', '22:00');
+
+            const payload = {
+                threshold: threshold,
+                cut_threshold: cut_threshold,
+                target_kwh: target_kwh,
+                price_per_kwh: price,
+                evn_mode: evn_mode,
+                eco_mode: eco_mode,
+                schedule_off: scheduleOff
+            };
+
+            const applyBtn = document.getElementById('btn-apply-settings') || document.getElementById('btn-save');
+            if (applyBtn) {
+                applyBtn.disabled = true;
+                applyBtn.textContent = '⏳ Đang đồng bộ...';
+            }
+
+            const response = await fetch('/api/settings/update', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+
+            if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+            // Cập nhật lại vào RAM 
+            this.settings = payload;
+            window.systemSettings = payload;
+
+            this.showNotification(`✅ Cài đặt Động đã được lưu vào Lõi!`, 'success');
+
+            if (applyBtn) {
+                applyBtn.disabled = false;
+                applyBtn.textContent = '💾 Lưu cấu hình hệ thống';
+            }
+
+            await this.loadAlerts();
+
+        } catch (error) {
+            console.error('❌ Error applying settings:', error);
+            this.showNotification('Lỗi khi lưu cài đặt', 'error');
         }
     }
 
@@ -78,14 +163,11 @@ class AdvancedSettingsManager {
         try {
             const response = await fetch('/api/realtime/alerts?limit=20');
             const data = await response.json();
-
             if (data.success) {
                 this.alerts = data.alerts || [];
                 this.displayAlerts();
             }
-        } catch (error) {
-            console.error('Error loading alerts:', error);
-        }
+        } catch (error) { console.error('Error loading alerts:', error); }
     }
 
     displayAlerts() {
@@ -96,8 +178,7 @@ class AdvancedSettingsManager {
             alertContainer.innerHTML = `
                 <div class="empty-state">
                     <p>✅ Không có cảnh báo nào</p>
-                </div>
-            `;
+                </div>`;
             return;
         }
 
@@ -124,7 +205,7 @@ class AdvancedSettingsManager {
                     </div>
                     ${!alert.is_resolved ? `
                         <button onclick="advancedSettings.resolveAlert(${alert.id})" class="btn-resolve">
-                            ✅ Xảy ngoại ghi danh
+                            ✅ Xác nhận
                         </button>
                     ` : `
                         <span class="resolved-badge">✓ Đã xử lý</span>
@@ -136,170 +217,81 @@ class AdvancedSettingsManager {
 
     updateThresholdDisplay(value) {
         const display = document.getElementById('threshold-display');
-        if (display) {
-            display.textContent = `${value} kW`;
-        }
+        if (display) display.textContent = `${value} kW`;
 
         const indicator = document.getElementById('threshold-indicator');
         if (indicator) {
-            indicator.style.width = `${(value / 15) * 100}%`;
-            indicator.style.backgroundColor = value > 7 ? '#ff6b6b' : value > 5 ? '#ffa726' : '#66bb6a';
-        }
-    }
-
-    async applySettings() {
-        try {
-            const threshold = parseFloat(document.getElementById('threshold-input')?.value || 5.0);
-            const price = parseInt(document.getElementById('price-per-kwh-input')?.value || 2500);
-            const scheduleOff = document.getElementById('schedule-off-input')?.value || '22:00';
-
-            // Validate
-            if (threshold < 1 || threshold > 15) {
-                this.showNotification('Ngưỡng phải từ 1-15 kW', 'warning');
-                return;
-            }
-
-            if (price < 0 || price > 10000) {
-                this.showNotification('Giá phải từ 0-10000 ₫', 'warning');
-                return;
-            }
-
-            const applyBtn = document.getElementById('btn-apply-settings');
-            if (applyBtn) {
-                applyBtn.disabled = true;
-                applyBtn.textContent = '⏳ Đang lưu...';
-            }
-
-            const response = await fetch('/api/settings/update', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    threshold: threshold,
-                    price_per_kwh: price,
-                    schedule_off: scheduleOff
-                })
-            });
-
-            if (!response.ok) throw new Error(`HTTP ${response.status}`);
-
-            this.settings = { threshold, price_per_kwh: price, schedule_off: scheduleOff };
-
-            this.showNotification(`✅ Cài đặt đã được cập nhật!`, 'success');
-
-            if (applyBtn) {
-                applyBtn.disabled = false;
-                applyBtn.textContent = '💾 Lưu cài đặt';
-            }
-
-            // Auto-reload alerts
-            await this.loadAlerts();
-
-        } catch (error) {
-            console.error('❌ Error applying settings:', error);
-            this.showNotification('Lỗi khi lưu cài đặt', 'error');
+            indicator.style.width = `${(value / 200) * 100}%`;
+            indicator.style.backgroundColor = value > 150 ? '#ff6b6b' : value > 100 ? '#ffa726' : '#66bb6a';
         }
     }
 
     resetToDefaults() {
         if (!confirm('Đặt lại tất cả cài đặt về mặc định?')) return;
+        const setVal = (id, val) => { if(document.getElementById(id)) document.getElementById(id).value = val; };
+        const setCheck = (id, val) => { if(document.getElementById(id)) document.getElementById(id).checked = val; };
 
-        const thresholdInput = document.getElementById('threshold-input');
-        const priceInput = document.getElementById('price-per-kwh-input');
-        const scheduleInput = document.getElementById('schedule-off-input');
-        const thresholdSlider = document.getElementById('threshold-slider');
-
-        if (thresholdInput) thresholdInput.value = 5.0;
-        if (priceInput) priceInput.value = 2500;
-        if (scheduleInput) scheduleInput.value = '22:00';
-        if (thresholdSlider) {
-            thresholdSlider.value = 5.0;
-            this.updateThresholdDisplay(5.0);
-        }
-
+        setVal('alert-slider', 15.0);
+        setVal('cut-slider', 5.4);
+        setVal('static-price', 3500);
+        setVal('target-kwh', 500);
+        setCheck('evn-mode', false);
+        setCheck('eco-mode', true);
+        
         this.applySettings();
     }
 
     async resolveAlert(alertId) {
         try {
-            const response = await fetch(`/api/realtime/alerts/${alertId}/resolve`, {
-                method: 'POST'
-            });
-
+            const response = await fetch(`/api/realtime/alerts/${alertId}/resolve`, { method: 'POST' });
             if (!response.ok) throw new Error(`HTTP ${response.status}`);
-
             this.showNotification('✅ Cảnh báo đã được xác nhận', 'success');
             await this.loadAlerts();
-
-        } catch (error) {
-            console.error('Error resolving alert:', error);
-            this.showNotification('Lỗi khi xác nhận cảnh báo', 'error');
-        }
+        } catch (error) { this.showNotification('Lỗi khi xác nhận cảnh báo', 'error'); }
     }
 
     async clearAllAlerts() {
         if (!confirm('Xóa toàn bộ cảnh báo?')) return;
-
         try {
             const response = await fetch('/api/alerts/clear', { method: 'POST' });
-
             if (!response.ok) throw new Error(`HTTP ${response.status}`);
-
             this.alerts = [];
             this.displayAlerts();
             this.showNotification('✅ Tất cả cảnh báo đã được xóa', 'success');
-
-        } catch (error) {
-            console.error('Error clearing alerts:', error);
-            this.showNotification('Lỗi khi xóa cảnh báo', 'error');
-        }
+        } catch (error) { this.showNotification('Lỗi khi xóa cảnh báo', 'error'); }
     }
 
     startRealTimeMonitoring() {
         if (this.isMonitoring) return;
-
         this.isMonitoring = true;
-
-        // Check real-time stats every 30 seconds
         this.monitoringInterval = setInterval(async () => {
             try {
                 const response = await fetch('/api/realtime/current');
                 const data = await response.json();
-
                 if (data.success) {
                     this.updateRealtimeDisplay(data);
-
-                    // Reload alerts if new alerts detected
                     await this.loadAlerts();
                 }
-            } catch (error) {
-                console.error('Error in real-time monitoring:', error);
-            }
-        }, 30000);  // Every 30 seconds
-
+            } catch (error) { console.error('Error in real-time monitoring:', error); }
+        }, 30000);
         console.log('✅ Real-time monitoring started');
     }
 
     updateRealtimeDisplay(data) {
         const realtimeContainer = document.getElementById('realtime-display');
         if (!realtimeContainer) return;
-
         const isAlert = data.alert ? 'alert-active' : 'alert-inactive';
-
         realtimeContainer.innerHTML = `
             <div class="realtime-stat ${isAlert}">
                 <div class="stat-label">⚡ Công suất hiện tại</div>
                 <div class="stat-value">${data.current_pwr} kW</div>
-                <div class="stat-info">
-                    ${data.alert ? `🔴 VỀT NGƯỠNG (${data.threshold} kW)` : `✅ Bình thường`}
-                </div>
+                <div class="stat-info">${data.alert ? `🔴 VƯỢT NGƯỠNG (${data.threshold} kW)` : `✅ Bình thường`}</div>
             </div>
-
             <div class="realtime-stat">
                 <div class="stat-label">🌡️ Nhiệt độ</div>
                 <div class="stat-value">${data.temp}°C</div>
                 <div class="stat-info">Cập nhật: ${this.formatTime(data.timestamp)}</div>
             </div>
-
             <div class="realtime-progress">
                 <div class="progress-bar">
                     <div class="progress-fill" style="width: ${(data.current_pwr / data.threshold * 100)}%"></div>
@@ -311,42 +303,21 @@ class AdvancedSettingsManager {
 
     formatTime(timestamp) {
         if (!timestamp) return '';
-
-        try {
-            const date = new Date(timestamp);
-            return date.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' });
-        } catch {
-            return timestamp;
-        }
+        try { return new Date(timestamp).toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' }); } 
+        catch { return timestamp; }
     }
 
     showNotification(message, type = 'info') {
         const notification = document.createElement('div');
         notification.className = `notification notification-${type}`;
         notification.innerHTML = `<p>${message}</p>`;
-
         document.body.appendChild(notification);
-
         setTimeout(() => notification.remove(), 5000);
     }
 
-    // Cleanup
-    destroy() {
-        if (this.monitoringInterval) {
-            clearInterval(this.monitoringInterval);
-        }
-    }
+    destroy() { if (this.monitoringInterval) clearInterval(this.monitoringInterval); }
 }
 
-// Initialize
 let advancedSettings;
-document.addEventListener('DOMContentLoaded', () => {
-    advancedSettings = new AdvancedSettingsManager();
-});
-
-// Cleanup on page unload
-window.addEventListener('beforeunload', () => {
-    if (advancedSettings) {
-        advancedSettings.destroy();
-    }
-});
+document.addEventListener('DOMContentLoaded', () => { advancedSettings = new AdvancedSettingsManager(); });
+window.addEventListener('beforeunload', () => { if (advancedSettings) advancedSettings.destroy(); });

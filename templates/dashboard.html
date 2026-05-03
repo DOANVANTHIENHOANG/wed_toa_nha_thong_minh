@@ -424,6 +424,108 @@
         ::-webkit-scrollbar-thumb:hover {
             background: rgba(59, 130, 246, 0.5);
         }
+
+        /* =========================================
+           HIỆU ỨNG NỀN TÒA NHÀ AUTOMATION (REAL-TIME)
+           ========================================= */
+        @keyframes buildingZoom {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        body {
+            position: relative;
+            background-color: transparent !important;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image: linear-gradient(rgba(15, 23, 42, 0.85), rgba(15, 23, 42, 0.98)), url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            animation: buildingZoom 35s ease-in-out infinite;
+            z-index: -999;
+        }
+
+        /* =========================================
+           POWER LOAD LEGEND & MAX LOAD INDICATOR
+           ========================================= */
+        .power-legend {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            font-weight: 500;
+            color: #cbd5e1;
+            background: rgba(15, 23, 42, 0.5);
+            padding: 6px 12px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .legend-color {
+            width: 14px;
+            height: 14px;
+            border-radius: 3px;
+            display: inline-block;
+        }
+
+        .max-load-indicator {
+            font-size: 13px;
+            color: #94a3b8;
+            font-weight: 600;
+            margin-left: auto;
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            padding: 6px 12px;
+            border-radius: 8px;
+        }
+
+        .max-load-indicator span {
+            color: #f87171;
+        }
+        /* =========================================
+   BỘ LỌC UI/UX TỐI ƯU HÓA (BẢN VÀNG)
+   ========================================= */
+
+/* 1. Ép nền thẻ Card chứa biểu đồ tối và đục hơn để data nổi bật, không lẫn vào nền tòa nhà */
+.chart-card {
+    background: linear-gradient(135deg, rgba(15, 23, 42, 0.95), rgba(15, 23, 42, 0.85)) !important;
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(56, 189, 248, 0.2) !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5) !important;
+}
+
+/* 2. Đóng khung khu vực Chat Gemini cho chuyên nghiệp, giống màn hình Terminal */
+#ai-response, #chat-history-permanent {
+    background: rgba(10, 15, 30, 0.6) !important; /* Tối hơn nền ngoài một chút */
+    border: 1px solid rgba(56, 189, 248, 0.15) !important;
+    border-radius: 16px !important;
+    padding: 20px !important;
+    box-shadow: inset 0 0 20px rgba(0,0,0,0.5) !important;
+    margin-bottom: 20px !important;
+    /* Làm nổi bật cái ô gõ text AI, cho nó sáng và ôm gọn chữ hơn */
+div[style*="border-radius: 30px"] > #ai-query {
+    background: rgba(15, 23, 42, 0.8) !important;
+    border: 1px solid rgba(56, 189, 248, 0.5) !important;
+    border-radius: 20px !important;
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+    box-shadow: inset 0 2px 10px rgba(0,0,0,0.3) !important;
+}
+}
     </style>
     
     <!-- Enhanced UI & Device Control CSS -->
@@ -505,6 +607,13 @@
         <div class="header">
             <div class="header-left">
                 <div class="header-title">⚡ Smart Energy V2</div>
+                
+                <span style="background: rgba(239,68,68,0.15); color: #fca5a5; border: 1px solid rgba(239,68,68,0.4); 
+                             padding: 4px 10px; border-radius: 4px; font-size: 11px; font-weight: bold; margin-left: 15px; 
+                             letter-spacing: 1px; animation: pulse 2s infinite;">
+                    <i class="fas fa-laptop-code"></i> SOFTWARE SIMULATION MODE
+                </span>
+
             </div>
             <div class="header-right">
                 <div class="user-info">
@@ -514,15 +623,11 @@
             </div>
         </div>
 
-        <!-- CONTENT -->
-        <div class="content">
-            <!-- TAB: TỔNG QUAN -->
+      <div class="content">
             <div id="overview" class="tab-content active">
                 <div class="tab-title">📊 Bảng điều khiển hệ thống</div>
 
-                <!-- Stats Grid -->
                 <div class="stats-grid">
-                    <!-- Công suất hiện tại -->
                     <div class="stat-card">
                         <div class="stat-icon">⚡</div>
                         <div class="stat-label">Công suất hiện tại</div>
@@ -530,7 +635,6 @@
                         <div class="stat-unit">kW</div>
                     </div>
 
-                    <!-- Nhiệt độ -->
                     <div class="stat-card">
                         <div class="stat-icon">🌡️</div>
                         <div class="stat-label">Nhiệt độ</div>
@@ -538,7 +642,6 @@
                         <div class="stat-unit">°C</div>
                     </div>
 
-                    <!-- Điện hôm nay -->
                     <div class="stat-card">
                         <div class="stat-icon">📅</div>
                         <div class="stat-label">Điện hôm nay</div>
@@ -546,7 +649,6 @@
                         <div class="stat-unit">kWh</div>
                     </div>
 
-                    <!-- Điện tháng này -->
                     <div class="stat-card">
                         <div class="stat-icon">🗓️</div>
                         <div class="stat-label">Điện tháng này</div>
@@ -555,22 +657,41 @@
                     </div>
                 </div>
 
-                <!-- Chart -->
-              <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 20px; margin-bottom: 40px;">
+                <div style="display: flex; gap: 24px; margin-bottom: 40px; align-items: stretch; flex-wrap: wrap;">
                     
-                    <div class="chart-card" style="margin-bottom: 0;">
-                        <h3><i class="fas fa-chart-line" style="color: var(--primary);"></i> Biểu đồ phụ tải thực tế</h3>
-                        <canvas id="energyChart" height="280"></canvas>
+                    <div class="chart-card" style="flex: 2; min-width: 0; margin-bottom: 0; display: flex; flex-direction: column;">
+                        <h3 style="margin-bottom: 20px;"><i class="fas fa-chart-line" style="color: var(--primary-light);"></i> Biểu đồ tổng phụ tải hệ thống</h3>
+                        
+                        <div style="position: relative; height: 350px; width: 100%; flex-grow: 1;">
+                            <canvas id="energyChart"></canvas>
+                        </div>
                     </div>
 
-                    <div class="chart-card" style="margin-bottom: 0;">
-                        <h3><i class="fas fa-chart-pie" style="color: var(--warning);"></i> Phân bổ tiêu thụ</h3>
-                        <canvas id="devicePieChart" height="280"></canvas>
+                    <div class="chart-card" style="flex: 1; min-width: 0; margin-bottom: 0; display: flex; flex-direction: column;">
+                        <h3 style="margin-bottom: 20px;"><i class="fas fa-chart-pie" style="color: var(--warning);"></i> Phân bổ tiêu thụ (25 phòng)</h3>
+                        
+                        <div style="position: relative; height: 220px; width: 100%;">
+                            <canvas id="devicePieChart"></canvas>
+                        </div>
+                        
+                        <div style="margin-top: 25px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1); display: flex; flex-direction: column; gap: 14px;">
+                            <div style="display: flex; align-items: center; gap: 12px; font-size: 14px; font-weight: 500; color: #e2e8f0;">
+                                <span style="width: 16px; height: 16px; border-radius: 4px; background: #10b981; box-shadow: 0 0 8px rgba(16, 185, 129, 0.5);"></span> 
+                                Bình thường (&lt; 5.0 kW)
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 12px; font-size: 14px; font-weight: 500; color: #e2e8f0;">
+                                <span style="width: 16px; height: 16px; border-radius: 4px; background: #fbbf24; box-shadow: 0 0 8px rgba(251,191,36,0.5);"></span> 
+                                Tải cao (5.0 - 8.0 kW)
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 12px; font-size: 14px; font-weight: 500; color: #e2e8f0;">
+                                <span style="width: 16px; height: 16px; border-radius: 4px; background: #dc2626; box-shadow: 0 0 8px rgba(220,38,38,0.5);"></span> 
+                                Cảnh báo (&gt; 8.0 kW)
+                            </div>
+                        </div>
                     </div>
 
                 </div>
             </div>
-
             <!-- TAB: THIẾT BỊ & TẢI -->
             <div id="devices" class="tab-content">
                 <div class="tab-title">⚙️ Thiết bị & Tải</div>
@@ -672,43 +793,146 @@
     </div>
 
 </div> 
-            <!-- TAB: PHÂN TÍCH GEMINI -->
-            <div id="ai" class="tab-content">
+        <div id="ai" class="tab-content">
                 <div class="tab-title">🧠 Phân tích Gemini</div>
                 <div class="chart-card">
                     <h3>Trợ lý AI - SED Analysis</h3>
-                    <div id="ai-response" style="color: #cbd5e1; line-height: 1.8; min-height: 100px;">
-                        <p style="color: #94a3b8;">🤖 Đang khởi tạo AI...</p>
+                    
+                    <div id="gemini-suggestions" style="margin-bottom: 20px; text-align: center;">
+                        <i class="fas fa-robot" style="font-size: 40px; color: #38bdf8; margin-bottom: 15px; text-shadow: 0 0 20px rgba(56, 189, 248, 0.5);"></i>
+                        <p style="color: #f8fafc; font-size: 15px; margin-bottom: 20px; font-weight: 500;">Bạn cần AI phân tích gì hôm nay?</p>
+                        <div style="display: flex; gap: 10px; flex-wrap: wrap; justify-content: center;">
+                            <button onclick="chonGoiY('Phân tích và tìm ra các phòng đang tiêu thụ điện cao nhất hiện tại.')" 
+                                    style="background: rgba(56,189,248,0.1); border: 1px solid rgba(56,189,248,0.3); color: #7dd3fc; padding: 10px 18px; border-radius: 20px; cursor: pointer; transition: 0.3s; font-size: 13px;">
+                                ⚡ Tìm phòng tốn điện nhất
+                            </button>
+                            <button onclick="chonGoiY('Dự báo chi phí tiền điện tháng này dựa trên lịch sử gần đây.')" 
+                                    style="background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.3); color: #6ee7b7; padding: 10px 18px; border-radius: 20px; cursor: pointer; transition: 0.3s; font-size: 13px;">
+                                📈 Dự báo chi phí tháng này
+                            </button>
+                            <button onclick="chonGoiY('Đề xuất các kịch bản tự động hóa giúp tiết kiệm năng lượng hiệu quả nhất.')" 
+                                    style="background: rgba(245,158,11,0.1); border: 1px solid rgba(245,158,11,0.3); color: #fcd34d; padding: 10px 18px; border-radius: 20px; cursor: pointer; transition: 0.3s; font-size: 13px;">
+                                💡 Đề xuất kịch bản tiết kiệm
+                            </button>
+                        </div>
                     </div>
-                    <div style="margin-top: 20px; display: flex; gap: 10px;">
-                        <input type="text" id="ai-query" placeholder="Nhập câu hỏi..." style="flex: 1; padding: 12px 15px; background: rgba(30, 41, 59, 0.5); border: 1px solid rgba(59, 130, 246, 0.2); border-radius: 8px; color: white;">
-                        <button onclick="askGeminiAI()" style="padding: 12px 25px; background: var(--primary); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600;">Gửi Gemini
 
+                <div id="ai-response" style="color: #cbd5e1; line-height: 1.8; min-height: 10px; max-height: 500px; overflow-y: auto; padding-right: 15px;">
+                        </div>
+
+                    <div style="margin-top: 25px; display: flex; align-items: center; background: rgba(30, 41, 59, 0.6); border: 1px solid rgba(56, 189, 248, 0.3); border-radius: 30px; padding: 5px 5px 5px 22px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); transition: all 0.3s ease;" 
+                         onmouseover="this.style.borderColor='rgba(56, 189, 248, 0.8)'; this.style.boxShadow='0 4px 20px rgba(56, 189, 248, 0.2)';" 
+                         onmouseout="this.style.borderColor='rgba(56, 189, 248, 0.3)'; this.style.boxShadow='0 4px 15px rgba(0,0,0,0.2)';">
+                        
+                        <input type="text" id="ai-query" 
+                               onkeypress="if(event.key === 'Enter' && this.value.trim() !== '') { document.getElementById('btn-send-gemini').click(); }" 
+                               placeholder="Nhập tin nhắn cho SED AI..." 
+                               style="flex: 1; background: transparent; border: none; color: white; font-size: 15px; outline: none; padding: 12px 0; font-family: 'Inter', sans-serif;">
+                        
+                        <button id="btn-send-gemini" 
+                                onclick="if(document.getElementById('ai-query').value.trim() !== '' && typeof askGeminiAI === 'function') askGeminiAI();" 
+                                style="background: linear-gradient(135deg, #0ea5e9, #3b82f6); color: white; border: none; width: 42px; height: 42px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 16px; transition: 0.2s; box-shadow: 0 4px 10px rgba(14, 165, 233, 0.4); margin-left: 10px;">
+                            <i class="fas fa-paper-plane" style="margin-left: -2px; margin-top: 1px;"></i>
                         </button>
-                        
-                        
                     </div>
                 </div>
             </div>
+
+            <script>
+                function chonGoiY(text) {
+                    const input = document.getElementById('ai-query');
+                    const btn = document.getElementById('btn-send-gemini');
+                    if(input && btn) {
+                        input.value = text;
+                        btn.click(); 
+                    }
+                }
+            </script>
 
             <!-- TAB: CẤU HÌNH HỆ THỐNG -->
             <div id="settings" class="tab-content">
                 <div class="tab-title">🛠️ Cấu hình hệ thống</div>
-                <div class="chart-card">
-                    <h3>Cài đặt hệ thống</h3>
-                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 30px;">
-                        <div>
-                            <label style="display: block; color: #94a3b8; margin-bottom: 8px; font-weight: 600;">Ngưỡng cảnh báo (kW):</label>
-                            <input type="number" id="threshold-input" value="5.0" style="width: 100%; padding: 12px; background: rgba(30, 41, 59, 0.5); border: 1px solid rgba(59, 130, 246, 0.2); border-radius: 8px; color: white;">
-                        </div>
-                        <div>
-                            <label style="display: block; color: #94a3b8; margin-bottom: 8px; font-weight: 600;">Giá điện (₫/kWh):</label>
-                            <input type="number" id="price-input" value="3000" style="width: 100%; padding: 12px; background: rgba(30, 41, 59, 0.5); border: 1px solid rgba(59, 130, 246, 0.2); border-radius: 8px; color: white;">
-                        </div>
-                    </div>
-                    <button onclick="saveSettings()" style="margin-top: 20px; padding: 12px 25px; background: var(--primary); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600;">💾 Lưu cài đặt</button>
-                </div>
+                <style>
+    .settings-wrapper { color: #e2e8f0; font-family: 'Lexend', sans-serif; padding: 20px; }
+    .settings-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; margin-bottom: 30px; }
+    .cyber-card { background: rgba(30, 41, 59, 0.4); border: 1px solid rgba(56, 189, 248, 0.15); border-radius: 16px; padding: 25px; backdrop-filter: blur(12px); box-shadow: 0 10px 30px rgba(0,0,0,0.2); transition: 0.3s; }
+    .cyber-card:hover { border-color: rgba(56, 189, 248, 0.4); box-shadow: 0 10px 30px rgba(14, 165, 233, 0.1); }
+    .card-header { display: flex; align-items: center; gap: 10px; margin-bottom: 25px; color: #f8fafc; font-size: 18px; font-weight: 600; }
+    .card-header i { color: #0ea5e9; font-size: 20px; }
+    .setting-row { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; border-bottom: 1px dashed rgba(148, 163, 184, 0.1); }
+    .setting-info h4 { margin: 0 0 5px 0; font-size: 15px; font-weight: 500; color: #e2e8f0; }
+    .setting-info p { margin: 0; font-size: 13px; color: #64748b; }
+    .cyber-input { background: rgba(15, 23, 42, 0.6); border: 1px solid #334155; color: #38bdf8; padding: 10px 15px; border-radius: 8px; font-family: 'Lexend'; font-weight: 600; width: 100px; text-align: right; outline: none; transition: 0.3s; }
+    .cyber-input:focus { border-color: #0ea5e9; box-shadow: 0 0 10px rgba(14, 165, 233, 0.2); }
+    
+    /* Toggle & Slider */
+    .toggle-switch { position: relative; width: 50px; height: 26px; }
+    .toggle-switch input { opacity: 0; width: 0; height: 0; }
+    .toggle-slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #334155; border-radius: 34px; transition: .4s; }
+    .toggle-slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 4px; bottom: 4px; background-color: white; border-radius: 50%; transition: .4s; }
+    .toggle-switch input:checked + .toggle-slider { background-color: #0ea5e9; box-shadow: 0 0 12px rgba(14, 165, 233, 0.6); }
+    .toggle-switch input:checked + .toggle-slider:before { transform: translateX(24px); }
+    
+    .slider-header { display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 14px; color: #94a3b8; }
+    .slider-val { color: #ef4444; font-weight: bold; font-size: 16px; }
+    .cyber-range { -webkit-appearance: none;appearance: none; width: 100%; height: 6px; border-radius: 5px; background: #334155; outline: none; }
+    .cyber-range::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 20px; height: 20px; border-radius: 50%; background: #fff; cursor: pointer; border: 3px solid #ef4444; box-shadow: 0 0 10px rgba(239, 68, 68, 0.5); }
+
+    /* Button & Toast */
+    .btn-save { background: linear-gradient(135deg, #0ea5e9, #2563eb); color: white; border: none; padding: 14px 30px; border-radius: 10px; font-family: 'Lexend'; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 10px; transition: 0.3s; margin-left: auto; }
+    .btn-save:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(37, 99, 235, 0.6); }
+    #toast { visibility: hidden; min-width: 250px; color: #fff; text-align: center; border-radius: 8px; padding: 16px; position: fixed; z-index: 1000; right: 30px; bottom: 30px; font-size: 15px; font-weight: 500; display: flex; align-items: center; gap: 10px; transform: translateX(120%); transition: transform 0.4s, visibility 0.4s; }
+    #toast.show { visibility: visible; transform: translateX(0); }
+</style>
+
+<div class="settings-wrapper">
+    <div class="settings-grid">
+        <div class="cyber-card">
+            <div class="card-header"><i class="fas fa-wallet"></i> Năng lượng & Chi phí</div>
+            <div class="setting-row">
+                <div class="setting-info"><h4>Giá điện bậc thang EVN</h4><p>Tự động tính theo khung giờ</p></div>
+              <label class="toggle-switch"><input type="checkbox" id="evn-mode"><span class="toggle-slider"></span></label>
             </div>
+            <div class="setting-row">
+                <div class="setting-info"><h4>Đơn giá tĩnh</h4><p>VNĐ / 1 kWh</p></div>
+                <div><input type="number" id="static-price" class="cyber-input" value="3500"></div>
+            </div>
+            <div class="setting-row">
+                <div class="setting-info"><h4>Hạn mức dự kiến</h4><p>Mục tiêu tiêu thụ (kWh)</p></div>
+                <div><input type="number" id="target-kwh" class="cyber-input" value="500"></div>
+            </div>
+        </div>
+
+        <div class="cyber-card">
+            <div class="card-header"><i class="fas fa-exclamation-triangle" style="color: #f59e0b;"></i> Cảnh Báo Hệ Thống</div>
+            <div style="margin-top: 15px;">
+                <div class="slider-header"><span>Ngưỡng Báo Động (kW)</span><span class="slider-val" id="alert-val-display">5.0 kW</span></div>
+             <input type="range" min="10" max="200" step="1" value="150" class="cyber-range" id="alert-slider">
+                <p style="font-size: 12px; color: #64748b; margin-top: 10px;">Hệ thống sẽ nháy đỏ nếu tải tổng vượt qua mức này.</p>
+            </div>
+            <div class="setting-row" style="margin-top: 15px;">
+                <div class="setting-info"><h4>Cảnh báo qua Email</h4></div>
+                <label class="toggle-switch"><input type="checkbox" id="email-alert" checked><span class="toggle-slider"></span></label>
+            </div>
+        </div>
+
+        <div class="cyber-card">
+            <div class="card-header"><i class="fas fa-brain" style="color: #8b5cf6;"></i> AI & Tự Động Hóa</div>
+            <div class="setting-row">
+                <div class="setting-info"><h4>Chế độ ECO Thông minh</h4><p>AI tự phân bổ công suất</p></div>
+                <label class="toggle-switch"><input type="checkbox" id="eco-mode" ><span class="toggle-slider"></span></label>
+            </div>
+            <div style="margin-top: 15px;">
+                <div class="slider-header"><span>Ngưỡng cắt tải thứ cấp (kW)</span><span class="slider-val" style="color: #8b5cf6;" id="cut-val-display">4.5 kW</span></div>
+                <input type="range" min="1" max="10" step="0.1" value="4.5" class="cyber-range" id="cut-slider" style="background: rgba(139, 92, 246, 0.2);">
+                <p style="font-size: 12px; color: #64748b; margin-top: 10px;">AI tự động ngắt các tải ưu tiên thấp (như đèn hành lang).</p>
+            </div>
+        </div>
+    </div>
+
+    <button class="btn-save" id="btn-save"><i class="fas fa-save"></i> LƯU CẤU HÌNH HỆ THỐNG</button>
+    <div id="toast" style="background-color: #10b981;"><i class="fas fa-check-circle"></i> <span></span></div>
+</div>
         </div>
     </div>
 
@@ -742,36 +966,78 @@
                     document.getElementById('username').textContent = 'Khách';
                 });
         }
+// 🚀 KHAI BÁO BIẾN LƯU TRỮ LỊCH SỬ CHAT AI NẰM Ở NGOÀI HÀM
+// Khai báo biến toàn cục để giữ dữ liệu trong bộ nhớ RAM của trình duyệt
+window.permanentChatData = ""; 
 
-       function switchTab(element) {
+function switchTab(element) {
+    const tabId = element.getAttribute('data-tab');
+    const chatBox = document.getElementById('chat-history-permanent');
+
+    // 1. Trước khi chuyển đi: Nếu đang ở tab AI, phải lưu lại ngay
+    if (document.querySelector('.nav-item.active').getAttribute('data-tab') === 'ai') {
+        if (chatBox && chatBox.innerHTML.length > 50) {
+            window.permanentChatData = chatBox.innerHTML;
+        }
+    }
+
+    // Code chuyển tab tiêu chuẩn của sếp
     document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
     element.classList.add('active');
     document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
-    
-    const tabId = element.getAttribute('data-tab');
     document.getElementById(tabId).classList.add('active');
 
-    // 🔥 SỬA CHỖ NÀY: Gọi cả vẽ biểu đồ và tính tiền điện
+    // 2. Khi quay lại tab AI: Ép hệ thống hiển thị lại dữ liệu đã lưu
+    if (tabId === 'ai') {
+        // Dùng setTimeout dài hơn một chút (300ms) để chắc chắn đè lên mọi script reset khác
+        setTimeout(() => {
+            const currentChatBox = document.getElementById('chat-history-permanent');
+            const suggestions = document.getElementById('gemini-suggestions');
+            
+            if (currentChatBox && window.permanentChatData) {
+                currentChatBox.innerHTML = window.permanentChatData;
+                currentChatBox.scrollTop = currentChatBox.scrollHeight;
+                if (suggestions) suggestions.style.display = 'none';
+            }
+        }, 300);
+    }
+
+    // Các logic khác của sếp giữ nguyên
     if (tabId === 'analytics') {
-        if (typeof loadAnalyticsData === 'function') {
-            loadAnalyticsData(); 
-        }
-        // THÊM DÒNG NÀY VÀO NÈ HOÀNG:
-        if (typeof loadEnergyForecast === 'function') {
-            loadEnergyForecast(); 
-        }
+        if (typeof loadAnalyticsData === 'function') loadAnalyticsData();
+        if (typeof loadEnergyForecast === 'function') loadEnergyForecast();
+    }
+    if (tabId === 'automation' && window.automationManagerV5) {
+        setTimeout(() => { window.automationManagerV5.fetchRealDatabaseData(); }, 100);
     }
 }
-
-        // 4. HỎI AI GEMINI
+ // ==========================================
+        // 4. HỎI AI GEMINI (BẢN CHUẨN ĐÃ ĐỔI ID VÀ GẮN ENTER)
+        // ==========================================
         function askAI() {
             const query = document.getElementById('ai-query').value;
             if (!query.trim()) return;
 
-            const responseDiv = document.getElementById('ai-response');
-            responseDiv.innerHTML = '<p style="color: #94a3b8;">🔄 Đang xử lý...</p>';
+            // 1. Ẩn khu vực gợi ý đi cho gọn
+            const suggestionsDiv = document.getElementById('gemini-suggestions');
+            if (suggestionsDiv) {
+                suggestionsDiv.style.display = 'none';
+            }
+
+            // 2. Chọc ĐÚNG vào cái ID mới 'sed-ai-response'
+            const responseDiv = document.getElementById('sed-ai-response');
+            if (!responseDiv) return console.error("Không tìm thấy khung hiển thị!");
+
+            // 3. Hiệu ứng đang xử lý siêu mượt
+            responseDiv.innerHTML = `
+                <div style="text-align: center; margin-top: 40px; margin-bottom: 20px;">
+                    <i class="fas fa-circle-notch fa-spin" style="font-size: 40px; color: #38bdf8; margin-bottom: 15px;"></i>
+                    <p style="color: #94a3b8; font-weight: 500; letter-spacing: 1px;">Đang kết nối vệ tinh tới Gemini AI...</p>
+                </div>`;
+                
             document.getElementById('ai-query').value = '';
 
+            // 4. Gửi API
             fetch('/api/ai-chat', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -780,13 +1046,36 @@
             .then(r => r.json())
             .then(data => {
                 const answer = data.response || data.message || 'Không có phản hồi';
-                responseDiv.innerHTML = `<p style="color: #cbd5e1;">🤖 ${answer}</p>`;
+                
+                // 5. Trả kết quả bọc trong khung Cyberpunk
+                responseDiv.innerHTML = `
+                    <div style="background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(10px); border: 1px solid rgba(56, 189, 248, 0.3); padding: 25px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); animation: fadeIn 0.5s ease-out;">
+                        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 15px; border-bottom: 1px dashed rgba(255,255,255,0.1); padding-bottom: 10px;">
+                            <i class="fas fa-robot" style="color: #38bdf8; font-size: 20px;"></i>
+                            <strong style="color: #e0f2fe; font-size: 16px;">Gemini Analysis</strong>
+                        </div>
+                        <div style="color: #cbd5e1; line-height: 1.8; font-size: 14.5px;">
+                            ${answer.replace(/\n/g, '<br>')} 
+                        </div>
+                    </div>`;
             })
             .catch(e => {
-                responseDiv.innerHTML = `<p style="color: var(--danger);">❌ Lỗi: ${e.message}</p>`;
+                responseDiv.innerHTML = `
+                    <div style="background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.4); padding: 20px; border-radius: 12px; text-align: center;">
+                        <i class="fas fa-exclamation-triangle" style="color: #ef4444; font-size: 30px; margin-bottom: 10px;"></i>
+                        <p style="color: #fca5a5; margin: 0;">Lỗi kết nối: ${e.message}</p>
+                    </div>`;
             });
         }
 
+        // HÀM MỚI: DÀNH CHO CÁC NÚT GỢI Ý
+        function fillAndSendGemini(text) {
+            const inputField = document.getElementById('ai-query'); 
+            if(inputField) {
+                inputField.value = text;
+                askAI(); 
+            }
+        }
         // 5. LƯU CÀI ĐẶT HỆ THỐNG
         function saveSettings() {
             const thresholdInput = document.getElementById('threshold-input');
@@ -812,22 +1101,167 @@
                 fetch('/logout').then(() => window.location.href = '/login');
             }
         }
+    // 1. Hiệu ứng thanh Ngưỡng Báo Động (Đổi sang màu đỏ khi kéo)
+        const alertSlider = document.getElementById('alert-slider');
+        const alertDisplay = document.getElementById('alert-val-display');
+        if(alertSlider && alertDisplay) {
+            alertSlider.addEventListener('input', function() {
+                alertDisplay.innerText = parseFloat(this.value).toFixed(1) + ' kW';
+                let percent = (this.value / 200) * 100;
+                // Đổi thành #0f172a để nền tối thui, tôn cái màu đỏ lên
+                this.style.background = `linear-gradient(90deg, #ef4444 ${percent}%, #0f172a ${percent}%)`;
+            });
+            // Kích hoạt màu ngay khi load web
+            alertSlider.dispatchEvent(new Event('input')); 
+        }
+
+        // 2. Hiệu ứng thanh Cắt Tải AI (Màu tím Cyber)
+        const cutSlider = document.getElementById('cut-slider');
+        const cutDisplay = document.getElementById('cut-val-display');
+        if(cutSlider && cutDisplay) {
+            cutSlider.addEventListener('input', function() {
+                cutDisplay.innerText = parseFloat(this.value).toFixed(1) + ' kW';
+                let percent = (this.value / 10) * 100;
+                // Đổi thành #0f172a cho đồng bộ
+                this.style.background = `linear-gradient(90deg, #8b5cf6 ${percent}%, #0f172a ${percent}%)`;
+            });
+            cutSlider.dispatchEvent(new Event('input'));
+        }
+
+        // --- 1. HIỆU ỨNG GIAO DIỆN SLIDER (Hàm dự phòng) ---
+        function initSliderVisuals() {
+            const alertSlider = document.getElementById('alert-slider');
+            const alertDisplay = document.getElementById('alert-val-display');
+            if(alertSlider && alertDisplay) {
+                alertSlider.addEventListener('input', function() {
+                    alertDisplay.innerText = parseFloat(this.value).toFixed(1) + ' kW';
+                    let percent = (this.value / 200) * 100; // ĐÃ FIX LỖI CHIA 15 CỦA SẾP
+                    this.style.background = `linear-gradient(90deg, #ef4444 ${percent}%, #0f172a ${percent}%)`;
+                });
+            }
+
+            const cutSlider = document.getElementById('cut-slider');
+            const cutDisplay = document.getElementById('cut-val-display');
+            if(cutSlider && cutDisplay) {
+                cutSlider.addEventListener('input', function() {
+                    cutDisplay.innerText = parseFloat(this.value).toFixed(1) + ' kW';
+                    let percent = (this.value / 10) * 100;
+                    this.style.background = `linear-gradient(90deg, #8b5cf6 ${percent}%, #0f172a ${percent}%)`;
+                });
+            }
+        }
+
+        // --- 2. HÚT DỮ LIỆU TỪ PYTHON LÚC VỪA MỞ TRANG ---
+        async function loadRealSettings() {
+            try {
+                const res = await fetch('/api/settings');
+                const data = await res.json();
+                
+                // Đập dữ liệu vào UI
+                if(data.threshold) document.getElementById('alert-slider').value = data.threshold;
+                
+                // 🚀 ÉP CHỮ CHÚ THÍCH CỦA BIỂU ĐỒ TRÒN NHẢY THEO THANH TÍM (Code của Sếp)
+                if(data.cut_threshold) {
+                    document.getElementById('cut-slider').value = data.cut_threshold;
+                    let crit = parseFloat(data.cut_threshold);
+                    let high = (crit * 0.75).toFixed(1);
+                    
+                    document.getElementById('legend-green').innerText = `Bình thường (< ${high} kW)`;
+                    document.getElementById('legend-yellow').innerText = `Tải cao (${high} - ${crit} kW)`;
+                    document.getElementById('legend-red').innerText = `Cảnh báo (> ${crit.toFixed(1)} kW)`;
+                }
+                if(data.target_kwh) document.getElementById('target-kwh').value = data.target_kwh;
+                if(data.price_per_kwh) document.getElementById('static-price').value = data.price_per_kwh;
+                if(data.evn_mode !== undefined) document.getElementById('evn-mode').checked = data.evn_mode;
+
+                // 🚀 BÍ QUYẾT DEMO CỦA SẾP: BỎ QUA DATABASE, ÉP LUÔN TẮT KHI F5 WEB!
+                const ecoToggle = document.getElementById('eco-mode');
+                if (ecoToggle) {
+                    ecoToggle.checked = false; // Bắt buộc tắt công tắc
+                }
+                
+                // Khóa hệ thống AI lại, bắt nó ngủ chờ sếp bật công tắc
+                window.isAILoadSheddingActive = false;
+                window.alertStartTime = null;
+
+                // Kích hoạt màu slider
+                document.getElementById('alert-slider')?.dispatchEvent(new Event('input'));
+                document.getElementById('cut-slider')?.dispatchEvent(new Event('input'));
+                console.log("✅ Đã nạp cấu hình thực tế. (AI đang bị ép tắt chờ lệnh Hoàng)!");
+            } catch (e) {
+                console.log("Chưa có API Settings, dùng giao diện mặc định.");
+                
+                // Lỗi mạng thì cũng ép tắt công tắc luôn cho chắc
+                const ecoToggle = document.getElementById('eco-mode');
+                if (ecoToggle) ecoToggle.checked = false; 
+
+                document.getElementById('alert-slider')?.dispatchEvent(new Event('input'));
+                document.getElementById('cut-slider')?.dispatchEvent(new Event('input'));
+            }
+        }
+        // --- 3. ĐẨY DỮ LIỆU LÊN PYTHON KHI BẤM LƯU (BẢN CHỐNG LỖI) ---
+        document.getElementById('btn-save')?.addEventListener('click', async function() {
+            const btn = this;
+            const originalText = btn.innerHTML;
+            
+            try {
+                // 🚀 HÀM LẤY DỮ LIỆU AN TOÀN: Không tìm thấy ID thì lấy số mặc định, không bao giờ sập Web!
+                const getVal = (id, def) => document.getElementById(id) ? document.getElementById(id).value : def;
+                const getCheck = (id, def) => document.getElementById(id) ? document.getElementById(id).checked : def;
+
+                const payload = {
+                    threshold: getVal('alert-slider', 15.0),
+                    cut_threshold: getVal('cut-slider', 5.4),
+                    target_kwh: getVal('target-kwh', 500),
+                    // Lưu ý: Tui lấy cả 2 ID, lỡ sếp xài ID cũ là price-per-kwh-input thì nó vẫn bắt được
+                    price_per_kwh: document.getElementById('static-price') ? document.getElementById('static-price').value : getVal('price-per-kwh-input', 3500),
+                    evn_mode: getCheck('evn-mode', false),
+                    eco_mode: getCheck('eco-mode', true)
+                };
+
+                // Hiệu ứng xoay xoay
+                btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> ĐANG ĐỒNG BỘ LÕI...';
+                btn.disabled = true;
+
+                const res = await fetch('/api/settings/update', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(payload)
+                });
+                
+                const responseData = await res.json();
+                
+                if(responseData.success) {
+                    // 🚀 ĐỒNG BỘ NGAY VÀO RAM WEB: Để các thanh Cảnh báo Đỏ nhảy số liền mà không cần F5
+                    window.systemSettings = payload;
+
+                    // Hiện thông báo xanh góc phải
+                    const toast = document.getElementById('toast');
+                    if(toast) {
+                        toast.querySelector('span').innerText = "Đã đồng bộ thông số hệ thống thành công!";
+                        toast.className = "show";
+                        setTimeout(() => toast.className = toast.className.replace("show", ""), 3000);
+                    } else {
+                        alert("Đã đồng bộ thông số hệ thống thành công!");
+                    }
+                } else {
+                    alert("Lỗi từ server: " + responseData.message);
+                }
+            } catch (e) {
+                console.error("🚨 LỖI GIAO DIỆN KHI LƯU:", e);
+                alert("Lỗi Giao Diện! Hãy nhấn F12, mở tab Console chụp lỗi tui xem nhé.");
+            } finally {
+                // Trả lại trạng thái nút
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }
+        });
     </script>
-
-    <!-- Device Control Component Script -->
-    <script src="{{ url_for('static', filename='DeviceControl.js') }}"></script>
-
-    <!-- Gemini AI Consultation Script -->
-    <script src="{{ url_for('static', filename='GeminiAnalysis.js') }}"></script>
-
-    <!-- Automation Component Script - V5 Enhanced Edition -->
-    <script src="{{ url_for('static', filename='Automation-Enhanced.js') }}"></script>
-    <script src="{{ url_for('static', filename='api-client.js') }}"></script>
-
-    <!-- Main Dashboard Script (uses energyAPI and deviceDatabase) -->
+    <script src="{{ url_for('static', filename='DeviceControl.js') }}?v=9999"></script>
+    <script src="{{ url_for('static', filename='GeminiAnalysis.js') }}?v=9999"></script>
+    <script src="{{ url_for('static', filename='Automation-Enhanced.js') }}?v=9999"></script>
+    <script src="{{ url_for('static', filename='api-client.js') }}?v=9999"></script>
     <script src="{{ url_for('static', filename='main.js') }}?v=1002"></script>
-
-    <!-- Mobile Sidebar Toggle Script -->
     <script>
         function toggleSidebar() {
             const sidebar = document.querySelector('.sidebar');
@@ -845,6 +1279,81 @@
                 }
             }
         });
+    // ==========================================
+    // 🚨 HỆ THỐNG CẢNH SÁT TUẦN TRA REAL-TIME (BẢN BẤT TỬ)
+    // ==========================================
+    let isGlobalAlarmActive = false;
+
+    function startSecurityMonitor() {
+        setInterval(() => {
+            // 1. Đọc thẳng số liệu từ giao diện (Dùng textContent để đọc được ngay cả khi sếp đang ở tab khác)
+            const currentPwrEl = document.getElementById('val-pwr');
+            const thresholdEl = document.getElementById('alert-slider');
+            
+            if (!currentPwrEl || !thresholdEl) return;
+
+            const currentPower = parseFloat(currentPwrEl.textContent || "0");
+            const globalThreshold = parseFloat(thresholdEl.value || "15");
+
+            // 2. KÍCH HOẠT CẢNH BÁO THANH MÀU ĐỎ
+            if (currentPower > globalThreshold) {
+                if (!isGlobalAlarmActive) {
+                    isGlobalAlarmActive = true; // Đánh dấu là đang báo động
+                    
+                    // Hiện pop-up góc phải màn hình
+                    if(typeof showToast === 'function') {
+                        showToast(`🚨 NGUY HIỂM: Tải tổng (${currentPower} kW) vượt ngưỡng an toàn (${globalThreshold} kW)!`, 'error');
+                    } else {
+                        alert(`🚨 CẢNH BÁO: Tải tổng (${currentPower} kW) vượt ngưỡng!`);
+                    }
+                    
+                    // Hiệu ứng chớp viền đỏ toàn bộ màn hình web
+                    document.body.style.transition = "box-shadow 0.3s ease";
+                    document.body.style.boxShadow = "inset 0 0 150px rgba(239, 68, 68, 0.8)";
+                    
+                    // Tự động tắt chớp đỏ sau 1.5 giây
+                    setTimeout(() => {
+                        document.body.style.boxShadow = "none";
+                    }, 1500);
+                }
+            } else {
+                isGlobalAlarmActive = false; // Tắt cờ báo động nếu công suất đã hạ xuống mức an toàn
+            }
+        }, 1000); 
+    }
+
+    // Kích hoạt ngay sau khi web tải xong 2 giây
+    document.addEventListener('DOMContentLoaded', () => {
+        setTimeout(startSecurityMonitor, 2000);
+    });
+    // 🚀 CHIP AUTO-REFRESH HÓA ĐƠN (Chạy ngầm mỗi 10 giây)
+        setInterval(async () => {
+            try {
+                // Chạy xuống Lõi lấy hóa đơn mới nhất
+                const response = await fetch('/api/analytics/forecast');
+                const result = await response.json();
+                
+                if (result.success) {
+                    // 👉 TUI ĐÃ LẮP ĐÚNG ID CỦA SẾP VÀO ĐÂY RỒI:
+                    const moneyDisplay = document.getElementById('du-bao-thang');
+                    if (moneyDisplay) {
+                        // Lấy số tiền mới, format cho đẹp (vd: 240000 -> 240k)
+                        let currentMoney = result.data.forecast_month_vnd;
+                        let displayString = (currentMoney / 1000).toFixed(0) + 'k VNĐ';
+                        
+                        // Cập nhật chớp nhoáng lên màn hình
+                        moneyDisplay.innerText = displayString;
+                        
+                        // Thêm hiệu ứng chớp xanh lá nhẹ để biết tiền vừa nhảy
+                        moneyDisplay.style.color = '#10b981'; 
+                        setTimeout(() => { moneyDisplay.style.color = '#fff'; }, 1000); // Trả lại màu trắng gốc
+                    }
+                }
+            } catch (error) {
+                console.error("Lỗi cập nhật hóa đơn ngầm:", error);
+            }
+        }, 10000); // 10 giây cập nhật 1 lần
     </script>
+
 </body>
 </html>

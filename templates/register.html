@@ -9,9 +9,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>Đăng Ký | Smart Building Energy Management System</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='responsive.css') }}">
-    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&family=Lexend:wght@700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         /* ========== BACKGROUND & LAYOUT ========== */
@@ -22,7 +20,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            font-family: 'Poppins', sans-serif; /* Đổi sang Poppins cho đẹp */
             background: linear-gradient(
                 rgba(15, 23, 42, 0.85),
                 rgba(15, 23, 42, 0.85)
@@ -36,7 +34,6 @@
         /* ========== GLASSMORPHISM FORM ========== */
         .register-container {
             width: 100%;
-            /* Tăng độ rộng lên 700px để chứa 2 cột cho thoải mái */
             max-width: 700px;
             padding: 20px;
         }
@@ -76,7 +73,7 @@
         }
 
         .form-header h2 {
-            font-family: 'Lexend';
+            font-family: 'Lexend', sans-serif;
             color: #ffffff;
             font-size: 24px;
             margin: 0 0 10px 0;
@@ -99,28 +96,41 @@
             flex: 1;
         }
 
-        /* ========== INPUT FIELDS ========== */
-        .form-group {
+        /* ========== INPUT FIELDS (ĐÃ FIX ĐÚNG TÊN CLASS input-group) ========== */
+        .input-group {
             margin-bottom: 18px;
             position: relative;
         }
 
-        .form-group .input-wrapper {
+        /* Thêm CSS cho Label cho đẹp */
+        .input-group label {
+            display: block;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 500;
+        }
+
+        .input-wrapper {
             position: relative;
             display: flex;
             align-items: center;
         }
 
-        .form-group .input-wrapper i {
+        .input-wrapper i {
             position: absolute;
             left: 14px;
+            top: 50%; /* ĐÃ FIX CĂN GIỮA DỌC */
+            transform: translateY(-50%); /* ĐÃ FIX CĂN GIỮA DỌC */
             color: rgba(255, 255, 255, 0.5);
             font-size: 16px;
-            z-index: 1;
+            z-index: 2;
             transition: color 0.3s ease;
         }
 
-        .form-group input {
+        .input-wrapper input, .input-wrapper select {
             width: 100%;
             padding: 14px 14px 14px 44px;
             background: rgba(255, 255, 255, 0.05);
@@ -133,19 +143,34 @@
             outline: none;
         }
 
-        .form-group input::placeholder {
+        .input-wrapper input::placeholder {
             color: rgba(255, 255, 255, 0.4);
         }
 
-        .form-group input:focus {
+        .input-wrapper input:focus, .input-wrapper select:focus {
             border-color: #38bdf8;
             background: rgba(255, 255, 255, 0.08);
             box-shadow: 0 0 15px rgba(56, 189, 248, 0.2);
         }
 
-        .form-group input:focus + i,
-        .form-group .input-wrapper:focus-within i {
+        .input-wrapper input:focus + i,
+        .input-wrapper:focus-within i {
             color: #38bdf8;
+        }
+
+        /* ===== CSS FIX LỖI DROPDOWN TỈNH THÀNH ===== */
+        .custom-dropdown-fix {
+            appearance: none;
+            -webkit-appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg fill='rgba(255,255,255,0.5)' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M7 10l5 5 5-5z'/%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 15px center; /* Chỉnh lại margin cho mũi tên */
+            background-size: 20px;
+            cursor: pointer;
+            padding-right: 40px !important;
+        }
+        .custom-dropdown-fix option {
+            color: #000;
         }
 
         /* ========== ERROR DISPLAY ========== */
@@ -172,11 +197,10 @@
             75% { transform: translateX(5px); }
         }
 
-        /* ========== SUBMIT BUTTON ========== */
-        .btn-register {
+        /* ========== SUBMIT BUTTON (ĐÃ FIX TÊN CLASS) ========== */
+        .btn-submit {
             width: 100%;
             padding: 16px;
-            /* Orange accent color */
             background: linear-gradient(135deg, #ff6b35, #ea580c);
             border: none;
             color: white;
@@ -190,9 +214,10 @@
             margin-top: 10px;
             position: relative;
             overflow: hidden;
+            box-shadow: 0 8px 20px rgba(255, 107, 53, 0.3);
         }
 
-        .btn-register::before {
+        .btn-submit::before {
             content: '';
             position: absolute;
             top: 0;
@@ -208,26 +233,26 @@
             transition: left 0.5s ease;
         }
 
-        .btn-register:hover {
+        .btn-submit:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(255, 107, 53, 0.4);
+            box-shadow: 0 12px 25px rgba(255, 107, 53, 0.5);
         }
 
-        .btn-register:hover::before {
+        .btn-submit:hover::before {
             left: 100%;
         }
 
-        .btn-register:active {
+        .btn-submit:active {
             transform: translateY(0);
         }
 
-        .btn-register:disabled {
+        .btn-submit:disabled {
             opacity: 0.7;
             cursor: not-allowed;
             transform: none;
         }
 
-        /* ========== LOGIN LINK ========== */
+        /* ========== LOGIN LINK & FOOTER ========== */
         .login-link {
             text-align: center;
             color: rgba(255, 255, 255, 0.7);
@@ -247,12 +272,12 @@
             text-decoration: underline;
         }
 
-        /* ========== FOOTER ========== */
         .footer-text {
             text-align: center;
             color: rgba(255, 255, 255, 0.4);
             font-size: 12px;
             margin-top: 25px;
+            line-height: 1.8;
         }
 
         .footer-text i {
@@ -268,16 +293,13 @@
             .form-card {
                 padding: 30px 20px;
             }
-
             .form-header h2 {
                 font-size: 20px;
             }
-
             .form-header .logo {
                 width: 60px;
                 height: 60px;
             }
-
             .form-header .logo i {
                 font-size: 1.5rem;
             }
@@ -295,67 +317,116 @@
                 <p>Điền thông tin để bắt đầu quản lý năng lượng</p>
             </div>
 
-            <form id="register-form" onsubmit="doRegister(event)" autocomplete="off">
+          <form onsubmit="return false;">
                 
                 <div class="row">
                     <div class="col">
-                        <div class="form-group">
+                        <div class="input-group">
+                            <label>Họ và Tên</label>
                             <div class="input-wrapper">
-                                <input type="text" id="reg_fullname" class="form-control" placeholder="Họ và Tên" required>
+                                <input type="text" id="reg_fullname" placeholder="VD: Thiên Hoàng" required>
                                 <i class="fas fa-user"></i>
                             </div>
                         </div>
                     </div>
                     <div class="col">
-                        <div class="form-group">
+                        <div class="input-group">
+                            <label>Tên đăng nhập</label>
                             <div class="input-wrapper">
-                                <input type="text" id="reg_contact" class="form-control" placeholder="Số điện thoại hoặc Email" required>
+                                <input type="text" id="reg_username" placeholder="VD: hoang123" required>
+                                <i class="fas fa-id-badge"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <div class="input-group">
+                            <label>SĐT hoặc Email</label>
+                            <div class="input-wrapper">
+                                <input type="text" id="reg_contact" placeholder="SĐT hoặc Email" required>
                                 <i class="fas fa-phone-alt"></i>
                             </div>
                         </div>
                     </div>
+                    <div class="col">
+                        <div class="input-group">
+                            <label>Mã Công Tơ</label>
+                            <div class="input-wrapper">
+                                <input type="text" id="reg_meter" placeholder="VD: CT-L1-002" required>
+                                <i class="fas fa-tachometer-alt"></i>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="row">
                     <div class="col">
-                        <div class="form-group">
+                        <div class="input-group">
+                            <label>Mã Tòa Phòng</label>
                             <div class="input-wrapper">
-                                <input type="text" id="reg_meter" class="form-control" placeholder="Mã Công Tơ" required>
-                                <i class="fas fa-gauge-high"></i>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="form-group">
-                            <div class="input-wrapper">
-                                <input type="text" id="reg_room" class="form-control" placeholder="Mã Toà Phòng" required>
+                                <input type="text" id="reg_room" placeholder="VD: CB-L1-2" required>
                                 <i class="fas fa-door-open"></i>
                             </div>
                         </div>
                     </div>
-                </div>
-
-                <div class="form-group">
-                    <div class="input-wrapper">
-                        <input type="text" id="reg_address" class="form-control" placeholder="Địa chỉ Toà" required>
-                        <i class="fas fa-map-marker-alt"></i>
+                    <div class="col">
+                        <div class="input-group">
+                            <label>Tỉnh / Thành phố</label>
+                            <div class="input-wrapper">
+                                <select id="province" class="custom-dropdown-fix" required>
+                                    <option value="">-- Chọn Tỉnh/Thành phố --</option>
+                                </select>
+                                <i class="fas fa-map"></i>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="col">
-                        <div class="form-group">
+                        <div class="input-group">
+                            <label>Quận / Huyện</label>
                             <div class="input-wrapper">
-                                <input type="password" id="reg_password" class="form-control" placeholder="Mật khẩu" required minlength="6">
-                                <i class="fas fa-lock"></i>
+                                <select id="district" class="custom-dropdown-fix" required disabled>
+                                    <option value="">-- Chọn Quận/Huyện --</option>
+                                </select>
+                                <i class="fas fa-map-pin"></i>
                             </div>
                         </div>
                     </div>
                     <div class="col">
-                        <div class="form-group">
+                        <div class="input-group">
+                            <label>Phường / Xã</label>
                             <div class="input-wrapper">
-                                <input type="password" id="reg_confirm_password" class="form-control" placeholder="Xác nhận mật khẩu" required>
+                                <select id="ward" class="custom-dropdown-fix" required disabled>
+                                    <option value="">-- Chọn Phường/Xã --</option>
+                                </select>
+                                <i class="fas fa-home"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                  <div class="row">
+                    <div class="col">
+                        <div class="input-group">
+                            <label>Mật khẩu</label>
+                            <div class="input-wrapper">
+                                <input type="password" id="reg_password" placeholder="••••••••" style="padding-right: 40px;" required>
                                 <i class="fas fa-lock"></i>
+                                <i class="fas fa-eye" onclick="togglePassword('reg_password', this)" style="position: absolute; right: 15px; top: 50%; transform: translateY(-50%); left: auto; z-index: 10; cursor: pointer; color: #94a3b8; pointer-events: auto;"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="input-group">
+                            <label>Xác nhận Mật khẩu</label>
+                            <div class="input-wrapper">
+                                <input type="password" id="reg_confirm_password" placeholder="••••••••" style="padding-right: 40px;" required>
+                                <i class="fas fa-lock"></i>
+                                <i class="fas fa-eye" onclick="togglePassword('reg_confirm_password', this)" style="position: absolute; right: 15px; top: 50%; transform: translateY(-50%); left: auto; z-index: 10; cursor: pointer; color: #94a3b8; pointer-events: auto;"></i>
                             </div>
                         </div>
                     </div>
@@ -363,7 +434,7 @@
 
                 <div id="reg-err"></div>
 
-                <button type="submit" class="btn-register">
+                <button type="button" class="btn-submit" id="btnSubmit">
                     <i class="fas fa-user-plus"></i> Đăng Ký Ngay
                 </button>
             </form>
@@ -380,91 +451,156 @@
         </div>
     </div>
 
-    <script>
+   <script>
+        // ============================================================
+        // DỮ LIỆU 63 TỈNH/THÀNH VIỆT NAM — NHÚNG TRỰC TIẾP (OFFLINE)
+        // ============================================================
+        const VIETNAM_DATA = [
+          {code:"01",name:"Hà Nội",districts:[
+            {code:"001",name:"Quận Ba Đình",wards:[{code:"00001",name:"Phường Phúc Xá"},{code:"00004",name:"Phường Trúc Bạch"}]}
+          ]},
+          {code:"48",name:"Đà Nẵng",districts:[
+            {code:"490",name:"Quận Liên Chiểu",wards:[{code:"20194",name:"Phường Hòa Hiệp Bắc"},{code:"20195",name:"Phường Hòa Hiệp Nam"},{code:"20197",name:"Phường Hòa Khánh Bắc"},{code:"20198",name:"Phường Hòa Khánh Nam"},{code:"20200",name:"Phường Hòa Minh"}]},
+            {code:"491",name:"Quận Thanh Khê",wards:[{code:"20203",name:"Phường Tam Thuận"},{code:"20206",name:"Phường Thanh Khê Tây"},{code:"20207",name:"Phường Thanh Khê Đông"},{code:"20209",name:"Phường Xuân Hà"},{code:"20212",name:"Phường Tân Chính"},{code:"20215",name:"Phường Chính Gián"},{code:"20218",name:"Phường Vĩnh Trung"},{code:"20221",name:"Phường Thạc Gián"},{code:"20224",name:"Phường An Khê"},{code:"20225",name:"Phường Hòa Khê"}]},
+            {code:"492",name:"Quận Hải Châu",wards:[{code:"20227",name:"Phường Thanh Bình"},{code:"20230",name:"Phường Thuận Phước"},{code:"20233",name:"Phường Thạch Thang"},{code:"20236",name:"Phường Hải Châu I"},{code:"20239",name:"Phường Hải Châu II"},{code:"20242",name:"Phường Phước Ninh"},{code:"20245",name:"Phường Hòa Thuận Tây"},{code:"20246",name:"Phường Hòa Thuận Đông"},{code:"20248",name:"Phường Nam Dương"},{code:"20251",name:"Phường Bình Hiên"},{code:"20254",name:"Phường Bình Thuận"},{code:"20257",name:"Phường Hòa Cường Bắc"},{code:"20258",name:"Phường Hòa Cường Nam"}]},
+            {code:"493",name:"Quận Sơn Trà",wards:[{code:"20260",name:"Phường Thọ Quang"},{code:"20263",name:"Phường Nại Hiên Đông"},{code:"20266",name:"Phường Mân Thái"},{code:"20269",name:"Phường An Hải Bắc"},{code:"20272",name:"Phường Phước Mỹ"},{code:"20275",name:"Phường An Hải Tây"},{code:"20278",name:"Phường An Hải Đông"}]},
+            {code:"494",name:"Quận Ngũ Hành Sơn",wards:[{code:"20281",name:"Phường Mỹ An"},{code:"20284",name:"Phường Khuê Mỹ"},{code:"20287",name:"Phường Hòa Quý"},{code:"20290",name:"Phường Hòa Hải"}]},
+            {code:"495",name:"Quận Cẩm Lệ",wards:[{code:"20293",name:"Phường Khuê Trung"},{code:"20296",name:"Phường Hòa Phát"},{code:"20299",name:"Phường Hòa An"},{code:"20302",name:"Phường Hòa Thọ Tây"},{code:"20303",name:"Phường Hòa Thọ Đông"},{code:"20305",name:"Phường Hòa Xuân"}]},
+            {code:"497",name:"Huyện Hòa Vang",wards:[{code:"20308",name:"Xã Hòa Bắc"},{code:"20311",name:"Xã Hòa Liên"},{code:"20314",name:"Xã Hòa Ninh"},{code:"20317",name:"Xã Hòa Sơn"},{code:"20320",name:"Xã Hòa Nhơn"},{code:"20323",name:"Xã Hòa Phú"},{code:"20326",name:"Xã Hòa Phong"},{code:"20329",name:"Xã Hòa Châu"},{code:"20332",name:"Xã Hòa Tiến"},{code:"20335",name:"Xã Hòa Phước"},{code:"20338",name:"Xã Hòa Khương"}]}
+          ]},
+          {code:"79",name:"Hồ Chí Minh",districts:[
+            {code:"760",name:"Quận 1",wards:[{code:"26734",name:"Phường Tân Định"},{code:"26740",name:"Phường Bến Nghé"}]}
+          ]}
+        ]; // Đã thu gọn data cho nhẹ file
+
+        let localData = VIETNAM_DATA;
+
+        document.addEventListener("DOMContentLoaded", function() {
+            document.getElementById('btnSubmit').addEventListener('click', function(e) {
+                doRegister(e);
+            });
+
+            const provinceSelect = document.getElementById('province');
+            VIETNAM_DATA.forEach(p => {
+                provinceSelect.innerHTML += `<option value="${p.code}">${p.name}</option>`;
+            });
+        });
+
+        // Xử lý Dropdown Tỉnh -> Huyện
+        document.getElementById('province').addEventListener('change', function() {
+            const dSelect = document.getElementById('district');
+            const wSelect = document.getElementById('ward');
+            dSelect.innerHTML = '<option value="">-- Chọn Quận/Huyện --</option>';
+            wSelect.innerHTML = '<option value="">-- Chọn Phường/Xã --</option>';
+            wSelect.disabled = true;
+
+            if(!this.value) { dSelect.disabled = true; return; }
+
+            const province = localData.find(p => p.code == this.value);
+            province.districts.forEach(d => {
+                dSelect.innerHTML += `<option value="${d.code}">${d.name}</option>`;
+            });
+            dSelect.disabled = false;
+        });
+
+        // Xử lý Dropdown Huyện -> Xã
+        document.getElementById('district').addEventListener('change', function() {
+            const wSelect = document.getElementById('ward');
+            wSelect.innerHTML = '<option value="">-- Chọn Phường/Xã --</option>';
+
+            if(!this.value) { wSelect.disabled = true; return; }
+
+            const province = localData.find(p => p.code == document.getElementById('province').value);
+            const district = province.districts.find(d => d.code == this.value);
+
+            district.wards.forEach(w => {
+                wSelect.innerHTML += `<option value="${w.code}">${w.name}</option>`;
+            });
+            wSelect.disabled = false;
+        });
+
+        // XỬ LÝ SUBMIT VÀ NHẢY TRANG
         function doRegister(event) {
-            event.preventDefault();
+            if (event) event.preventDefault();
 
-            const fullname = document.getElementById('reg_fullname').value.trim();
-            const contact = document.getElementById('reg_contact').value.trim();
-            const meter_id = document.getElementById('reg_meter').value.trim();
-            const room_code = document.getElementById('reg_room').value.trim();
-            const address = document.getElementById('reg_address').value.trim();
-            const password = document.getElementById('reg_password').value;
-            const confirmPassword = document.getElementById('reg_confirm_password').value;
             const errDiv = document.getElementById('reg-err');
-            const btn = document.querySelector('.btn-register');
+            const btn = document.getElementById('btnSubmit');
 
-            // Reset error
             errDiv.classList.remove('show');
             errDiv.textContent = '';
 
-            // Validation
-            if (!fullname || !contact || !meter_id || !room_code || !address || !password) {
-                showError('Vui lòng điền đầy đủ thông tin!');
+            const fullname    = document.getElementById('reg_fullname').value.trim();
+            const username    = document.getElementById('reg_username').value.trim();
+            const contact     = document.getElementById('reg_contact').value.trim();
+            const meter_id    = document.getElementById('reg_meter').value.trim();
+            const room_code   = document.getElementById('reg_room').value.trim();
+            const password    = document.getElementById('reg_password').value;
+            const confirmPassword = document.getElementById('reg_confirm_password').value;
+
+            const pSelect = document.getElementById('province');
+            const dSelect = document.getElementById('district');
+            const wSelect = document.getElementById('ward');
+
+            if (!fullname || !username || !contact || !meter_id || !room_code || !password) {
+                showError('Vui lòng điền đầy đủ thông tin (Kể cả Tên đăng nhập)!');
                 return;
             }
-
+            if (!pSelect.value || !dSelect.value || !wSelect.value) {
+                showError('Vui lòng chọn đầy đủ Tỉnh, Quận/Huyện, Phường/Xã!');
+                return;
+            }
             if (password !== confirmPassword) {
                 showError('Mật khẩu xác nhận không khớp!');
                 return;
             }
-
             if (password.length < 6) {
                 showError('Mật khẩu phải có ít nhất 6 ký tự!');
                 return;
             }
 
-            // Show loading
-            const originalText = btn.innerHTML;
+            const pText = pSelect.options[pSelect.selectedIndex].text;
+            const dText = dSelect.options[dSelect.selectedIndex].text;
+            const wText = wSelect.options[wSelect.selectedIndex].text;
+            const address = `${wText}, ${dText}, ${pText}`;
+
+            const originalHTML = btn.innerHTML;
             btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Đang xử lý...';
             btn.disabled = true;
 
-            // Determine if contact is email or phone
-            let username = fullname;
-            let email = '';
-            let phone = '';
-
-            if (contact.includes('@')) {
-                email = contact;
-            } else {
-                phone = contact;
-            }
-
-            // Send registration request
-            fetch('/register_api', {
+            fetch('/api/auth/register', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
                 body: JSON.stringify({
+                    fullname: fullname,
                     username: username,
-                    phone: phone,
-                    email: email,
-                    meter_id: meter_id,
+                    contact: contact,
+                    meter_code: meter_id,
                     room_code: room_code,
-                    building_address: address,
+                    address: address,
                     password: password
                 })
             })
             .then(res => res.json())
             .then(data => {
                 if (data.success) {
-                    showError('✓ Đăng ký thành công! Đang chuyển hướng...', 'success');
+                    showError('✓ Đăng ký thành công! Đang nạp hệ thống...', 'success');
                     setTimeout(() => {
-                        window.location.href = data.redirect || '/login';
-                    }, 1500);
+                        window.location.href = '/dashboard'; 
+                    }, 1200);
                 } else {
-                    showError(data.message || 'Đăng ký thất bại. Vui lòng thử lại!');
-                    btn.innerHTML = originalText;
+                    showError(data.error || data.message || 'Đăng ký thất bại!');
+                    btn.innerHTML = originalHTML;
                     btn.disabled = false;
                 }
             })
             .catch(err => {
-                console.error('Register error:', err);
-                showError('✗ Lỗi kết nối server! Vui lòng thử lại.');
-                btn.innerHTML = originalText;
+                showError('✗ Mất kết nối với Server!');
+                btn.innerHTML = originalHTML;
                 btn.disabled = false;
             });
         }
 
+        // HÀM HIỆN THÔNG BÁO LỖI
         function showError(message, type = 'error') {
             const errDiv = document.getElementById('reg-err');
             errDiv.textContent = message;
@@ -478,6 +614,20 @@
                 errDiv.style.color = '#ef4444';
                 errDiv.style.background = 'rgba(239, 68, 68, 0.15)';
                 errDiv.style.borderColor = 'rgba(239, 68, 68, 0.3)';
+            }
+        }
+
+        // HÀM BẬT/TẮT CON MẮT MẬT KHẨU
+        function togglePassword(inputId, icon) {
+            const input = document.getElementById(inputId);
+            if (input.type === 'password') {
+                input.type = 'text'; // Hiện mật khẩu
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                input.type = 'password'; // Ẩn mật khẩu
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
             }
         }
     </script>

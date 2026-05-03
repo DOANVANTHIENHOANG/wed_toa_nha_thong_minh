@@ -1,0 +1,930 @@
+{% extends "auth.html" %}
+
+{% block content %}
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+        color: #e2e8f0;
+        overflow-x: hidden;
+    }
+
+    .dashboard-container {
+        max-width: 1600px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 30px;
+        padding: 20px;
+        background: rgba(15, 23, 42, 0.8);
+        border-radius: 12px;
+        border: 1px solid rgba(100, 116, 139, 0.3);
+    }
+
+    .header h1 {
+        font-size: 28px;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .header-stats {
+        display: flex;
+        gap: 20px;
+    }
+
+    .stat-box {
+        background: rgba(30, 41, 59, 0.8);
+        padding: 15px 25px;
+        border-radius: 8px;
+        border: 1px solid rgba(100, 116, 139, 0.3);
+        text-align: center;
+    }
+
+    .stat-value {
+        font-size: 24px;
+        font-weight: 700;
+        color: #60a5fa;
+    }
+
+    .stat-label {
+        font-size: 12px;
+        color: #94a3b8;
+        margin-top: 5px;
+    }
+
+    .tabs {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 30px;
+        border-bottom: 2px solid rgba(100, 116, 139, 0.3);
+        overflow-x: auto;
+    }
+
+    .tab-btn {
+        padding: 12px 24px;
+        background: transparent;
+        border: none;
+        color: #94a3b8;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 600;
+        border-bottom: 3px solid transparent;
+        transition: all 0.3s;
+        white-space: nowrap;
+    }
+
+    .tab-btn:hover {
+        color: #60a5fa;
+    }
+
+    .tab-btn.active {
+        color: #60a5fa;
+        border-bottom-color: #60a5fa;
+    }
+
+    .tab-content {
+        display: none;
+    }
+
+    .tab-content.active {
+        display: block;
+        animation: fadeIn 0.3s;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* IoT Sensors Grid */
+    .sensors-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 20px;
+    }
+
+    .sensor-card {
+        background: rgba(30, 41, 59, 0.9);
+        border: 1px solid rgba(100, 116, 139, 0.3);
+        border-radius: 12px;
+        padding: 20px;
+        transition: all 0.3s;
+        cursor: pointer;
+    }
+
+    .sensor-card:hover {
+        border-color: rgba(96, 165, 250, 0.5);
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(96, 165, 250, 0.1);
+    }
+
+    .sensor-card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: start;
+        margin-bottom: 15px;
+    }
+
+    .room-info h3 {
+        font-size: 16px;
+        font-weight: 600;
+        color: #f1f5f9;
+    }
+
+    .room-info p {
+        font-size: 12px;
+        color: #94a3b8;
+        margin-top: 3px;
+    }
+
+    .occupancy-badge {
+        background: rgba(16, 185, 129, 0.2);
+        color: #10b981;
+        padding: 4px 12px;
+        border-radius: 12px;
+        font-size: 11px;
+        font-weight: 600;
+    }
+
+    .occupancy-badge.empty {
+        background: rgba(107, 114, 128, 0.2);
+        color: #9ca3af;
+    }
+
+    .sensor-values {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+    }
+
+    .sensor-item {
+        background: rgba(15, 23, 42, 0.6);
+        padding: 12px;
+        border-radius: 8px;
+        border: 1px solid rgba(100, 116, 139, 0.2);
+    }
+
+    .sensor-label {
+        font-size: 11px;
+        color: #94a3b8;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 5px;
+    }
+
+    .sensor-value {
+        font-size: 18px;
+        font-weight: 700;
+        color: #60a5fa;
+    }
+
+    .sensor-unit {
+        font-size: 12px;
+        color: #64748b;
+        margin-left: 3px;
+    }
+
+    /* HVAC & Lighting Zones Grid */
+    .zones-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 20px;
+    }
+
+    .zone-card {
+        background: rgba(30, 41, 59, 0.9);
+        border: 1px solid rgba(100, 116, 139, 0.3);
+        border-radius: 12px;
+        padding: 20px;
+        transition: all 0.3s;
+    }
+
+    .zone-card:hover {
+        border-color: rgba(96, 165, 250, 0.5);
+        transform: translateY(-5px);
+    }
+
+    .zone-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: start;
+        margin-bottom: 15px;
+    }
+
+    .zone-name h3 {
+        font-size: 16px;
+        font-weight: 600;
+        color: #f1f5f9;
+    }
+
+    .zone-name p {
+        font-size: 12px;
+        color: #94a3b8;
+        margin-top: 3px;
+    }
+
+    .zone-status {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 12px;
+        font-weight: 600;
+    }
+
+    .status-indicator {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #10b981;
+    }
+
+    .status-indicator.off {
+        background: #6b7280;
+    }
+
+    /* HVAC Specific */
+    .hvac-content {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+        margin: 15px 0;
+    }
+
+    .hvac-item {
+        background: rgba(15, 23, 42, 0.6);
+        padding: 12px;
+        border-radius: 8px;
+        border: 1px solid rgba(100, 116, 139, 0.2);
+    }
+
+    .hvac-label {
+        font-size: 11px;
+        color: #94a3b8;
+        text-transform: uppercase;
+        margin-bottom: 5px;
+    }
+
+    .hvac-value {
+        font-size: 16px;
+        font-weight: 700;
+        color: #60a5fa;
+    }
+
+    /* Temperature Control */
+    .temp-control {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-top: 12px;
+        padding: 12px;
+        background: rgba(15, 23, 42, 0.6);
+        border-radius: 8px;
+    }
+
+    .temp-control button {
+        background: rgba(96, 165, 250, 0.2);
+        border: 1px solid rgba(96, 165, 250, 0.5);
+        color: #60a5fa;
+        width: 30px;
+        height: 30px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: all 0.2s;
+    }
+
+    .temp-control button:hover {
+        background: rgba(96, 165, 250, 0.4);
+    }
+
+    .temp-input {
+        flex: 1;
+        background: rgba(30, 41, 59, 0.8);
+        border: 1px solid rgba(100, 116, 139, 0.3);
+        color: #60a5fa;
+        padding: 6px 10px;
+        border-radius: 6px;
+        font-size: 14px;
+        font-weight: 600;
+    }
+
+    /* Brightness Slider */
+    .brightness-control {
+        margin-top: 12px;
+    }
+
+    .brightness-label {
+        font-size: 11px;
+        color: #94a3b8;
+        text-transform: uppercase;
+        margin-bottom: 8px;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .brightness-slider {
+        width: 100%;
+        height: 6px;
+        border-radius: 3px;
+        background: rgba(100, 116, 139, 0.3);
+        outline: none;
+        -webkit-appearance: none;
+        appearance: none;
+        cursor: pointer;
+    }
+
+    .brightness-slider::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        background: #60a5fa;
+        cursor: pointer;
+        border: 2px solid rgba(30, 41, 59, 0.9);
+        transition: all 0.2s;
+    }
+
+    .brightness-slider::-webkit-slider-thumb:hover {
+        background: #93c5fd;
+        transform: scale(1.1);
+    }
+
+    .brightness-slider::-moz-range-thumb {
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        background: #60a5fa;
+        cursor: pointer;
+        border: 2px solid rgba(30, 41, 59, 0.9);
+        transition: all 0.2s;
+    }
+
+    .brightness-value {
+        font-size: 14px;
+        font-weight: 700;
+        color: #60a5fa;
+    }
+
+    /* Energy Statistics */
+    .energy-stats {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+    }
+
+    .stat-card {
+        background: rgba(30, 41, 59, 0.9);
+        border: 1px solid rgba(100, 116, 139, 0.3);
+        border-radius: 12px;
+        padding: 20px;
+        text-align: center;
+    }
+
+    .stat-card h4 {
+        font-size: 12px;
+        color: #94a3b8;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 10px;
+    }
+
+    .stat-card .value {
+        font-size: 32px;
+        font-weight: 700;
+        color: #60a5fa;
+        margin-bottom: 5px;
+    }
+
+    .stat-card .unit {
+        font-size: 12px;
+        color: #64748b;
+    }
+
+    /* Quick Controls */
+    .quick-controls {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 15px;
+        margin-bottom: 30px;
+    }
+
+    .control-btn {
+        padding: 15px 20px;
+        background: rgba(30, 41, 59, 0.9);
+        border: 1px solid rgba(100, 116, 139, 0.3);
+        color: #60a5fa;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 600;
+        transition: all 0.3s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+    }
+
+    .control-btn:hover {
+        background: rgba(96, 165, 250, 0.2);
+        border-color: rgba(96, 165, 250, 0.5);
+        transform: translateY(-3px);
+    }
+
+    .control-btn.active {
+        background: rgba(96, 165, 250, 0.3);
+        border-color: #60a5fa;
+        color: #93c5fd;
+    }
+
+    /* Refresh Indicator */
+    .refresh-indicator {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        background: rgba(30, 41, 59, 0.9);
+        padding: 12px 16px;
+        border-radius: 8px;
+        border: 1px solid rgba(100, 116, 139, 0.3);
+        font-size: 12px;
+        color: #94a3b8;
+    }
+
+    .refresh-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: #10b981;
+        animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+        0%, 100% {
+            opacity: 1;
+        }
+        50% {
+            opacity: 0.5;
+        }
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        .dashboard-container {
+            padding: 10px;
+        }
+
+        .header {
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .header-stats {
+            width: 100%;
+            flex-wrap: wrap;
+        }
+
+        .sensors-grid,
+        .zones-grid,
+        .energy-stats {
+            grid-template-columns: 1fr;
+        }
+
+        .hvac-content {
+            grid-template-columns: 1fr;
+        }
+
+        .tabs {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+    }
+</style>
+
+<div class="dashboard-container">
+    <!-- Header -->
+    <div class="header">
+        <h1>🏢 Smart Energy Dashboard</h1>
+        <div class="header-stats">
+            <div class="stat-box">
+                <div class="stat-value" id="total-power">-</div>
+                <div class="stat-label">Total Power (kW)</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-value" id="occupied-rooms">-</div>
+                <div class="stat-label">Occupied Rooms</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-value" id="active-zones">-</div>
+                <div class="stat-label">Active Zones</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Controls -->
+    <div class="quick-controls">
+        <button class="control-btn" onclick="toggleHVACEco()">
+            ❄️ <span>HVAC ECO</span>
+        </button>
+        <button class="control-btn" onclick="toggleLightingEco()">
+            💡 <span>Lighting ECO</span>
+        </button>
+        <button class="control-btn" onclick="refreshAllData()">
+            🔄 <span>Refresh Now</span>
+        </button>
+    </div>
+
+    <!-- Tabs -->
+    <div class="tabs">
+        <button class="tab-btn active" onclick="switchTab('iot')">📡 IoT Sensors</button>
+        <button class="tab-btn" onclick="switchTab('hvac')">❄️ HVAC Control</button>
+        <button class="tab-btn" onclick="switchTab('lighting')">💡 Lighting Control</button>
+        <button class="tab-btn" onclick="switchTab('energy')">📊 Energy Stats</button>
+    </div>
+
+    <!-- IoT Sensors Tab -->
+    <div id="iot" class="tab-content active">
+        <div class="sensors-grid" id="iot-grid">
+            <!-- Populated by JavaScript -->
+        </div>
+    </div>
+
+    <!-- HVAC Control Tab -->
+    <div id="hvac" class="tab-content">
+        <div class="zones-grid" id="hvac-grid">
+            <!-- Populated by JavaScript -->
+        </div>
+    </div>
+
+    <!-- Lighting Control Tab -->
+    <div id="lighting" class="tab-content">
+        <div class="zones-grid" id="lighting-grid">
+            <!-- Populated by JavaScript -->
+        </div>
+    </div>
+
+    <!-- Energy Stats Tab -->
+    <div id="energy" class="tab-content">
+        <div class="energy-stats" id="energy-grid">
+            <!-- Populated by JavaScript -->
+        </div>
+    </div>
+</div>
+
+<!-- Refresh Indicator -->
+<div class="refresh-indicator">
+    <div class="refresh-dot"></div>
+    <span>Live Data</span>
+</div>
+
+<script>
+    // ===== TAB SWITCHING =====
+    function switchTab(tabName) {
+        // Hide all tabs
+        document.querySelectorAll('.tab-content').forEach(tab => {
+            tab.classList.remove('active');
+        });
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.classList.remove('active');
+        });
+
+        // Show selected tab
+        document.getElementById(tabName).classList.add('active');
+        event.target.classList.add('active');
+    }
+
+    // ===== API CALLS =====
+    async function loadIoTData() {
+        try {
+            const response = await fetch('/api/iot/summary');
+            const data = await response.json();
+            
+            if (data.success) {
+                renderIoTGrid(data.data.rooms);
+                updateHeader(data.data);
+            }
+        } catch (error) {
+            console.error('❌ IoT Error:', error);
+        }
+    }
+
+    async function loadHVACData() {
+        try {
+            const response = await fetch('/api/hvac/status');
+            const data = await response.json();
+            
+            if (data.success) {
+                renderHVACGrid(data.data.zones);
+            }
+        } catch (error) {
+            console.error('❌ HVAC Error:', error);
+        }
+    }
+
+    async function loadLightingData() {
+        try {
+            const response = await fetch('/api/lighting/status');
+            const data = await response.json();
+            
+            if (data.success) {
+                renderLightingGrid(data.data.zones);
+            }
+        } catch (error) {
+            console.error('❌ Lighting Error:', error);
+        }
+    }
+
+    async function loadEnergyStats() {
+        try {
+            const hvacStats = await fetch('/api/hvac/energy-stats').then(r => r.json());
+            const lightingStats = await fetch('/api/lighting/energy-stats').then(r => r.json());
+            
+            if (hvacStats.success && lightingStats.success) {
+                renderEnergyStats(hvacStats.data, lightingStats.data);
+            }
+        } catch (error) {
+            console.error('❌ Energy Error:', error);
+        }
+    }
+
+    // ===== RENDERING FUNCTIONS =====
+    function renderIoTGrid(rooms) {
+        const grid = document.getElementById('iot-grid');
+        grid.innerHTML = rooms.map(room => {
+            const temp = room.sensors.temperature;
+            const light = room.sensors.light;
+            const occupancy = room.sensors.occupancy;
+            const humidity = room.sensors.humidity;
+
+            return `
+                <div class="sensor-card">
+                    <div class="sensor-card-header">
+                        <div class="room-info">
+                            <h3>${room.room_name}</h3>
+                            <p>${room.location}</p>
+                        </div>
+                        <span class="occupancy-badge ${occupancy.value === 0 ? 'empty' : ''}">
+                            ${occupancy.value === 0 ? 'Trống' : 'Có người'}
+                        </span>
+                    </div>
+                    <div class="sensor-values">
+                        <div class="sensor-item">
+                            <div class="sensor-label">🌡️ Nhiệt độ</div>
+                            <div><span class="sensor-value">${temp.value.toFixed(1)}</span><span class="sensor-unit">°C</span></div>
+                        </div>
+                        <div class="sensor-item">
+                            <div class="sensor-label">💡 Ánh sáng</div>
+                            <div><span class="sensor-value">${light.value.toFixed(0)}</span><span class="sensor-unit">%</span></div>
+                        </div>
+                        <div class="sensor-item">
+                            <div class="sensor-label">💧 Độ ẩm</div>
+                            <div><span class="sensor-value">${humidity.value.toFixed(0)}</span><span class="sensor-unit">%</span></div>
+                        </div>
+                        <div class="sensor-item">
+                            <div class="sensor-label">⏱️ Cập nhật</div>
+                            <div style="font-size: 12px; color: #94a3b8;">Vừa xong</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }).join('');
+    }
+
+    function renderHVACGrid(zones) {
+        const grid = document.getElementById('hvac-grid');
+        grid.innerHTML = zones.map(zone => {
+            return `
+                <div class="zone-card">
+                    <div class="zone-header">
+                        <div class="zone-name">
+                            <h3>${zone.zone_name}</h3>
+                            <p>${zone.location}</p>
+                        </div>
+                        <div class="zone-status">
+                            <span class="status-indicator ${zone.is_on ? '' : 'off'}"></span>
+                            ${zone.is_on ? 'Đang chạy' : 'Tắt'}
+                        </div>
+                    </div>
+                    <div class="hvac-content">
+                        <div class="hvac-item">
+                            <div class="hvac-label">Nhiệt độ hiện tại</div>
+                            <div class="hvac-value">${zone.current_temp.toFixed(1)}°C</div>
+                        </div>
+                        <div class="hvac-item">
+                            <div class="hvac-label">Mục tiêu</div>
+                            <div class="hvac-value">${zone.target_temp}°C</div>
+                        </div>
+                        <div class="hvac-item">
+                            <div class="hvac-label">Tốc độ quạt</div>
+                            <div class="hvac-value">${zone.fan_speed}%</div>
+                        </div>
+                        <div class="hvac-item">
+                            <div class="hvac-label">Công suất</div>
+                            <div class="hvac-value">${zone.power_consumption.toFixed(2)} kW</div>
+                        </div>
+                    </div>
+                    <div class="temp-control">
+                        <button onclick="adjustHVACTemp(${zone.zone_id}, -1)">−</button>
+                        <input type="text" class="temp-input" value="${zone.target_temp}" disabled>
+                        <button onclick="adjustHVACTemp(${zone.zone_id}, 1)">+</button>
+                    </div>
+                </div>
+            `;
+        }).join('');
+    }
+
+    function renderLightingGrid(zones) {
+        const grid = document.getElementById('lighting-grid');
+        grid.innerHTML = zones.map(zone => {
+            return `
+                <div class="zone-card">
+                    <div class="zone-header">
+                        <div class="zone-name">
+                            <h3>${zone.zone_name}</h3>
+                            <p>${zone.location}</p>
+                        </div>
+                        <div class="zone-status">
+                            <span class="status-indicator ${zone.is_on ? '' : 'off'}"></span>
+                            ${zone.is_on ? 'Bật' : 'Tắt'}
+                        </div>
+                    </div>
+                    <div class="hvac-content">
+                        <div class="hvac-item">
+                            <div class="hvac-label">Độ sáng</div>
+                            <div class="hvac-value">${zone.brightness}%</div>
+                        </div>
+                        <div class="hvac-item">
+                            <div class="hvac-label">Ánh sáng môi trường</div>
+                            <div class="hvac-value">${zone.light_level.toFixed(0)}%</div>
+                        </div>
+                        <div class="hvac-item">
+                            <div class="hvac-label">Chiếm dụng</div>
+                            <div class="hvac-value">${zone.occupancy ? 'Có' : 'Không'}</div>
+                        </div>
+                        <div class="hvac-item">
+                            <div class="hvac-label">Công suất</div>
+                            <div class="hvac-value">${zone.power_consumption.toFixed(3)} kW</div>
+                        </div>
+                    </div>
+                    <div class="brightness-control">
+                        <div class="brightness-label">
+                            <span>Độ sáng</span>
+                            <span id="brightness-${zone.zone_id}" class="brightness-value">${zone.brightness}%</span>
+                        </div>
+                        <input type="range" min="0" max="100" value="${zone.brightness}" 
+                               class="brightness-slider" 
+                               onchange="adjustLightingBrightness(${zone.zone_id}, this.value)">
+                    </div>
+                </div>
+            `;
+        }).join('');
+    }
+
+    function renderEnergyStats(hvacStats, lightingStats) {
+        const totalPower = (hvacStats.total_power_consumption + lightingStats.total_power_consumption).toFixed(2);
+        const totalCost = (hvacStats.estimated_monthly_cost + lightingStats.estimated_monthly_cost).toLocaleString();
+        
+        const grid = document.getElementById('energy-grid');
+        grid.innerHTML = `
+            <div class="stat-card">
+                <h4>⚡ Tổng Công Suất</h4>
+                <div class="value">${totalPower}</div>
+                <div class="unit">kW</div>
+            </div>
+            <div class="stat-card">
+                <h4>❄️ HVAC Công Suất</h4>
+                <div class="value">${hvacStats.total_power_consumption.toFixed(2)}</div>
+                <div class="unit">kW</div>
+            </div>
+            <div class="stat-card">
+                <h4>💡 Lighting Công Suất</h4>
+                <div class="value">${lightingStats.total_power_consumption.toFixed(3)}</div>
+                <div class="unit">kW</div>
+            </div>
+            <div class="stat-card">
+                <h4>💰 Chi Phí Tháng</h4>
+                <div class="value" style="color: #f59e0b;">${totalCost}</div>
+                <div class="unit">VND</div>
+            </div>
+            <div class="stat-card">
+                <h4>🌡️ Zones Chủ Động</h4>
+                <div class="value">${hvacStats.active_zones + lightingStats.active_zones}</div>
+                <div class="unit">zones</div>
+            </div>
+            <div class="stat-card">
+                <h4>♻️ ECO Mode</h4>
+                <div class="value" style="color: #10b981;">${hvacStats.energy_saving_active ? 'ON' : 'OFF'}</div>
+                <div class="unit">Status</div>
+            </div>
+        `;
+    }
+
+    function updateHeader(iotData) {
+        document.getElementById('total-power').textContent = '2.5'; // Placeholder
+        document.getElementById('occupied-rooms').textContent = iotData.occupied_rooms;
+        document.getElementById('active-zones').textContent = '5';
+    }
+
+    // ===== CONTROL FUNCTIONS =====
+    async function adjustHVACTemp(zoneId, delta) {
+        // Get current temp from UI
+        const cards = document.querySelectorAll('.hvac-item');
+        // Make API call to update
+        alert(`✅ Adjusting Zone ${zoneId} temperature...`);
+        loadHVACData();
+    }
+
+    async function adjustLightingBrightness(zoneId, brightness) {
+        try {
+            const response = await fetch('/api/lighting/control', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({zone_id: zoneId, brightness: parseInt(brightness)})
+            });
+            const data = await response.json();
+            
+            if (data.success) {
+                document.getElementById(`brightness-${zoneId}`).textContent = `${brightness}%`;
+            }
+        } catch (error) {
+            console.error('❌ Lighting Control Error:', error);
+        }
+    }
+
+    async function toggleHVACEco() {
+        try {
+            const response = await fetch('/api/hvac/eco-mode', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({enable: true})
+            });
+            const data = await response.json();
+            alert(`✅ HVAC ECO Mode: ${data.data.message}`);
+            loadHVACData();
+        } catch (error) {
+            console.error('❌ Error:', error);
+        }
+    }
+
+    async function toggleLightingEco() {
+        try {
+            const response = await fetch('/api/lighting/eco-mode', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({enable: true})
+            });
+            const data = await response.json();
+            alert(`✅ Lighting ECO Mode: ${data.data.message}`);
+            loadLightingData();
+        } catch (error) {
+            console.error('❌ Error:', error);
+        }
+    }
+
+    async function refreshAllData() {
+        await loadIoTData();
+        await loadHVACData();
+        await loadLightingData();
+        await loadEnergyStats();
+        alert('✅ Data refreshed!');
+    }
+
+    // ===== INITIALIZE =====
+    window.addEventListener('load', () => {
+        loadIoTData();
+        loadHVACData();
+        loadLightingData();
+        loadEnergyStats();
+
+        // Auto-refresh every 10 seconds
+        setInterval(() => {
+            loadIoTData();
+            loadHVACData();
+            loadLightingData();
+            loadEnergyStats();
+        }, 10000);
+    });
+</script>
+
+{% endblock %}

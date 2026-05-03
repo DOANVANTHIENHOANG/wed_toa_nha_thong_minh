@@ -1,0 +1,9 @@
+{
+    "threshold": 88.0,
+    "price_per_kwh": 3500,
+    "schedule_off": "22:00",
+    "cut_threshold": 4.5,
+    "target_kwh": 500,
+    "evn_mode": false,
+    "eco_mode": false
+}

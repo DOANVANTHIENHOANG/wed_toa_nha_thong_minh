@@ -45,11 +45,8 @@ const deviceDatabase = {
                    devicesList.forEach(dev => {
                         let currentDevice = this.devices[dev.id];
                         
-                        // 🛡️ LÁ CHẮN TỐI THƯỢNG (QUAN TRỌNG NHẤT):
-                        if (currentDevice && currentDevice.isOptimized) {
-                            console.log(`🛡️ Đang bảo vệ trạng thái XANH cho ${dev.room_name || 'Phòng ' + dev.id}`);
-                            return; 
-                        }
+                        // � FIXED: Removed isOptimized guard to allow database updates
+                        // Always load fresh data from database, even for optimized devices
 
                         // Kỷ luật thép: Nếu Tắt (OFF) thì ép công suất về 0 và trạng thái về Chờ
                         const isON = dev.power_status === 'ON';
@@ -110,9 +107,9 @@ const deviceDatabase = {
     },
 
     calculateLoadStatus(power) {
-        if (power < 0.5) return { level: 'idle', label: 'Chờ', color: '#9ca3af' };
-        if (power < 2.0) return { level: 'normal', label: 'Bình thường', color: '#00aa77' };
-        if (power < 4.0) return { level: 'high', label: 'Cao', color: '#ffb020' };
+        if (power < 0.1) return { level: 'idle', label: 'Chờ', color: '#9ca3af' };
+        if (power < 5.0) return { level: 'normal', label: 'Bình thường', color: '#00aa77' };
+        if (power <= 8.0) return { level: 'high', label: 'Cao', color: '#ffb020' };
         return { level: 'critical', label: 'Tới hạn', color: '#ff6b35' };
     },
 
@@ -130,7 +127,7 @@ const deviceDatabase = {
 
         // Generate random power between 0.5 and 6 kW
         const generatePower = () => {
-            device.power = 0.5 + Math.random() * 5.5;
+          device.power = 1.0 + Math.random() * 11.0; // Random từ 1.0kW đến 12.0kW
             device.load_status = this.calculateLoadStatus(device.power);
             device.last_updated = new Date().toISOString();
 
@@ -680,7 +677,7 @@ const deviceUI = {
             'info'
         );
 
-        const oldPower = device.power;
+       const oldPower = device.power;
         const oldStatus = device.load_status.level;
 
         if (oldStatus === 'critical') {
@@ -688,6 +685,9 @@ const deviceUI = {
         } else if (oldStatus === 'high') {
             device.power = Math.max(device.power * 0.7, 0.8);
         }
+
+        // 🔥 TÍNH SỐ ĐIỆN CỨU ĐƯỢC ĐỂ TRUYỀN ĐI
+        const savedPower = oldPower - device.power; 
 
         device.load_status = deviceDatabase.calculateLoadStatus(device.power);
         device.last_updated = new Date().toISOString();
@@ -707,9 +707,21 @@ const deviceUI = {
 
         setTimeout(() => {
             this.showNotification(
-                `✅ ${device.name} đã được cấu hình thành công! Mức tải: ${device.load_status.label}`,
+                `✅ ${device.name} đã được cấu hình thành công! Cứu được ${savedPower.toFixed(2)} kWh`,
                 'success'
             );
+            
+            // 🚀 BẮN SỰ KIỆN TOÀN CỤC BÁO CHO BÊN TỰ ĐỘNG HÓA BIẾT (TUYỆT CHIÊU Ở ĐÂY NÈ SẾP)
+            document.dispatchEvent(new CustomEvent('AI_Optimized_Success', { 
+                detail: { 
+                    deviceName: device.name, 
+                    savedPower: savedPower, 
+                    time: new Date(),
+                    oldStatusValue: oldPower,
+                    newStatusValue: device.power
+                } 
+            }));
+
         }, 500);
 
         setTimeout(() => {
