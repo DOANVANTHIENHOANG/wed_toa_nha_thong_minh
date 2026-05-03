@@ -3093,11 +3093,22 @@ def energy_history():
         }), 200
     except Exception as e:
         return jsonify({'error': str(e)}), 500
-if __name__ == "__main__":
-    # Initialize automation scenarios
+# ======================================================
+# 🔥 FIX RENDER DEPLOYMENT: KHỞI TẠO NGAY TRÊN GLOBAL
+# Bắt buộc phải để ngoài if __name__ == "__main__" vì Render
+# dùng Gunicorn (nó sẽ không bao giờ chạy code trong khối if đó)
+# ======================================================
+try:
+    # 1. Nạp kịch bản tự động hóa vào RAM ngay lập tức
     init_default_automation_scenarios()
-    # Start background automation engine (runs every 10 seconds)
+    
+    # 2. Khởi động động cơ AI chạy ngầm tuần tra 24/7
+    import threading # Đảm bảo đã import threading
     automation_thread = threading.Thread(target=check_automation_conditions, daemon=True)
     automation_thread.start()
-    print('🤖 Automation Engine started in background')
+    print('🤖 Automation Engine started in background (Production Mode)')
+except Exception as e:
+    print(f"⚠️ Lỗi khởi động Automation Engine: {e}")
+
+if __name__ == "__main__":
     app.run(host='0.0.0.0', port=5000, debug=True)
