@@ -585,6 +585,11 @@ div[style*="border-radius: 30px"] > #ai-query {
                 <i class="fas fa-cog"></i>
                 <span>Cấu hình hệ thống</span>
             </div>
+       <!-- NÚT THANH TOÁN HÓA ĐƠN -->
+            <div class="nav-item" data-tab="payment" onclick="switchTab(this)">
+                <i class="fab fa-bitcoin"></i>
+                <span>Thanh toán hóa đơn</span>
+            </div>
 
             <div class="nav-divider"></div>
         </div>
@@ -933,9 +938,459 @@ div[style*="border-radius: 30px"] > #ai-query {
     <button class="btn-save" id="btn-save"><i class="fas fa-save"></i> LƯU CẤU HÌNH HỆ THỐNG</button>
     <div id="toast" style="background-color: #10b981;"><i class="fas fa-check-circle"></i> <span></span></div>
 </div>
-        </div>
+ </div>
     </div>
+    <!-- ============================================== -->
+            <!-- TAB: THANH TOÁN (LẦN NÀY CHẮC CHẮN TRÚNG ĐÍCH) -->
+            <!-- ============================================== -->
+            <div id="payment" class="tab-content">
+                <div class="tab-title">
+                    <i class="fas fa-file-invoice-dollar" style="color: #38bdf8; margin-right: 10px;"></i>Thanh toán hóa đơn
+                </div>
+                
+                <style>
+                    /* ===== PAYMENT TAB LAYOUT ===== */
+                    #payment { display: none; }
+                    #payment.active {
+                        display: block !important;
+                        position: fixed;
+                        top: 80px;
+                        left: 280px;
+                        right: 0;
+                        bottom: 0;
+                        overflow-y: auto;
+                        padding: 40px;
+                        z-index: 10;
+                        background: transparent;
+                    }
+                    #payment .tab-title { margin-bottom: 20px; margin-top: 12px; }
 
+                    /* ===== WRAPPER & CARD ===== */
+                    .pm-wrapper { width: 100%; display: flex; justify-content: center; padding-bottom: 40px; }
+                    .pm-main-box {
+                        width: 100%; max-width: 560px;
+                        background: linear-gradient(160deg, rgba(22, 33, 55, 0.97), rgba(10, 18, 35, 0.97));
+                        border: 1px solid rgba(56, 189, 248, 0.25);
+                        border-radius: 20px;
+                        box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(56,189,248,0.06);
+                        color: #f1f5f9;
+                        padding: 32px;
+                        backdrop-filter: blur(20px);
+                    }
+
+                    /* ===== HEADER INSIDE CARD ===== */
+                    .pm-card-header {
+                        display: flex; align-items: center; justify-content: space-between;
+                        margin-bottom: 24px; padding-bottom: 16px;
+                        border-bottom: 1px solid rgba(255,255,255,0.07);
+                    }
+                    .pm-card-header-left { display: flex; align-items: center; gap: 10px; }
+                    .pm-card-header-left i { color: #38bdf8; font-size: 18px; }
+                    .pm-card-header-left span { font-size: 16px; font-weight: 700; color: #f1f5f9; }
+                    .pm-month-badge {
+                        font-size: 12px; font-weight: 600; color: #94a3b8;
+                        background: rgba(148,163,184,0.1); border: 1px solid rgba(148,163,184,0.2);
+                        padding: 4px 10px; border-radius: 20px; display: flex; align-items: center; gap: 5px;
+                    }
+
+                    /* ===== SELECT ===== */
+                    .pm-label { display: block; font-size: 11px; color: #64748b; font-weight: 700; margin-bottom: 7px; text-transform: uppercase; letter-spacing: 0.8px; }
+                    .pm-select {
+                        width: 100%; padding: 11px 14px;
+                        background: rgba(10, 18, 35, 0.7); border: 1px solid rgba(56,189,248,0.25);
+                        border-radius: 10px; color: #e2e8f0; font-family: 'Inter', sans-serif; font-size: 14px;
+                        outline: none; margin-bottom: 18px; cursor: pointer; transition: 0.2s;
+                        appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2394a3b8' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+                        background-repeat: no-repeat; background-position: right 14px center;
+                        padding-right: 36px;
+                    }
+                    .pm-select:focus { border-color: #38bdf8; box-shadow: 0 0 0 3px rgba(56,189,248,0.12); }
+                    .pm-select option { background: #0f172a; color: #fff; }
+
+                    /* ===== RECEIPT BOX ===== */
+                    .pm-receipt {
+                        background: rgba(0,0,0,0.2);
+                        border-radius: 12px; padding: 18px 20px;
+                        border: 1px solid rgba(255,255,255,0.06);
+                        border-left: 3px solid rgba(56,189,248,0.4);
+                        margin-bottom: 18px;
+                    }
+                    .pm-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; font-size: 13.5px; }
+                    .pm-row:last-child { margin-bottom: 0; }
+                    .pm-lbl { color: #64748b; display: flex; align-items: center; gap: 6px; }
+                    .pm-lbl i { font-size: 11px; opacity: 0.7; }
+                    .pm-val { font-weight: 500; color: #cbd5e1; }
+                    .pm-val-acc { color: #38bdf8; font-weight: 600; }
+                    .pm-div { height: 1px; background: rgba(255,255,255,0.07); margin: 13px 0; }
+
+                    /* ===== TOTAL ROW ===== */
+                    .pm-tot-row {
+                        display: flex; justify-content: space-between; align-items: center;
+                        background: rgba(251,191,36,0.05); border-radius: 8px;
+                        padding: 12px 14px; margin: 14px -2px 0;
+                        border: 1px solid rgba(251,191,36,0.15);
+                    }
+                    .pm-tot-lbl { font-size: 13px; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.5px; }
+                    .pm-tot-val { font-size: 28px; font-weight: 900; color: #fbbf24; text-shadow: 0 0 20px rgba(251,191,36,0.3); letter-spacing: -0.5px; }
+
+                    /* ===== PAYMENT TABS ===== */
+                    .pm-tabs { display: flex; gap: 10px; margin-bottom: 14px; }
+                    .pm-tab {
+                        flex: 1; padding: 11px; text-align: center; border-radius: 10px;
+                        background: rgba(15,23,42,0.5); border: 1px solid rgba(255,255,255,0.08);
+                        color: #64748b; cursor: pointer; transition: all 0.2s; font-weight: 600;
+                        font-size: 13px; display: flex; align-items: center; justify-content: center; gap: 7px;
+                    }
+                    .pm-tab:hover { background: rgba(255,255,255,0.05); color: #94a3b8; }
+                    .pm-tab.active { background: rgba(56,189,248,0.12); border-color: rgba(56,189,248,0.5); color: #38bdf8; box-shadow: 0 0 12px rgba(56,189,248,0.1); }
+
+                    /* ===== PANELS ===== */
+                    .pm-panel {
+                        background: rgba(245,158,11,0.05); border: 1px solid rgba(245,158,11,0.18);
+                        border-radius: 10px; padding: 18px 20px; text-align: center;
+                        font-size: 13.5px; color: #fbbf24; line-height: 1.6;
+                    }
+                    .pm-panel.momo { background: rgba(56,189,248,0.04); border-color: rgba(56,189,248,0.18); color: #7dd3fc; }
+                    .pm-qr {
+                        width: 130px; height: 130px; border-radius: 10px;
+                        border: 3px solid rgba(255,255,255,0.9); margin: 0 auto 12px auto; display: block;
+                        object-fit: cover; box-shadow: 0 0 20px rgba(56,189,248,0.2);
+                    }
+
+                    /* ===== CONFIRM BUTTON ===== */
+                    .pm-btn {
+                        width: 100%; padding: 15px; border-radius: 11px; border: none; margin-top: 16px;
+                        background: linear-gradient(135deg, #059669, #10b981);
+                        color: white; font-size: 14px; font-weight: 700; cursor: pointer;
+                        transition: all 0.3s; text-transform: uppercase; letter-spacing: 1.2px;
+                        display: flex; align-items: center; justify-content: center; gap: 9px;
+                        box-shadow: 0 4px 15px rgba(16,185,129,0.3);
+                    }
+                    .pm-btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(16,185,129,0.45); }
+                    .pm-btn:disabled { opacity: 0.35; cursor: not-allowed; transform: none; box-shadow: none; background: #1e293b; color: #475569; }
+                    .pm-btn.processing { background: linear-gradient(135deg, #0ea5e9, #2563eb); box-shadow: 0 4px 15px rgba(14,165,233,0.3); }
+                    .pm-btn.done { background: linear-gradient(135deg, #10b981, #059669); box-shadow: 0 4px 15px rgba(16,185,129,0.4); animation: pm-pulse-green 0.6s ease; }
+                    @keyframes pm-pulse-green {
+                        0% { box-shadow: 0 0 0 0 rgba(16,185,129,0.7); }
+                        70% { box-shadow: 0 0 0 12px rgba(16,185,129,0); }
+                        100% { box-shadow: 0 4px 15px rgba(16,185,129,0.4); }
+                    }
+
+                    /* ===== SUCCESS TOAST ===== */
+                    #pm-toast {
+                        position: fixed; bottom: 30px; right: 30px; z-index: 9999;
+                        background: linear-gradient(135deg, #065f46, #064e3b);
+                        border: 1px solid rgba(16,185,129,0.5); border-radius: 14px;
+                        padding: 16px 22px; display: flex; align-items: center; gap: 14px;
+                        box-shadow: 0 10px 40px rgba(0,0,0,0.4), 0 0 0 1px rgba(16,185,129,0.2);
+                        transform: translateY(80px); opacity: 0;
+                        transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+                        pointer-events: none; min-width: 300px;
+                    }
+                    #pm-toast.show { transform: translateY(0); opacity: 1; }
+                    #pm-toast .toast-icon {
+                        width: 38px; height: 38px; background: rgba(16,185,129,0.2);
+                        border-radius: 50%; display: flex; align-items: center; justify-content: center;
+                        flex-shrink: 0;
+                    }
+                    #pm-toast .toast-icon i { color: #10b981; font-size: 18px; }
+                    #pm-toast .toast-title { font-size: 14px; font-weight: 700; color: #ecfdf5; margin-bottom: 2px; }
+                    #pm-toast .toast-sub { font-size: 12px; color: #6ee7b7; }
+                    #pm-toast .toast-close {
+                        margin-left: auto; background: none; border: none; color: #6ee7b7;
+                        cursor: pointer; font-size: 16px; padding: 0 0 0 10px; flex-shrink: 0;
+                    }
+
+                    /* ===== SUCCESS OVERLAY ===== */
+                    #pm-success-overlay {
+                        display: none; position: absolute; inset: 0; border-radius: 20px;
+                        background: rgba(10,18,35,0.92); z-index: 20;
+                        flex-direction: column; align-items: center; justify-content: center;
+                        backdrop-filter: blur(4px); animation: fadeIn 0.3s ease;
+                    }
+                    #pm-success-overlay.show { display: flex; }
+                    .pm-success-circle {
+                        width: 80px; height: 80px; border-radius: 50%;
+                        background: linear-gradient(135deg, rgba(16,185,129,0.2), rgba(5,150,105,0.3));
+                        border: 2px solid rgba(16,185,129,0.6);
+                        display: flex; align-items: center; justify-content: center;
+                        margin-bottom: 20px; box-shadow: 0 0 40px rgba(16,185,129,0.3);
+                        animation: pm-bounce 0.5s ease 0.1s both;
+                    }
+                    .pm-success-circle i { font-size: 36px; color: #10b981; }
+                    @keyframes pm-bounce { 0%{transform:scale(0.5);opacity:0} 70%{transform:scale(1.1)} 100%{transform:scale(1);opacity:1} }
+                    .pm-success-title { font-size: 20px; font-weight: 800; color: #ecfdf5; margin-bottom: 6px; }
+                    .pm-success-sub { font-size: 14px; color: #6ee7b7; margin-bottom: 24px; }
+                    .pm-success-reset {
+                        padding: 10px 28px; border-radius: 8px; border: 1px solid rgba(56,189,248,0.4);
+                        background: rgba(56,189,248,0.1); color: #38bdf8; font-size: 13px;
+                        font-weight: 600; cursor: pointer; transition: 0.2s;
+                    }
+                    .pm-success-reset:hover { background: rgba(56,189,248,0.2); }
+                </style>
+
+                <!-- Toast notification -->
+                <div id="pm-toast">
+                    <div class="toast-icon"><i class="fas fa-check"></i></div>
+                    <div class="toast-body">
+                        <div class="toast-title">Thanh toán thành công!</div>
+                        <div class="toast-sub" id="pm-toast-sub">Giao dịch đã được ghi nhận.</div>
+                    </div>
+                    <button class="toast-close" onclick="document.getElementById('pm-toast').classList.remove('show')">✕</button>
+                </div>
+
+                <div class="pm-wrapper">
+                <div class="pm-main-box" style="position:relative;">
+
+                    <!-- Success overlay -->
+                    <div id="pm-success-overlay">
+                        <div class="pm-success-circle"><i class="fas fa-check"></i></div>
+                        <div class="pm-success-title">Giao dịch hoàn tất!</div>
+                        <div class="pm-success-sub" id="pm-success-room">---</div>
+                        <button class="pm-success-reset" onclick="resetPaymentUI()">
+                            <i class="fas fa-redo" style="margin-right:6px;"></i> Thanh toán phòng khác
+                        </button>
+                    </div>
+
+                    <!-- Card header -->
+                    <div class="pm-card-header">
+                        <div class="pm-card-header-left">
+                            <i class="fas fa-file-invoice-dollar"></i>
+                            <span>Hóa đơn điện tháng này</span>
+                        </div>
+                        <div class="pm-month-badge">
+                            <i class="fas fa-calendar-alt"></i>
+                            <span id="pm-month-label">Tháng --/----</span>
+                        </div>
+                    </div>
+
+                    <label class="pm-label"><i class="fas fa-door-open" style="margin-right:5px;"></i>Chọn mã phòng</label>
+                    <select class="pm-select" id="pm-room-select" onchange="calculateBill(this.value)">
+                        <option value="">-- Vui lòng chọn mã phòng --</option>
+                    </select>
+
+                    <div class="pm-receipt">
+                        <div class="pm-row">
+                            <span class="pm-lbl"><i class="fas fa-map-marker-alt"></i> Tọa độ</span>
+                            <span class="pm-val" id="pm-d-room">---</span>
+                        </div>
+                        <div class="pm-row">
+                            <span class="pm-lbl"><i class="fas fa-bolt"></i> Điện năng tiêu thụ</span>
+                            <span class="pm-val-acc" id="pm-d-kwh">0.0 kWh</span>
+                        </div>
+                        <div class="pm-row">
+                            <span class="pm-lbl"><i class="fas fa-percent"></i> Tỉ lệ tải hệ thống</span>
+                            <span class="pm-val-acc" id="pm-d-ratio">0.00 %</span>
+                        </div>
+                        <div class="pm-row">
+                            <span class="pm-lbl"><i class="fas fa-tag"></i> Đơn giá EVN</span>
+                            <span class="pm-val">3.500 ₫/kWh</span>
+                        </div>
+                        <div class="pm-div"></div>
+                        <div class="pm-tot-row">
+                            <span class="pm-tot-lbl">Tổng chi phí</span>
+                            <span class="pm-tot-val" id="pm-d-total">0 ₫</span>
+                        </div>
+                    </div>
+
+                    <label class="pm-label"><i class="fas fa-credit-card" style="margin-right:5px;"></i>Phương thức thanh toán</label>
+                    <div class="pm-tabs">
+                        <div class="pm-tab active" id="pm-tab-cash" onclick="setPaymentMethod('cash')">
+                            <i class="fas fa-money-bill-wave"></i> Tiền mặt
+                        </div>
+                        <div class="pm-tab" id="pm-tab-momo" onclick="setPaymentMethod('momo')">
+                            <i class="fas fa-qrcode"></i> Quét mã QR
+                        </div>
+                    </div>
+
+                    <div id="pm-panel-cash" class="pm-panel">
+                        <i class="fas fa-hand-holding-dollar" style="font-size: 24px; margin-bottom: 8px; display: block;"></i>
+                        Vui lòng di chuyển đến quầy <strong style="color:#fff;">Lễ Tân (Tầng 1)</strong> để thanh toán bằng tiền mặt trực tiếp.
+                    </div>
+
+                    <div id="pm-panel-momo" class="pm-panel momo" style="display:none;">
+                        <img src="/static/images/qr-momo.png" alt="MoMo QR" class="pm-qr">
+                        Mở ứng dụng <strong style="color:#fff;">MoMo</strong> để quét mã thanh toán cho<br>
+                        <strong id="pm-ck-note" style="color: #fff; font-size: 15px; margin-top: 4px; display:inline-block;">---</strong>
+                    </div>
+
+                    <button class="pm-btn" id="pm-btn-confirm" disabled onclick="confirmPayment()">
+                        <i class="fas fa-fingerprint"></i> Xác nhận thanh toán
+                    </button>
+                </div>
+                </div>
+
+                <script>
+                let pmCurRoom = '', pmConfirmed = false;
+
+                // Set month label
+                (function() {
+                    const now = new Date();
+                    const label = `Tháng ${String(now.getMonth()+1).padStart(2,'0')}/${now.getFullYear()}`;
+                    const el = document.getElementById('pm-month-label');
+                    if(el) el.textContent = label;
+                })();
+
+                document.addEventListener('DOMContentLoaded', function() {
+                    const sel = document.getElementById('pm-room-select');
+                    if(!sel) return;
+                    sel.innerHTML = '<option value="">-- Vui lòng chọn mã phòng --</option>';
+                    for (let floor = 1; floor <= 5; floor++) {
+                        for (let room = 1; room <= 5; room++) {
+                            let code = `Phòng ${floor}0${room}`;
+                            let opt = document.createElement('option');
+                            opt.value = code; opt.textContent = code;
+                            sel.appendChild(opt);
+                        }
+                    }
+                    resetPaymentUI();
+                });
+
+                function setPaymentMethod(method) {
+                    document.getElementById('pm-tab-cash').classList.toggle('active', method === 'cash');
+                    document.getElementById('pm-tab-momo').classList.toggle('active', method === 'momo');
+                    document.getElementById('pm-panel-cash').style.display = method === 'cash' ? 'block' : 'none';
+                    document.getElementById('pm-panel-momo').style.display = method === 'momo' ? 'block' : 'none';
+                }
+
+                function calculateBill(roomId) {
+                    pmCurRoom = roomId; pmConfirmed = false;
+                    resetConfirmBtn();
+
+                    // Ẩn cảnh báo cũ mỗi lần chọn lại
+                    const warn = document.getElementById('pm-offline-warn');
+                    if (warn) warn.style.display = 'none';
+
+                    if (!roomId) {
+                        document.getElementById('pm-d-room').textContent = '---';
+                        document.getElementById('pm-d-kwh').textContent = '0.0 kWh';
+                        document.getElementById('pm-d-ratio').textContent = '0.00 %';
+                        document.getElementById('pm-d-total').textContent = '0 ₫';
+                        document.getElementById('pm-ck-note').textContent = '---';
+                        document.getElementById('pm-btn-confirm').disabled = true;
+                        return;
+                    }
+
+                    let tongKwhToaNha = window.realMonthKwh || parseFloat(document.getElementById('val-month')?.innerText) || 450.5;
+                    let tongCongSuatHienTai = 0;
+                    let congSuatPhong = 0;
+                    let phongDangBat = false;
+
+                    if (window.deviceDatabase && window.deviceDatabase.devices) {
+                        for (let key in window.deviceDatabase.devices) {
+                            let dev = window.deviceDatabase.devices[key];
+                            if (dev.status) {
+                                tongCongSuatHienTai += parseFloat(dev.power || 0);
+                                if (dev.name === roomId || dev.room_code === roomId) {
+                                    congSuatPhong = parseFloat(dev.power || 0);
+                                    phongDangBat = true;
+                                }
+                            }
+                        }
+                    }
+
+                    // Phòng đang TẮT hoặc công suất = 0 → chặn thanh toán, không bịa số
+                    if (!phongDangBat || congSuatPhong === 0) {
+                        document.getElementById('pm-d-room').textContent = roomId;
+                        document.getElementById('pm-d-kwh').textContent = '0.0 kWh';
+                        document.getElementById('pm-d-ratio').textContent = '0.00 %';
+                        document.getElementById('pm-d-total').textContent = '0 ₫';
+                        document.getElementById('pm-ck-note').textContent = roomId;
+                        document.getElementById('pm-btn-confirm').disabled = true;
+
+                        // Hiển thị cảnh báo phòng offline
+                        let w = document.getElementById('pm-offline-warn');
+                        if (!w) {
+                            w = document.createElement('div');
+                            w.id = 'pm-offline-warn';
+                            w.style.cssText = 'margin-top:10px; padding:9px 13px; background:rgba(239,68,68,0.07); border:1px solid rgba(239,68,68,0.25); border-radius:8px; font-size:12.5px; color:#f87171; display:flex; align-items:center; gap:8px;';
+                            w.innerHTML = '<i class="fas fa-power-off"></i> Phòng này đang <strong style="color:#fca5a5;">TẮT</strong> — không có dữ liệu điện để lập hóa đơn.';
+                            document.querySelector('.pm-receipt').after(w);
+                        }
+                        w.style.display = 'flex';
+                        return;
+                    }
+
+                    if (tongCongSuatHienTai < 15) tongCongSuatHienTai = 25.5;
+                    let tyLe = congSuatPhong / tongCongSuatHienTai;
+                    let kwh = tyLe * tongKwhToaNha;
+                    let totalTien = Math.round(kwh * 3500);
+                    document.getElementById('pm-d-room').textContent = roomId;
+                    document.getElementById('pm-d-ratio').textContent = (tyLe * 100).toFixed(2) + ' %';
+                    document.getElementById('pm-ck-note').textContent = roomId;
+                    animateNumber(document.getElementById('pm-d-kwh'), kwh, ' kWh');
+                    animateNumber(document.getElementById('pm-d-total'), totalTien, ' ₫');
+                    document.getElementById('pm-btn-confirm').disabled = false;
+                }
+
+                function animateNumber(el, target, suffix) {
+                    let step = 0, steps = 20;
+                    const t = setInterval(() => {
+                        step++;
+                        let val = target * (step / steps);
+                        el.textContent = (suffix === ' ₫' ? Math.round(val).toLocaleString('vi-VN') : val.toFixed(1)) + suffix;
+                        if (step >= steps) {
+                            clearInterval(t);
+                            el.textContent = (suffix === ' ₫' ? Math.round(target).toLocaleString('vi-VN') : target.toFixed(1)) + suffix;
+                        }
+                    }, 20);
+                }
+
+                function resetPaymentUI() {
+                    pmConfirmed = false;
+                    document.getElementById('pm-room-select').value = '';
+                    document.getElementById('pm-d-room').textContent = '---';
+                    document.getElementById('pm-d-kwh').textContent = '0.0 kWh';
+                    document.getElementById('pm-d-ratio').textContent = '0.00 %';
+                    document.getElementById('pm-d-total').textContent = '0 ₫';
+                    document.getElementById('pm-ck-note').textContent = '---';
+                    document.getElementById('pm-btn-confirm').disabled = true;
+                    document.getElementById('pm-success-overlay').classList.remove('show');
+                    setPaymentMethod('cash');
+                    resetConfirmBtn();
+                }
+
+                function resetConfirmBtn() {
+                    const btn = document.getElementById('pm-btn-confirm');
+                    btn.classList.remove('done', 'processing');
+                    btn.disabled = !pmCurRoom;
+                    btn.innerHTML = `<i class="fas fa-fingerprint"></i> Xác nhận thanh toán`;
+                }
+
+                function confirmPayment() {
+                    if (!pmCurRoom || pmConfirmed) return;
+                    const btn = document.getElementById('pm-btn-confirm');
+                    btn.classList.add('processing');
+                    btn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> ĐANG XỬ LÝ...`;
+                    btn.disabled = true;
+
+                    setTimeout(() => {
+                        pmConfirmed = true;
+                        btn.classList.remove('processing');
+                        btn.classList.add('done');
+                        btn.innerHTML = `<i class="fas fa-check-circle"></i> GIAO DỊCH HOÀN TẤT`;
+
+                        // Show success overlay inside card
+                        const overlay = document.getElementById('pm-success-overlay');
+                        const roomLabel = document.getElementById('pm-success-room');
+                        if(roomLabel) roomLabel.textContent = `${pmCurRoom} — đã thanh toán thành công`;
+                        if(overlay) overlay.classList.add('show');
+
+                        // Show toast bottom-right
+                        const toast = document.getElementById('pm-toast');
+                        const toastSub = document.getElementById('pm-toast-sub');
+                        if(toastSub) toastSub.textContent = `${pmCurRoom} đã được ghi nhận lúc ${new Date().toLocaleTimeString('vi-VN')}`;
+                        if(toast) {
+                            toast.classList.add('show');
+                            setTimeout(() => toast.classList.remove('show'), 5000);
+                        }
+                    }, 1200);
+                }
+                </script>
+            </div> 
+
+        </div> <!-- ĐÓNG VÙNG CONTENT CỦA HỆ THỐNG -->
+    </div> <!-- ĐÓNG MAIN-CONTAINER -->
    <script>
         // 1. KHỞI TẠO (Chỉ tải tên User, cấm đụng tới Chart ở đây)
         document.addEventListener('DOMContentLoaded', function() {
@@ -1262,7 +1717,8 @@ function switchTab(element) {
     <script src="{{ url_for('static', filename='Automation-Enhanced.js') }}?v=9999"></script>
     <script src="{{ url_for('static', filename='api-client.js') }}?v=9999"></script>
     <script src="{{ url_for('static', filename='main.js') }}?v=1002"></script>
-    <script>
+
+       <script> 
         function toggleSidebar() {
             const sidebar = document.querySelector('.sidebar');
             const overlay = document.querySelector('.sidebar-overlay');
@@ -1354,6 +1810,5 @@ function switchTab(element) {
             }
         }, 10000); // 10 giây cập nhật 1 lần
     </script>
-
 </body>
 </html>
