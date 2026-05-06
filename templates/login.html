@@ -300,7 +300,7 @@ input:focus {
             </div>
 
             <div class="qr-promo-box">
-                <img src="{{ url_for('static', filename='images/qr github.png') }}" alt="QR GitHub" onerror="this.src='https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://github.com/DOANVANTHIENHOANG'">
+                <img src="{{ url_for('static', filename='images/qr-app.png') }}" alt="QR App" onerror="this.src='https://github.com/DOANVANTHIENHOANG/web_toa_nha_thong_minh.git'">
                 <div class="qr-text">
                     <h4>Quét mã tham khảo</h4>
                     <p>Mở camera quét mã để truy cập Source Code trên GitHub hoặc tải App Mobile.</p>
@@ -351,9 +351,9 @@ input:focus {
             <div id="form-qr" class="form-section">
                 <div class="qr-simulator">
                     <p style="color: #cbd5e1; margin-bottom: 20px;">Mở ứng dụng <strong>SED Mobile</strong> để quét mã</p>
-                    <div class="qr-box">
+                    <div class="qr-box" style="margin-top: 14px;">
                         <div class="scan-line"></div>
-                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=http://192.168.1.10:5000" alt="QR Login">
+                        <img src="{{ url_for('static', filename='images/qr-web.png') }}" alt="QR Login Web">
                     </div>
                     <p style="color: #0ea5e9; font-size: 0.9rem; cursor: pointer;"><i class="fas fa-sync-alt"></i> Làm mới mã QR</p>
                 </div>

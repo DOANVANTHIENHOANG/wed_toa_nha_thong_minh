@@ -543,7 +543,7 @@ div[style*="border-radius: 30px"] > #ai-query {
     <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
 
     <!-- SIDEBAR -->
-    <div class="sidebar">
+    <div class="sidebar">           
         <div class="sidebar-header">
             <h1><i class="fas fa-bolt"></i> Smart Energy</h1>
             <div class="version">V2.1 - Research Edition</div>
@@ -954,179 +954,322 @@ div[style*="border-radius: 30px"] > #ai-query {
                     #payment.active {
                         display: block !important;
                         position: fixed;
-                        top: 80px;
-                        left: 280px;
-                        right: 0;
-                        bottom: 0;
-                        overflow-y: auto;
-                        padding: 40px;
-                        z-index: 10;
+                        top: 80px; left: 280px; right: 0; bottom: 0;
+                        overflow-y: auto; padding: 40px; z-index: 10;
                         background: transparent;
+                        scrollbar-width: thin;
+                        scrollbar-color: rgba(56,189,248,0.15) transparent;
                     }
+                    #payment.active::-webkit-scrollbar { width: 4px; }
+                    #payment.active::-webkit-scrollbar-track { background: transparent; }
+                    #payment.active::-webkit-scrollbar-thumb { background: rgba(56,189,248,0.15); border-radius: 10px; }
                     #payment .tab-title { margin-bottom: 20px; margin-top: 12px; }
 
                     /* ===== WRAPPER & CARD ===== */
-                    .pm-wrapper { width: 100%; display: flex; justify-content: center; padding-bottom: 40px; }
+                    .pm-wrapper { width: 100%; display: flex; justify-content: center; padding-bottom: 20px; }
                     .pm-main-box {
                         width: 100%; max-width: 560px;
-                        background: linear-gradient(160deg, rgba(22, 33, 55, 0.97), rgba(10, 18, 35, 0.97));
-                        border: 1px solid rgba(56, 189, 248, 0.25);
-                        border-radius: 20px;
-                        box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(56,189,248,0.06);
-                        color: #f1f5f9;
-                        padding: 32px;
-                        backdrop-filter: blur(20px);
+                        background: linear-gradient(160deg, rgba(13,22,45,0.98), rgba(7,13,28,0.99));
+                        border: 1px solid rgba(255,255,255,0.07);
+                        border-top: 1px solid rgba(255,255,255,0.11);
+                        border-radius: 22px;
+                        box-shadow: 0 32px 80px rgba(0,0,0,0.7), 0 0 0 1px rgba(56,189,248,0.04), inset 0 1px 0 rgba(255,255,255,0.06);
+                        color: #f1f5f9; padding: 32px;
+                        backdrop-filter: blur(40px);
                     }
 
-                    /* ===== HEADER INSIDE CARD ===== */
+                    /* ===== CARD HEADER ===== */
                     .pm-card-header {
                         display: flex; align-items: center; justify-content: space-between;
-                        margin-bottom: 24px; padding-bottom: 16px;
-                        border-bottom: 1px solid rgba(255,255,255,0.07);
+                        margin-bottom: 22px; padding-bottom: 16px;
+                        border-bottom: 1px solid rgba(255,255,255,0.05);
                     }
                     .pm-card-header-left { display: flex; align-items: center; gap: 10px; }
-                    .pm-card-header-left i { color: #38bdf8; font-size: 18px; }
-                    .pm-card-header-left span { font-size: 16px; font-weight: 700; color: #f1f5f9; }
+                    .pm-card-header-left i { color: #38bdf8; font-size: 17px; }
+                    .pm-card-header-left span { font-size: 15px; font-weight: 700; color: #e2e8f0; letter-spacing: 0.2px; }
                     .pm-month-badge {
-                        font-size: 12px; font-weight: 600; color: #94a3b8;
-                        background: rgba(148,163,184,0.1); border: 1px solid rgba(148,163,184,0.2);
-                        padding: 4px 10px; border-radius: 20px; display: flex; align-items: center; gap: 5px;
+                        font-size: 11px; font-weight: 700; color: #7dd3fc;
+                        background: rgba(56,189,248,0.07); border: 1px solid rgba(56,189,248,0.18);
+                        padding: 4px 12px; border-radius: 20px; display: flex; align-items: center; gap: 5px;
+                        letter-spacing: 0.3px;
+                    }
+
+                    /* ===== LABEL ===== */
+                    .pm-label {
+                        display: block; font-size: 10px; color: #64748b; font-weight: 900;
+                        margin-bottom: 7px; text-transform: uppercase; letter-spacing: 1.2px;
                     }
 
                     /* ===== SELECT ===== */
-                    .pm-label { display: block; font-size: 11px; color: #64748b; font-weight: 700; margin-bottom: 7px; text-transform: uppercase; letter-spacing: 0.8px; }
                     .pm-select {
-                        width: 100%; padding: 11px 14px;
-                        background: rgba(10, 18, 35, 0.7); border: 1px solid rgba(56,189,248,0.25);
-                        border-radius: 10px; color: #e2e8f0; font-family: 'Inter', sans-serif; font-size: 14px;
-                        outline: none; margin-bottom: 18px; cursor: pointer; transition: 0.2s;
-                        appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2394a3b8' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+                        width: 100%; padding: 12px 38px 12px 14px;
+                        background: rgba(5,10,25,0.7); border: 1px solid rgba(255,255,255,0.08);
+                        border-radius: 11px; color: #cbd5e1; font-family: 'Inter', sans-serif; font-size: 14px;
+                        outline: none; margin-bottom: 18px; cursor: pointer;
+                        transition: border-color 0.2s, box-shadow 0.2s;
+                        appearance: none;
+                        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2338bdf8' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
                         background-repeat: no-repeat; background-position: right 14px center;
-                        padding-right: 36px;
+                        background-color: rgba(5,10,25,0.7);
                     }
-                    .pm-select:focus { border-color: #38bdf8; box-shadow: 0 0 0 3px rgba(56,189,248,0.12); }
-                    .pm-select option { background: #0f172a; color: #fff; }
+                    .pm-select:focus { border-color: rgba(56,189,248,0.5); box-shadow: 0 0 0 3px rgba(56,189,248,0.08); }
+                    .pm-select:hover { border-color: rgba(255,255,255,0.14); }
+                    .pm-select option { background: #0d1929; color: #e2e8f0; }
 
                     /* ===== RECEIPT BOX ===== */
                     .pm-receipt {
-                        background: rgba(0,0,0,0.2);
-                        border-radius: 12px; padding: 18px 20px;
-                        border: 1px solid rgba(255,255,255,0.06);
+                        background: rgba(0,0,0,0.3);
+                        border-radius: 13px; padding: 18px 20px;
+                        border: 1px solid rgba(255,255,255,0.04);
                         border-left: 3px solid rgba(56,189,248,0.4);
                         margin-bottom: 18px;
+                        position: relative; overflow: hidden;
                     }
-                    .pm-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; font-size: 13.5px; }
+                    .pm-receipt::before {
+                        content: ''; position: absolute; top: -20px; right: -20px;
+                        width: 100px; height: 100px;
+                        background: radial-gradient(circle, rgba(56,189,248,0.03) 0%, transparent 70%);
+                        pointer-events: none;
+                    }
+                    .pm-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 11px; font-size: 13px; }
                     .pm-row:last-child { margin-bottom: 0; }
-                    .pm-lbl { color: #64748b; display: flex; align-items: center; gap: 6px; }
-                    .pm-lbl i { font-size: 11px; opacity: 0.7; }
-                    .pm-val { font-weight: 500; color: #cbd5e1; }
-                    .pm-val-acc { color: #38bdf8; font-weight: 600; }
-                    .pm-div { height: 1px; background: rgba(255,255,255,0.07); margin: 13px 0; }
+                    .pm-lbl { color: #94a3b8; display: flex; align-items: center; gap: 7px; font-weight: 500; }
+                    .pm-lbl i { font-size: 11px; color: #64748b; }
+                    .pm-val { font-weight: 600; color: #cbd5e1; }
+                    .pm-val-acc { color: #38bdf8; font-weight: 700; font-variant-numeric: tabular-nums; }
+                    .pm-div { height: 1px; background: rgba(255,255,255,0.04); margin: 12px 0; }
 
                     /* ===== TOTAL ROW ===== */
                     .pm-tot-row {
                         display: flex; justify-content: space-between; align-items: center;
-                        background: rgba(251,191,36,0.05); border-radius: 8px;
-                        padding: 12px 14px; margin: 14px -2px 0;
+                        background: linear-gradient(135deg, rgba(251,191,36,0.06), rgba(245,158,11,0.02));
+                        border-radius: 10px; padding: 14px 16px; margin: 14px -2px 0;
                         border: 1px solid rgba(251,191,36,0.15);
                     }
-                    .pm-tot-lbl { font-size: 13px; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.5px; }
-                    .pm-tot-val { font-size: 28px; font-weight: 900; color: #fbbf24; text-shadow: 0 0 20px rgba(251,191,36,0.3); letter-spacing: -0.5px; }
+                    .pm-tot-lbl { font-size: 11px; font-weight: 900; color: #94a3b8; text-transform: uppercase; letter-spacing: 1.2px; }
+                    .pm-tot-val {
+                        font-size: 30px; font-weight: 900; letter-spacing: -1px;
+                        background: linear-gradient(135deg, #fde68a, #f59e0b);
+                        -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+                        background-clip: text; filter: drop-shadow(0 0 12px rgba(251,191,36,0.3));
+                    }
 
                     /* ===== PAYMENT TABS ===== */
-                    .pm-tabs { display: flex; gap: 10px; margin-bottom: 14px; }
+                    .pm-tabs { display: flex; gap: 8px; margin-bottom: 12px; }
                     .pm-tab {
-                        flex: 1; padding: 11px; text-align: center; border-radius: 10px;
-                        background: rgba(15,23,42,0.5); border: 1px solid rgba(255,255,255,0.08);
-                        color: #64748b; cursor: pointer; transition: all 0.2s; font-weight: 600;
+                        flex: 1; padding: 11px 8px; text-align: center; border-radius: 10px;
+                        background: rgba(5,10,25,0.5); border: 1px solid rgba(255,255,255,0.06);
+                        color: #334155; cursor: pointer; transition: all 0.2s; font-weight: 700;
                         font-size: 13px; display: flex; align-items: center; justify-content: center; gap: 7px;
                     }
-                    .pm-tab:hover { background: rgba(255,255,255,0.05); color: #94a3b8; }
-                    .pm-tab.active { background: rgba(56,189,248,0.12); border-color: rgba(56,189,248,0.5); color: #38bdf8; box-shadow: 0 0 12px rgba(56,189,248,0.1); }
-
-                    /* ===== PANELS ===== */
-                    .pm-panel {
-                        background: rgba(245,158,11,0.05); border: 1px solid rgba(245,158,11,0.18);
-                        border-radius: 10px; padding: 18px 20px; text-align: center;
-                        font-size: 13.5px; color: #fbbf24; line-height: 1.6;
+                    .pm-tab:hover { background: rgba(56,189,248,0.05); color: #64748b; border-color: rgba(56,189,248,0.15); }
+                    .pm-tab.active {
+                        background: linear-gradient(135deg, rgba(56,189,248,0.12), rgba(14,165,233,0.06));
+                        border-color: rgba(56,189,248,0.35); color: #7dd3fc;
+                        box-shadow: 0 0 20px rgba(56,189,248,0.08), inset 0 1px 0 rgba(56,189,248,0.08);
                     }
-                    .pm-panel.momo { background: rgba(56,189,248,0.04); border-color: rgba(56,189,248,0.18); color: #7dd3fc; }
+
+                    /* ===== INFO PANELS ===== */
+                    .pm-panel {
+                        background: rgba(120,80,0,0.07);
+                        border: 1px solid rgba(180,120,0,0.15);
+                        border-radius: 11px; padding: 18px 20px; text-align: center;
+                        font-size: 13.5px; color: #92700a; line-height: 1.7;
+                    }
+                    .pm-panel strong { color: #d4a520; }
+                    .pm-panel .pm-panel-icon { font-size: 22px; margin-bottom: 8px; display: block; filter: drop-shadow(0 0 8px rgba(217,119,6,0.4)); }
+                    .pm-panel.momo {
+                        background: rgba(14,100,150,0.06);
+                        border-color: rgba(56,189,248,0.12); color: #4a7a94;
+                    }
                     .pm-qr {
                         width: 130px; height: 130px; border-radius: 10px;
-                        border: 3px solid rgba(255,255,255,0.9); margin: 0 auto 12px auto; display: block;
-                        object-fit: cover; box-shadow: 0 0 20px rgba(56,189,248,0.2);
+                        border: 3px solid rgba(255,255,255,0.85); margin: 0 auto 12px auto; display: block;
+                        box-shadow: 0 0 30px rgba(56,189,248,0.2);
+                    }
+
+                    /* ===== OFFLINE WARNING ===== */
+                    #pm-offline-warn {
+                        margin-top: 10px; padding: 10px 14px;
+                        background: rgba(127,29,29,0.12);
+                        border: 1px solid rgba(239,68,68,0.18);
+                        border-radius: 9px; font-size: 12.5px; color: #f87171;
+                        display: flex; align-items: center; gap: 8px;
                     }
 
                     /* ===== CONFIRM BUTTON ===== */
                     .pm-btn {
-                        width: 100%; padding: 15px; border-radius: 11px; border: none; margin-top: 16px;
-                        background: linear-gradient(135deg, #059669, #10b981);
-                        color: white; font-size: 14px; font-weight: 700; cursor: pointer;
-                        transition: all 0.3s; text-transform: uppercase; letter-spacing: 1.2px;
+                        width: 100%; padding: 15px; border-radius: 12px; border: none; margin-top: 16px;
+                        background: linear-gradient(135deg, #059669, #047857);
+                        color: rgba(255,255,255,0.95); font-size: 13px; font-weight: 900; cursor: pointer;
+                        transition: all 0.3s cubic-bezier(0.34,1.2,0.64,1);
+                        text-transform: uppercase; letter-spacing: 1.8px;
                         display: flex; align-items: center; justify-content: center; gap: 9px;
-                        box-shadow: 0 4px 15px rgba(16,185,129,0.3);
+                        box-shadow: 0 4px 24px rgba(5,150,105,0.3), inset 0 1px 0 rgba(255,255,255,0.12);
                     }
-                    .pm-btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(16,185,129,0.45); }
-                    .pm-btn:disabled { opacity: 0.35; cursor: not-allowed; transform: none; box-shadow: none; background: #1e293b; color: #475569; }
-                    .pm-btn.processing { background: linear-gradient(135deg, #0ea5e9, #2563eb); box-shadow: 0 4px 15px rgba(14,165,233,0.3); }
-                    .pm-btn.done { background: linear-gradient(135deg, #10b981, #059669); box-shadow: 0 4px 15px rgba(16,185,129,0.4); animation: pm-pulse-green 0.6s ease; }
+                    .pm-btn:hover:not(:disabled) {
+                        transform: translateY(-2px);
+                        box-shadow: 0 12px 32px rgba(5,150,105,0.45), inset 0 1px 0 rgba(255,255,255,0.12);
+                        background: linear-gradient(135deg, #10b981, #059669);
+                    }
+                    .pm-btn:active:not(:disabled) { transform: translateY(0); }
+                    .pm-btn:disabled {
+                        opacity: 0; height: 0; padding: 0; margin-top: 6px;
+                        pointer-events: none; overflow: hidden;
+                    }
+                    .pm-btn:not(:disabled) { opacity: 1; }
+                    .pm-btn.processing { background: linear-gradient(135deg, #0284c7, #1d4ed8); box-shadow: 0 4px 24px rgba(2,132,199,0.35); }
+                    .pm-btn.done { background: linear-gradient(135deg, #10b981, #059669); animation: pm-pulse-green 0.7s ease; }
                     @keyframes pm-pulse-green {
-                        0% { box-shadow: 0 0 0 0 rgba(16,185,129,0.7); }
-                        70% { box-shadow: 0 0 0 12px rgba(16,185,129,0); }
-                        100% { box-shadow: 0 4px 15px rgba(16,185,129,0.4); }
+                        0% { box-shadow: 0 0 0 0 rgba(16,185,129,0.6); }
+                        70% { box-shadow: 0 0 0 16px rgba(16,185,129,0); }
+                        100% { box-shadow: 0 4px 24px rgba(5,150,105,0.3); }
                     }
 
-                    /* ===== SUCCESS TOAST ===== */
+                    /* ===== TOAST ===== */
                     #pm-toast {
-                        position: fixed; bottom: 30px; right: 30px; z-index: 9999;
-                        background: linear-gradient(135deg, #065f46, #064e3b);
-                        border: 1px solid rgba(16,185,129,0.5); border-radius: 14px;
-                        padding: 16px 22px; display: flex; align-items: center; gap: 14px;
-                        box-shadow: 0 10px 40px rgba(0,0,0,0.4), 0 0 0 1px rgba(16,185,129,0.2);
-                        transform: translateY(80px); opacity: 0;
-                        transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-                        pointer-events: none; min-width: 300px;
+                        position: fixed; bottom: 28px; right: 28px; z-index: 9999;
+                        background: linear-gradient(160deg, rgba(4,38,20,0.99), rgba(3,25,13,0.99));
+                        border: 1px solid rgba(16,185,129,0.3); border-top-color: rgba(16,185,129,0.5);
+                        border-radius: 16px; padding: 14px 18px;
+                        display: flex; align-items: center; gap: 13px;
+                        box-shadow: 0 20px 60px rgba(0,0,0,0.6), 0 0 0 1px rgba(16,185,129,0.05);
+                        transform: translateY(90px) scale(0.95); opacity: 0;
+                        transition: all 0.45s cubic-bezier(0.34,1.56,0.64,1);
+                        pointer-events: none; min-width: 310px; backdrop-filter: blur(30px);
+                        overflow: hidden;
                     }
-                    #pm-toast.show { transform: translateY(0); opacity: 1; }
+                    #pm-toast.show { transform: translateY(0) scale(1); opacity: 1; pointer-events: all; }
+                    #pm-toast::after {
+                        content: ''; position: absolute; bottom: 0; left: 0;
+                        height: 2px; background: linear-gradient(90deg, #10b981, #34d399, transparent);
+                        border-radius: 0 0 16px 16px;
+                        animation: pm-toast-timer 5s linear forwards;
+                    }
+                    @keyframes pm-toast-timer { from { width: 100%; } to { width: 0%; } }
                     #pm-toast .toast-icon {
-                        width: 38px; height: 38px; background: rgba(16,185,129,0.2);
-                        border-radius: 50%; display: flex; align-items: center; justify-content: center;
-                        flex-shrink: 0;
+                        width: 36px; height: 36px;
+                        background: rgba(16,185,129,0.15); border: 1px solid rgba(16,185,129,0.25);
+                        border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;
                     }
-                    #pm-toast .toast-icon i { color: #10b981; font-size: 18px; }
-                    #pm-toast .toast-title { font-size: 14px; font-weight: 700; color: #ecfdf5; margin-bottom: 2px; }
-                    #pm-toast .toast-sub { font-size: 12px; color: #6ee7b7; }
+                    #pm-toast .toast-icon i { color: #34d399; font-size: 15px; }
+                    #pm-toast .toast-title { font-size: 13px; font-weight: 800; color: #ecfdf5; margin-bottom: 2px; }
+                    #pm-toast .toast-sub { font-size: 11px; color: #4ade80; opacity: 0.7; }
                     #pm-toast .toast-close {
-                        margin-left: auto; background: none; border: none; color: #6ee7b7;
-                        cursor: pointer; font-size: 16px; padding: 0 0 0 10px; flex-shrink: 0;
+                        margin-left: auto; background: none; border: none; color: #4ade80;
+                        cursor: pointer; font-size: 13px; padding: 4px; border-radius: 4px;
+                        flex-shrink: 0; opacity: 0.4; transition: opacity 0.2s;
                     }
+                    #pm-toast .toast-close:hover { opacity: 0.9; }
 
                     /* ===== SUCCESS OVERLAY ===== */
                     #pm-success-overlay {
-                        display: none; position: absolute; inset: 0; border-radius: 20px;
-                        background: rgba(10,18,35,0.92); z-index: 20;
+                        display: none; position: absolute; inset: 0; border-radius: 22px;
+                        background: rgba(7,13,28,0.95); z-index: 20;
                         flex-direction: column; align-items: center; justify-content: center;
-                        backdrop-filter: blur(4px); animation: fadeIn 0.3s ease;
+                        backdrop-filter: blur(12px);
                     }
-                    #pm-success-overlay.show { display: flex; }
+                    #pm-success-overlay.show { display: flex; animation: pm-overlay-in 0.3s ease; }
+                    @keyframes pm-overlay-in { from { opacity:0; } to { opacity:1; } }
                     .pm-success-circle {
                         width: 80px; height: 80px; border-radius: 50%;
-                        background: linear-gradient(135deg, rgba(16,185,129,0.2), rgba(5,150,105,0.3));
-                        border: 2px solid rgba(16,185,129,0.6);
+                        background: radial-gradient(circle, rgba(16,185,129,0.12) 0%, transparent 70%);
+                        border: 1.5px solid rgba(16,185,129,0.4);
                         display: flex; align-items: center; justify-content: center;
-                        margin-bottom: 20px; box-shadow: 0 0 40px rgba(16,185,129,0.3);
-                        animation: pm-bounce 0.5s ease 0.1s both;
+                        margin-bottom: 20px;
+                        box-shadow: 0 0 0 14px rgba(16,185,129,0.04), 0 0 40px rgba(16,185,129,0.15);
+                        animation: pm-bounce 0.5s cubic-bezier(0.34,1.56,0.64,1) 0.1s both;
                     }
-                    .pm-success-circle i { font-size: 36px; color: #10b981; }
-                    @keyframes pm-bounce { 0%{transform:scale(0.5);opacity:0} 70%{transform:scale(1.1)} 100%{transform:scale(1);opacity:1} }
-                    .pm-success-title { font-size: 20px; font-weight: 800; color: #ecfdf5; margin-bottom: 6px; }
-                    .pm-success-sub { font-size: 14px; color: #6ee7b7; margin-bottom: 24px; }
+                    .pm-success-circle i { font-size: 32px; color: #34d399; }
+                    @keyframes pm-bounce { 0%{transform:scale(0.3);opacity:0} 100%{transform:scale(1);opacity:1} }
+                    .pm-success-title { font-size: 19px; font-weight: 800; color: #f0fdf4; margin-bottom: 5px; }
+                    .pm-success-sub { font-size: 13px; color: #4ade80; margin-bottom: 5px; opacity: 0.75; }
+                    #pm-success-txn { font-size: 10.5px; color: #1e3a2a; margin-bottom: 24px; font-family: monospace; letter-spacing: 1.2px; }
                     .pm-success-reset {
-                        padding: 10px 28px; border-radius: 8px; border: 1px solid rgba(56,189,248,0.4);
-                        background: rgba(56,189,248,0.1); color: #38bdf8; font-size: 13px;
-                        font-weight: 600; cursor: pointer; transition: 0.2s;
+                        padding: 10px 22px; border-radius: 9px;
+                        border: 1px solid rgba(56,189,248,0.28);
+                        background: rgba(56,189,248,0.06); color: #5eafd6; font-size: 12px;
+                        font-weight: 700; cursor: pointer; transition: all 0.2s; letter-spacing: 0.3px;
                     }
-                    .pm-success-reset:hover { background: rgba(56,189,248,0.2); }
+                    .pm-success-reset:hover { background: rgba(56,189,248,0.12); color: #7dd3fc; transform: translateY(-1px); }
+
+                    /* ===== SUMMARY BAR ===== */
+                    #pm-summary-bar {
+                        display: flex; align-items: center; gap: 10px;
+                        padding: 13px 20px;
+                        background: linear-gradient(135deg, rgba(13,22,45,0.95), rgba(7,13,28,0.95));
+                        border: 1px solid rgba(255,255,255,0.06);
+                        border-top: 1px solid rgba(255,255,255,0.09);
+                        border-radius: 13px; font-size: 13px; color: #2d3f52;
+                        margin-bottom: 14px; backdrop-filter: blur(20px);
+                        box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+                    }
+                    #pm-summary-bar .sum-divider { width: 1px; height: 14px; background: rgba(255,255,255,0.05); margin: 0 6px; }
+                    #pm-summary-bar .sum-accent { color: #38bdf8; font-weight: 800; font-variant-numeric: tabular-nums; }
+                    #pm-summary-bar .sum-money {
+                        font-weight: 800; font-variant-numeric: tabular-nums;
+                        background: linear-gradient(135deg, #fde68a, #f59e0b);
+                        -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+                        background-clip: text;
+                    }
+                    #pm-summary-bar .sum-label { color: #94a3b8; }
+
+                    /* ===== HISTORY PANEL ===== */
+                    .pm-hist-box {
+                        background: linear-gradient(160deg, rgba(13,22,45,0.96), rgba(7,13,28,0.97));
+                        border: 1px solid rgba(255,255,255,0.06);
+                        border-top: 1px solid rgba(255,255,255,0.09);
+                        border-radius: 18px; padding: 22px 24px;
+                        backdrop-filter: blur(30px);
+                        box-shadow: 0 16px 50px rgba(0,0,0,0.5);
+                    }
+                    .pm-hist-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; }
+                    .pm-hist-title { display: flex; align-items: center; gap: 8px; font-size: 13.5px; font-weight: 700; color: #94a3b8; }
+                    .pm-hist-title i { color: #2563eb; opacity: 0.7; }
+                    .pm-hist-clear {
+                        background: none; border: 1px solid rgba(239,68,68,0.18);
+                        color: #7f1d1d; padding: 5px 12px; border-radius: 7px; font-size: 11px;
+                        font-weight: 700; cursor: pointer; transition: all 0.2s;
+                    }
+                    .pm-hist-clear:hover { background: rgba(239,68,68,0.08); border-color: rgba(239,68,68,0.3); color: #f87171; }
+
+                    .pm-hist-item {
+                        display: flex; align-items: center; gap: 14px;
+                        padding: 13px 14px; border-radius: 12px; margin-bottom: 8px;
+                        background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.07);
+                        transition: all 0.18s; cursor: default;
+                    }
+                    .pm-hist-item:last-child { margin-bottom: 0; }
+                    .pm-hist-item:hover {
+                        background: rgba(56,189,248,0.06);
+                        border-color: rgba(56,189,248,0.15);
+                        transform: translateX(3px);
+                        box-shadow: -3px 0 12px rgba(56,189,248,0.05);
+                    }
+                    .pm-hist-icon {
+                        width: 36px; height: 36px; border-radius: 10px; flex-shrink: 0;
+                        background: rgba(16,185,129,0.08); border: 1px solid rgba(16,185,129,0.15);
+                        display: flex; align-items: center; justify-content: center;
+                    }
+                    .pm-hist-icon i { color: #10b981; font-size: 13px; opacity: 0.8; }
+                    .pm-hist-body { flex: 1; min-width: 0; }
+                    .pm-hist-room { font-size: 13px; font-weight: 700; color: #e2e8f0; margin-bottom: 3px; }
+                    .pm-hist-meta { font-size: 12px; color: #94a3b8; display: flex; align-items: center; gap: 5px; }
+                    .pm-hist-meta .dot { width: 3px; height: 3px; background: #64748b; border-radius: 50%; }
+                    .pm-hist-amount-wrap { text-align: right; }
+                    .pm-hist-amount {
+                        font-size: 14px; font-weight: 800; white-space: nowrap;
+                        color: #e2e8f0;
+                        font-variant-numeric: tabular-nums;
+                    }
+                    .pm-hist-method { font-size: 12px; color: #94a3b8; margin-top: 2px; }
+
+                    .pm-hist-empty {
+                        text-align: center; padding: 30px 0; color: #1e3148;
+                        font-size: 13px; display: flex; flex-direction: column; align-items: center; gap: 10px;
+                    }
+                    .pm-hist-empty i { font-size: 26px; opacity: 0.2; }
+                    .pm-hist-empty span { opacity: 0.4; }
                 </style>
 
                 <!-- Toast notification -->
@@ -1147,9 +1290,15 @@ div[style*="border-radius: 30px"] > #ai-query {
                         <div class="pm-success-circle"><i class="fas fa-check"></i></div>
                         <div class="pm-success-title">Giao dịch hoàn tất!</div>
                         <div class="pm-success-sub" id="pm-success-room">---</div>
-                        <button class="pm-success-reset" onclick="resetPaymentUI()">
-                            <i class="fas fa-redo" style="margin-right:6px;"></i> Thanh toán phòng khác
-                        </button>
+                        <div id="pm-success-txn" style="font-size:11px;color:#475569;margin-bottom:20px;font-family:monospace;letter-spacing:0.5px;"></div>
+                        <div style="display:flex;gap:10px;">
+                            <button onclick="printInvoice()" style="padding:9px 18px;border-radius:8px;border:1px solid rgba(56,189,248,0.3);background:rgba(56,189,248,0.08);color:#38bdf8;font-size:12px;font-weight:600;cursor:pointer;">
+                                <i class="fas fa-print" style="margin-right:5px;"></i>In hóa đơn
+                            </button>
+                            <button class="pm-success-reset" onclick="resetPaymentUI()">
+                                <i class="fas fa-redo" style="margin-right:6px;"></i> Thanh toán phòng khác
+                            </button>
+                        </div>
                     </div>
 
                     <!-- Card header -->
@@ -1220,85 +1369,195 @@ div[style*="border-radius: 30px"] > #ai-query {
                 </div>
                 </div>
 
-                <script>
-                let pmCurRoom = '', pmConfirmed = false;
+                <!-- Summary bar + History panel -->
+                <div style="width:100%;display:flex;justify-content:center;padding-bottom:40px;">
+                <div style="width:100%;max-width:560px;">
 
-                // Set month label
-                (function() {
+                    <!-- Summary bar -->
+                    <div id="pm-summary-bar" style="display:flex;align-items:center;gap:8px;padding:12px 18px;background:rgba(15,23,42,0.6);border:1px solid rgba(56,189,248,0.15);border-radius:12px;font-size:13px;color:#94a3b8;margin-bottom:16px;backdrop-filter:blur(10px);">
+                        <i class="fas fa-chart-pie" style="color:#38bdf8;"></i> Đang tải dữ liệu...
+                    </div>
+
+                    <!-- History panel -->
+                    <div style="background:linear-gradient(160deg,rgba(22,33,55,0.95),rgba(10,18,35,0.95));border:1px solid rgba(56,189,248,0.15);border-radius:16px;padding:20px 24px;backdrop-filter:blur(16px);">
+                        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
+                            <div style="display:flex;align-items:center;gap:8px;font-size:14px;font-weight:700;color:#e2e8f0;">
+                                <i class="fas fa-history" style="color:#38bdf8;"></i> Giao dịch gần đây
+                            </div>
+                            <button onclick="if(confirm('Xoá toàn bộ lịch sử tháng này?')){localStorage.removeItem(getMonthKey());renderHistory();updateSummaryBar();buildRoomDropdown();}" 
+                                style="background:none;border:1px solid rgba(239,68,68,0.3);color:#f87171;padding:4px 10px;border-radius:6px;font-size:11px;cursor:pointer;transition:0.2s;"
+                                onmouseover="this.style.background='rgba(239,68,68,0.1)'" onmouseout="this.style.background='none'">
+                                <i class="fas fa-trash-alt"></i> Xoá lịch sử
+                            </button>
+                        </div>
+                        <div id="pm-history-list"></div>
+                    </div>
+
+                </div>
+                </div>
+
+                <script>
+                // ============================================================
+                // PAYMENT MODULE - HOÀN CHỈNH
+                // ============================================================
+                let pmCurRoom = '', pmConfirmed = false, pmCurTotal = 0, pmCurMethod = 'cash';
+
+                // ---- KHỞI TẠO ----
+                (function initPayment() {
                     const now = new Date();
-                    const label = `Tháng ${String(now.getMonth()+1).padStart(2,'0')}/${now.getFullYear()}`;
                     const el = document.getElementById('pm-month-label');
-                    if(el) el.textContent = label;
+                    if(el) el.textContent = `Tháng ${String(now.getMonth()+1).padStart(2,'0')}/${now.getFullYear()}`;
                 })();
 
                 document.addEventListener('DOMContentLoaded', function() {
+                    buildRoomDropdown();
+                    resetPaymentUI();
+                    renderHistory();
+                    updateSummaryBar();
+                });
+
+                // ---- BUILD DROPDOWN ----
+                function buildRoomDropdown() {
                     const sel = document.getElementById('pm-room-select');
                     if(!sel) return;
+                    const paid = getPaidRooms();
+                    const currentVal = sel.value; // Giữ lại giá trị đang chọn
                     sel.innerHTML = '<option value="">-- Vui lòng chọn mã phòng --</option>';
                     for (let floor = 1; floor <= 5; floor++) {
                         for (let room = 1; room <= 5; room++) {
                             let code = `Phòng ${floor}0${room}`;
                             let opt = document.createElement('option');
-                            opt.value = code; opt.textContent = code;
+                            opt.value = code;
+                            const isPaid = paid.includes(code);
+                            const off = isRoomOff(code);
+                            if (isPaid) {
+                                opt.textContent = `✅ ${code} — Đã thanh toán`;
+                                opt.style.color = '#6ee7b7';
+                            } else if (off) {
+                                opt.textContent = `⚫ ${code} (Đang tắt)`;
+                                opt.style.color = '#64748b';
+                            } else {
+                                opt.textContent = `🟢 ${code}`;
+                                opt.style.color = '#4ade80';
+                            }
                             sel.appendChild(opt);
                         }
                     }
-                    resetPaymentUI();
-                });
+                    if (currentVal) sel.value = currentVal;
+                }
 
+                // Rebuild dropdown khi deviceDatabase được load xong
+                const _origBuildDropdown = buildRoomDropdown;
+                let _dropdownRebuildInterval = setInterval(() => {
+                    if (window.deviceDatabase && Object.keys(window.deviceDatabase.devices || {}).length > 0) {
+                        buildRoomDropdown();
+                        clearInterval(_dropdownRebuildInterval);
+                    }
+                }, 500);
+
+                // ---- KIỂM TRA PHÒNG TẮT: đọc đúng từ window.deviceDatabase ----
+                function isRoomOff(roomId) {
+                    if (window.deviceDatabase?.devices) {
+                        for (let key in window.deviceDatabase.devices) {
+                            const dev = window.deviceDatabase.devices[key];
+                            if (dev.name === roomId && dev.status === true) return false;
+                        }
+                        return true;
+                    }
+                    const tbody = document.getElementById('devices-tbody');
+                    if (!tbody) return false;
+                    for (const row of tbody.querySelectorAll('tr')) {
+                        const cells = row.querySelectorAll('td');
+                        if (cells.length < 5) continue;
+                        const cellRoom = cells[0]?.textContent?.trim();
+                        if (cellRoom !== roomId) continue;
+                        const statusTxt = cells[4]?.textContent?.trim();
+                        return !(statusTxt?.includes('Bật') || statusTxt?.includes('ON'));
+                    }
+                    return false;
+                }
+
+                // ---- PAYMENT METHOD ----
                 function setPaymentMethod(method) {
+                    pmCurMethod = method;
                     document.getElementById('pm-tab-cash').classList.toggle('active', method === 'cash');
                     document.getElementById('pm-tab-momo').classList.toggle('active', method === 'momo');
                     document.getElementById('pm-panel-cash').style.display = method === 'cash' ? 'block' : 'none';
                     document.getElementById('pm-panel-momo').style.display = method === 'momo' ? 'block' : 'none';
                 }
 
+                // ---- CALCULATE BILL ----
                 function calculateBill(roomId) {
                     pmCurRoom = roomId; pmConfirmed = false;
                     resetConfirmBtn();
-
-                    // Ẩn cảnh báo cũ mỗi lần chọn lại
                     const warn = document.getElementById('pm-offline-warn');
                     if (warn) warn.style.display = 'none';
+                    const paidBadge = document.getElementById('pm-paid-badge');
+                    if (paidBadge) paidBadge.style.display = 'none';
 
                     if (!roomId) {
-                        document.getElementById('pm-d-room').textContent = '---';
-                        document.getElementById('pm-d-kwh').textContent = '0.0 kWh';
-                        document.getElementById('pm-d-ratio').textContent = '0.00 %';
-                        document.getElementById('pm-d-total').textContent = '0 ₫';
-                        document.getElementById('pm-ck-note').textContent = '---';
+                        clearReceipt(); return;
+                    }
+
+                    // Kiểm tra đã thanh toán chưa
+                    if (getPaidRooms().includes(roomId)) {
+                        clearReceipt();
+                        document.getElementById('pm-d-room').textContent = roomId;
                         document.getElementById('pm-btn-confirm').disabled = true;
+                        let pb = document.getElementById('pm-paid-badge');
+                        if (!pb) {
+                            pb = document.createElement('div');
+                            pb.id = 'pm-paid-badge';
+                            pb.style.cssText = 'margin-top:10px; padding:9px 13px; background:rgba(16,185,129,0.07); border:1px solid rgba(16,185,129,0.25); border-radius:8px; font-size:12.5px; color:#6ee7b7; display:flex; align-items:center; gap:8px;';
+                            pb.innerHTML = '<i class="fas fa-check-circle"></i> Phòng này đã <strong style="color:#a7f3d0;">THANH TOÁN</strong> tháng này rồi.';
+                            document.querySelector('.pm-receipt').after(pb);
+                        }
+                        pb.style.display = 'flex';
                         return;
                     }
 
                     let tongKwhToaNha = window.realMonthKwh || parseFloat(document.getElementById('val-month')?.innerText) || 450.5;
-                    let tongCongSuatHienTai = 0;
-                    let congSuatPhong = 0;
-                    let phongDangBat = false;
+                    let tongCSHienTai = 0, congSuatPhong = 0, phongDangBat = false;
 
-                    if (window.deviceDatabase && window.deviceDatabase.devices) {
+                    // Đọc từ window.deviceDatabase (main.js lưu: .name, .status=bool, .power=float)
+                    if (window.deviceDatabase?.devices) {
                         for (let key in window.deviceDatabase.devices) {
-                            let dev = window.deviceDatabase.devices[key];
-                            if (dev.status) {
-                                tongCongSuatHienTai += parseFloat(dev.power || 0);
-                                if (dev.name === roomId || dev.room_code === roomId) {
+                            const dev = window.deviceDatabase.devices[key];
+                            if (dev.status === true) {
+                                tongCSHienTai += parseFloat(dev.power || 0);
+                                if (dev.name === roomId) {
                                     congSuatPhong = parseFloat(dev.power || 0);
                                     phongDangBat = true;
                                 }
                             }
                         }
+                    } else {
+                        // Fallback: đọc từ DOM table devices-tbody
+                        const tbody = document.getElementById('devices-tbody');
+                        if (tbody) {
+                            tbody.querySelectorAll('tr').forEach(row => {
+                                const cells = row.querySelectorAll('td');
+                                if (cells.length < 5) return;
+                                const cellRoom = cells[0]?.textContent?.trim();
+                                const statusTxt = cells[4]?.textContent?.trim();
+                                const pwrTxt = cells[3]?.textContent?.trim();
+                                const pwr = parseFloat(pwrTxt) || 0;
+                                const isBat = statusTxt?.includes('Bật') || statusTxt?.includes('ON');
+                                if (isBat) {
+                                    tongCSHienTai += pwr;
+                                    if (cellRoom === roomId) {
+                                        congSuatPhong = pwr;
+                                        phongDangBat = true;
+                                    }
+                                }
+                            });
+                        }
                     }
 
-                    // Phòng đang TẮT hoặc công suất = 0 → chặn thanh toán, không bịa số
                     if (!phongDangBat || congSuatPhong === 0) {
+                        clearReceipt();
                         document.getElementById('pm-d-room').textContent = roomId;
-                        document.getElementById('pm-d-kwh').textContent = '0.0 kWh';
-                        document.getElementById('pm-d-ratio').textContent = '0.00 %';
-                        document.getElementById('pm-d-total').textContent = '0 ₫';
-                        document.getElementById('pm-ck-note').textContent = roomId;
                         document.getElementById('pm-btn-confirm').disabled = true;
-
-                        // Hiển thị cảnh báo phòng offline
                         let w = document.getElementById('pm-offline-warn');
                         if (!w) {
                             w = document.createElement('div');
@@ -1311,10 +1570,12 @@ div[style*="border-radius: 30px"] > #ai-query {
                         return;
                     }
 
-                    if (tongCongSuatHienTai < 15) tongCongSuatHienTai = 25.5;
-                    let tyLe = congSuatPhong / tongCongSuatHienTai;
-                    let kwh = tyLe * tongKwhToaNha;
-                    let totalTien = Math.round(kwh * 3500);
+                    if (tongCSHienTai < 15) tongCSHienTai = 25.5;
+                    const tyLe = congSuatPhong / tongCSHienTai;
+                    const kwh = tyLe * tongKwhToaNha;
+                    const totalTien = Math.round(kwh * 3500);
+                    pmCurTotal = totalTien;
+
                     document.getElementById('pm-d-room').textContent = roomId;
                     document.getElementById('pm-d-ratio').textContent = (tyLe * 100).toFixed(2) + ' %';
                     document.getElementById('pm-ck-note').textContent = roomId;
@@ -1323,42 +1584,82 @@ div[style*="border-radius: 30px"] > #ai-query {
                     document.getElementById('pm-btn-confirm').disabled = false;
                 }
 
-                function animateNumber(el, target, suffix) {
-                    let step = 0, steps = 20;
-                    const t = setInterval(() => {
-                        step++;
-                        let val = target * (step / steps);
-                        el.textContent = (suffix === ' ₫' ? Math.round(val).toLocaleString('vi-VN') : val.toFixed(1)) + suffix;
-                        if (step >= steps) {
-                            clearInterval(t);
-                            el.textContent = (suffix === ' ₫' ? Math.round(target).toLocaleString('vi-VN') : target.toFixed(1)) + suffix;
-                        }
-                    }, 20);
-                }
-
-                function resetPaymentUI() {
-                    pmConfirmed = false;
-                    document.getElementById('pm-room-select').value = '';
+                function clearReceipt() {
                     document.getElementById('pm-d-room').textContent = '---';
                     document.getElementById('pm-d-kwh').textContent = '0.0 kWh';
                     document.getElementById('pm-d-ratio').textContent = '0.00 %';
                     document.getElementById('pm-d-total').textContent = '0 ₫';
                     document.getElementById('pm-ck-note').textContent = '---';
+                    pmCurTotal = 0;
+                }
+
+                // ---- ANIMATE NUMBER ----
+                function animateNumber(el, target, suffix) {
+                    let step = 0, steps = 20;
+                    const t = setInterval(() => {
+                        step++;
+                        const val = target * (step / steps);
+                        el.textContent = (suffix === ' ₫' ? Math.round(val).toLocaleString('vi-VN') : val.toFixed(1)) + suffix;
+                        if (step >= steps) { clearInterval(t); el.textContent = (suffix === ' ₫' ? Math.round(target).toLocaleString('vi-VN') : target.toFixed(1)) + suffix; }
+                    }, 20);
+                }
+
+                // ---- RESET UI ----
+                function resetPaymentUI() {
+                    pmConfirmed = false; pmCurRoom = ''; pmCurTotal = 0;
+                    clearReceipt();
+                    document.getElementById('pm-room-select').value = '';
                     document.getElementById('pm-btn-confirm').disabled = true;
                     document.getElementById('pm-success-overlay').classList.remove('show');
+                    const warn = document.getElementById('pm-offline-warn');
+                    if (warn) warn.style.display = 'none';
+                    const pb = document.getElementById('pm-paid-badge');
+                    if (pb) pb.style.display = 'none';
                     setPaymentMethod('cash');
                     resetConfirmBtn();
+                    buildRoomDropdown();
                 }
 
                 function resetConfirmBtn() {
                     const btn = document.getElementById('pm-btn-confirm');
                     btn.classList.remove('done', 'processing');
-                    btn.disabled = !pmCurRoom;
                     btn.innerHTML = `<i class="fas fa-fingerprint"></i> Xác nhận thanh toán`;
                 }
 
+                // ---- CONFIRM DIALOG (xác nhận 2 bước) ----
                 function confirmPayment() {
                     if (!pmCurRoom || pmConfirmed) return;
+                    const method = pmCurMethod === 'cash' ? 'Tiền mặt' : 'Quét mã QR';
+                    const amountStr = pmCurTotal.toLocaleString('vi-VN');
+
+                    // Tạo confirm dialog
+                    let dlg = document.getElementById('pm-confirm-dialog');
+                    if (!dlg) {
+                        dlg = document.createElement('div');
+                        dlg.id = 'pm-confirm-dialog';
+                        dlg.style.cssText = `position:fixed;inset:0;z-index:9998;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.6);backdrop-filter:blur(4px);animation:fadeIn 0.2s ease;`;
+                        document.body.appendChild(dlg);
+                    }
+                    dlg.innerHTML = `
+                        <div style="background:linear-gradient(160deg,rgba(22,33,55,0.99),rgba(10,18,35,0.99));border:1px solid rgba(56,189,248,0.25);border-radius:18px;padding:30px 32px;max-width:380px;width:90%;box-shadow:0 25px 60px rgba(0,0,0,0.6);text-align:center;">
+                            <div style="width:56px;height:56px;border-radius:50%;background:rgba(56,189,248,0.1);border:2px solid rgba(56,189,248,0.3);display:flex;align-items:center;justify-content:center;margin:0 auto 18px;"><i class="fas fa-shield-alt" style="color:#38bdf8;font-size:22px;"></i></div>
+                            <div style="font-size:16px;font-weight:700;color:#f1f5f9;margin-bottom:6px;">Xác nhận giao dịch</div>
+                            <div style="font-size:13px;color:#64748b;margin-bottom:20px;">Vui lòng kiểm tra trước khi xác nhận</div>
+                            <div style="background:rgba(0,0,0,0.2);border-radius:10px;padding:14px 16px;margin-bottom:20px;text-align:left;">
+                                <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:8px;"><span style="color:#64748b;">Phòng</span><span style="color:#e2e8f0;font-weight:600;">${pmCurRoom}</span></div>
+                                <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:8px;"><span style="color:#64748b;">Số tiền</span><span style="color:#fbbf24;font-weight:700;">${amountStr} ₫</span></div>
+                                <div style="display:flex;justify-content:space-between;font-size:13px;"><span style="color:#64748b;">Phương thức</span><span style="color:#e2e8f0;">${method}</span></div>
+                            </div>
+                            <div style="display:flex;gap:10px;">
+                                <button onclick="document.getElementById('pm-confirm-dialog').remove()" style="flex:1;padding:12px;border-radius:9px;border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.05);color:#94a3b8;font-size:13px;font-weight:600;cursor:pointer;">Huỷ</button>
+                                <button onclick="doConfirmPayment()" style="flex:2;padding:12px;border-radius:9px;border:none;background:linear-gradient(135deg,#059669,#10b981);color:white;font-size:13px;font-weight:700;cursor:pointer;letter-spacing:0.5px;"><i class="fas fa-check" style="margin-right:6px;"></i>Xác nhận thanh toán</button>
+                            </div>
+                        </div>`;
+                    dlg.style.display = 'flex';
+                }
+
+                function doConfirmPayment() {
+                    document.getElementById('pm-confirm-dialog')?.remove();
                     const btn = document.getElementById('pm-btn-confirm');
                     btn.classList.add('processing');
                     btn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> ĐANG XỬ LÝ...`;
@@ -1366,25 +1667,121 @@ div[style*="border-radius: 30px"] > #ai-query {
 
                     setTimeout(() => {
                         pmConfirmed = true;
+                        const txnId = 'TXN-' + Math.random().toString(36).substr(2,6).toUpperCase();
+                        const timeStr = new Date().toLocaleTimeString('vi-VN');
+                        const method = pmCurMethod === 'cash' ? 'Tiền mặt' : 'QR Code';
+
+                        // Lưu lịch sử
+                        saveTransaction({ room: pmCurRoom, amount: pmCurTotal, method, time: timeStr, txnId });
+
                         btn.classList.remove('processing');
                         btn.classList.add('done');
                         btn.innerHTML = `<i class="fas fa-check-circle"></i> GIAO DỊCH HOÀN TẤT`;
 
-                        // Show success overlay inside card
+                        // Success overlay
                         const overlay = document.getElementById('pm-success-overlay');
-                        const roomLabel = document.getElementById('pm-success-room');
-                        if(roomLabel) roomLabel.textContent = `${pmCurRoom} — đã thanh toán thành công`;
+                        document.getElementById('pm-success-room').textContent = `${pmCurRoom} — đã thanh toán thành công`;
+                        document.getElementById('pm-success-txn').textContent = `Mã GD: ${txnId}`;
                         if(overlay) overlay.classList.add('show');
 
-                        // Show toast bottom-right
+                        // Toast
                         const toast = document.getElementById('pm-toast');
-                        const toastSub = document.getElementById('pm-toast-sub');
-                        if(toastSub) toastSub.textContent = `${pmCurRoom} đã được ghi nhận lúc ${new Date().toLocaleTimeString('vi-VN')}`;
-                        if(toast) {
-                            toast.classList.add('show');
-                            setTimeout(() => toast.classList.remove('show'), 5000);
-                        }
+                        document.getElementById('pm-toast-sub').textContent = `${pmCurRoom} • ${txnId} • ${timeStr}`;
+                        if(toast) { toast.classList.add('show'); setTimeout(() => toast.classList.remove('show'), 6000); }
+
+                        // Cập nhật summary bar + history
+                        updateSummaryBar();
+                        renderHistory();
+                        buildRoomDropdown();
                     }, 1200);
+                }
+
+                // ---- LOCALSTORAGE: GHI / ĐỌC ----
+                function getMonthKey() {
+                    const now = new Date();
+                    return `pm_txn_${now.getFullYear()}_${now.getMonth()+1}`;
+                }
+                function getTransactions() {
+                    try { return JSON.parse(localStorage.getItem(getMonthKey()) || '[]'); } catch { return []; }
+                }
+                function saveTransaction(txn) {
+                    const list = getTransactions();
+                    list.unshift(txn);
+                    localStorage.setItem(getMonthKey(), JSON.stringify(list.slice(0, 50)));
+                }
+                function getPaidRooms() {
+                    return getTransactions().map(t => t.room);
+                }
+
+                // ---- SUMMARY BAR ----
+                function updateSummaryBar() {
+                    const txns = getTransactions();
+                    const total = txns.reduce((s, t) => s + (t.amount || 0), 0);
+                    const el = document.getElementById('pm-summary-bar');
+                    if (!el) return;
+                    el.innerHTML = `<i class="fas fa-chart-pie" style="color:#1d4ed8;opacity:0.6;"></i> <span class="sum-label">Tháng này đã thu:</span> &nbsp;<span class="sum-accent">${txns.length}/25 phòng</span><span class="sum-divider"></span><span class="sum-label">Tổng:</span> &nbsp;<span class="sum-money">${total.toLocaleString('vi-VN')} ₫</span>`;
+                }
+
+                // ---- LỊCH SỬ GIAO DỊCH ----
+                function renderHistory() {
+                    const container = document.getElementById('pm-history-list');
+                    if (!container) return;
+                    const txns = getTransactions();
+                    if (txns.length === 0) {
+                        container.innerHTML = `<div class="pm-hist-empty"><i class="fas fa-inbox"></i><span>Chưa có giao dịch nào tháng này</span></div>`;
+                        return;
+                    }
+                    container.innerHTML = txns.slice(0,8).map(t => `
+                        <div class="pm-hist-item">
+                            <div class="pm-hist-icon"><i class="fas fa-check"></i></div>
+                            <div class="pm-hist-body">
+                                <div class="pm-hist-room">${t.room}</div>
+                                <div class="pm-hist-meta">
+                                    <span>${t.txnId}</span>
+                                    <span class="dot"></span>
+                                    <span>${t.time}</span>
+                                </div>
+                            </div>
+                            <div class="pm-hist-amount-wrap">
+                                <div class="pm-hist-amount">${(t.amount||0).toLocaleString('vi-VN')} ₫</div>
+                                <div class="pm-hist-method">${t.method}</div>
+                            </div>
+                        </div>`).join('');
+                }
+
+                // ---- IN HÓA ĐƠN ----
+                function printInvoice() {
+                    if (!pmCurRoom || !pmConfirmed) return;
+                    const txns = getTransactions();
+                    const txn = txns.find(t => t.room === pmCurRoom);
+                    if (!txn) return;
+                    const now = new Date();
+                    const win = window.open('', '_blank', 'width=600,height=700');
+                    win.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Hóa đơn ${txn.room}</title>
+                    <style>body{font-family:Arial,sans-serif;padding:40px;color:#111;max-width:500px;margin:0 auto;}
+                    h2{text-align:center;margin-bottom:4px;font-size:20px;}
+                    .sub{text-align:center;color:#666;font-size:13px;margin-bottom:24px;}
+                    table{width:100%;border-collapse:collapse;margin-bottom:20px;}
+                    td{padding:10px 0;border-bottom:1px solid #eee;font-size:14px;}
+                    td:last-child{text-align:right;font-weight:600;}
+                    .total td{font-size:18px;font-weight:700;border-top:2px solid #111;border-bottom:none;padding-top:14px;}
+                    .total td:last-child{color:#d97706;}
+                    .footer{text-align:center;font-size:12px;color:#999;margin-top:30px;border-top:1px dashed #ccc;padding-top:16px;}
+                    @media print{body{padding:20px;}button{display:none!important;}}</style></head><body>
+                    <h2>⚡ Smart Energy V2</h2>
+                    <div class="sub">HÓA ĐƠN TIỀN ĐIỆN — ${String(now.getMonth()+1).padStart(2,'0')}/${now.getFullYear()}</div>
+                    <table>
+                        <tr><td>Mã phòng</td><td>${txn.room}</td></tr>
+                        <tr><td>Mã giao dịch</td><td>${txn.txnId}</td></tr>
+                        <tr><td>Thời gian</td><td>${txn.time} — ${now.toLocaleDateString('vi-VN')}</td></tr>
+                        <tr><td>Phương thức</td><td>${txn.method}</td></tr>
+                        <tr><td>Đơn giá EVN</td><td>3.500 ₫/kWh</td></tr>
+                    </table>
+                    <table class="total"><tr><td>TỔNG THANH TOÁN</td><td>${(txn.amount||0).toLocaleString('vi-VN')} ₫</td></tr></table>
+                    <div style="text-align:center;margin-bottom:20px;"><button onclick="window.print()" style="padding:10px 28px;background:#0ea5e9;color:white;border:none;border-radius:6px;cursor:pointer;font-size:14px;font-weight:600;">🖨️ In hóa đơn</button></div>
+                    <div class="footer">Cảm ơn quý khách đã thanh toán đúng hạn<br>Smart Energy V2.1 — Research Edition<br>Cre: Thiên Hoàng</div>
+                    </body></html>`);
+                    win.document.close();
                 }
                 </script>
             </div> 

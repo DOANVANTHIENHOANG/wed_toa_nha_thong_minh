@@ -2261,7 +2261,7 @@ def gemini_consultation():
         
 
         # 4. GỌI API GEMINI 1.5 FLASH LATEST
-        api_key = "AIzaSyCRz_rQzBAQdAVnHbvvkmzNTlQUlcFltW4"
+        api_key = "AIzaSyAs-J-nA-DnOv4BP8bGNMZKxMlY9Q2KqIw"
         url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key={api_key}"
         payload = { "contents": [{ "parts": [{"text": prompt}] }] }
         
