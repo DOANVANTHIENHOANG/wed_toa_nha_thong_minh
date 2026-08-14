@@ -2261,7 +2261,7 @@ def gemini_consultation():
         
 
         # 4. GỌI API GEMINI 1.5 FLASH LATEST
-        api_key = gemini_service.get_api_key()
+        api_key = os.getenv("GEMINI_API_KEY")
         if not api_key:
             logger.error("[GEMINI CONFIG] Missing GEMINI_API_KEY in environment")
             return jsonify({
