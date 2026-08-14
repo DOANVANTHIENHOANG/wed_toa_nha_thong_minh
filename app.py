@@ -2261,24 +2261,36 @@ def gemini_consultation():
         
 
         # 4. GỌI API GEMINI 1.5 FLASH LATEST
-        api_key = "AIzaSyBLOUxMThbLXnFf8f_N0ykSHk9gvBXMSVE"
+        api_key = gemini_service.get_api_key()
+        if not api_key:
+            logger.error("[GEMINI CONFIG] Missing GEMINI_API_KEY in environment")
+            return jsonify({
+                'success': False,
+                'error': 'Google API chưa được cấu hình. Vui lòng thêm GEMINI_API_KEY vào file .env.'
+            }), 200
+
         url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key={api_key}"
         payload = { "contents": [{ "parts": [{"text": prompt}] }] }
-        
+
+        logger.info("[GEMINI REQUEST] Sending prompt to Gemini. prompt_len=%s", len(prompt))
         response = requests.post(url, json=payload, timeout=15)
-        
+        logger.info("[GEMINI RESPONSE] status_code=%s response_len=%s", response.status_code, len(response.text))
+
         # 🔥 ÉP GOOGLE KHAI RA LÝ DO TỪ CHỐI LÊN MÀN HÌNH CHAT
         if response.status_code == 200:
             result = response.json()
             if 'candidates' in result:
                 ai_text = result['candidates'][0]['content']['parts'][0]['text']
                 ai_text = ai_text.replace('*', '').replace('#', '')
+                logger.info("[GEMINI SUCCESS] result_len=%s", len(ai_text))
                 return jsonify({'success': True, 'response': ai_text}), 200
             else:
+                logger.warning("[GEMINI EMPTY] Google returned no candidates: %s", result)
                 return jsonify({'success': True, 'response': f"⚠️ Google phản hồi nhưng trống rỗng: {result}"}), 200
         else:
             # FIX: Trả về success: False để frontend nhận diện đây là lỗi thật, không phải phản hồi AI
             error_msg = f"❌ **GOOGLE API ĐÃ TỪ CHỐI!**<br>Mã lỗi: {response.status_code}<br>Lý do từ Google: <br><code>{response.text}</code>"
+            logger.error("[GEMINI ERROR] status_code=%s body=%s", response.status_code, response.text[:1000])
             return jsonify({'success': False, 'error': error_msg}), 200
 
     # ==========================================

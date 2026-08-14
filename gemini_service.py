@@ -332,36 +332,39 @@ def call_gemini_api(
         # ===== SEND REQUEST =====
         session = create_requests_session(max_retries=2)
         
+        logger.info("[GEMINI REQUEST] Sending request to Google API. model=%s prompt_len=%s", GEMINI_MODEL, len(prompt))
         response = session.post(
             url,
             json=payload,
             headers=headers,
             timeout=REQUEST_TIMEOUT,
         )
-        
+        logger.info("[GEMINI RESPONSE] status_code=%s response_len=%s", response.status_code, len(response.text))
+
         # ===== HANDLE STATUS CODE =====
         if response.status_code == 200:
             try:
                 response_data = response.json()
                 success, content = parse_gemini_response(response_data)
-                
+
                 if success:
-                    logger.info("✓ API call thành công")
+                    logger.info("[GEMINI SUCCESS] response_len=%s", len(content))
                     return True, content
                 else:
-                    logger.warning(f"Parse failed: {content}")
+                    logger.warning("[GEMINI PARSE_FAILED] %s", content)
                     return False, content
-                    
+
             except json.JSONDecodeError as e:
                 error_msg = f"❌ Lỗi parse JSON response: {str(e)}"
-                logger.error(error_msg)
+                logger.error("[GEMINI JSON_ERROR] %s raw_body=%s", error_msg, response.text[:1000])
                 return False, error_msg
-        
+
         else:
             is_retryable, error_msg = handle_http_error(
                 response.status_code,
                 response.text
             )
+            logger.error("[GEMINI HTTP_ERROR] status_code=%s message=%s raw_body=%s", response.status_code, error_msg, response.text[:1000])
             
             # ===== RETRY LOGIC (chỉ cho non-fatal errors) =====
             if is_retryable and attempt < max_attempts:
